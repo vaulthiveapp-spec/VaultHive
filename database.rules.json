@@ -1,0 +1,410 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "app_config": {
+      ".read": "auth != null",
+      ".write": false
+    },
+
+    "feature_flags": {
+      ".read": "auth != null",
+      ".write": false
+    },
+
+    "design_tokens": {
+      ".read": "auth != null",
+      ".write": false
+    },
+    "system_categories": {
+      ".read": "auth != null",
+      ".write": false
+    },
+
+    "system_tags": {
+      ".read": "auth != null",
+      ".write": false
+    },
+
+    "merchants": {
+      ".read": "auth != null",
+      ".write": false,
+      ".indexOn": ["name_lower", "city"]
+    },
+
+    "merchant_aliases": {
+      ".read": "auth != null",
+      ".write": false
+    },
+
+    "stores": {
+      ".read": "auth != null",
+      ".write": false,
+      ".indexOn": ["name_lower", "city", "verified"]
+    },
+
+    "store_review_stats": {
+      ".read": "auth != null",
+      ".write": false
+    },
+
+    "stores_by_city": {
+      ".read": "auth != null",
+      ".write": false
+    },
+
+    "stores_by_category": {
+      ".read": "auth != null",
+      ".write": false
+    },
+
+    "store_reviews": {
+      "$storeId": {
+        ".read": "auth != null",
+        "$reviewId": {
+          ".write": "auth != null && newData.child('uid').val() === auth.uid",
+          "review_id": {
+            ".validate": "newData.isString() && newData.val() === $reviewId"
+          },
+          "uid": {
+            ".validate": "newData.isString() && newData.val() === auth.uid"
+          },
+          "$other": {
+            ".validate": true
+          }
+        }
+      }
+    },
+
+    "usernames": {
+      "$username": {
+        ".read": "auth != null",
+        ".write": "auth != null && ((!data.exists()) || data.child('uid').val() === auth.uid)",
+        "uid": {
+          ".validate": "newData.isString() && newData.val() === auth.uid"
+        },
+        "email": {
+          ".validate": "newData.isString()"
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        ".indexOn": ["email_lower", "username_lower", "city"],
+        "uid": {
+          ".validate": "newData.isString() && newData.val() === $uid"
+        },
+        "$other": {
+          ".validate": true
+        }
+      }
+    },
+
+    "user_settings": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "$other": {
+          ".validate": true
+        }
+      }
+    },
+
+    "user_categories": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "purchases": {
+          "$categoryId": {
+            "category_id": {
+              ".validate": "newData.isString() && newData.val() === $categoryId"
+            },
+            "$other": {
+              ".validate": true
+            }
+          }
+        },
+        "$other": {
+          ".validate": true
+        }
+      }
+    },
+
+    "user_tags": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "$tagId": {
+          "tag_id": {
+            ".validate": "newData.isString() && newData.val() === $tagId"
+          },
+          "$other": {
+            ".validate": true
+          }
+        }
+      }
+    },
+
+    "user_favorites": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "stores": {
+          "$storeId": {
+            ".validate": "newData.hasChildren(['store_id']) || newData.val() === true",
+            "store_id": {
+              ".validate": "newData.isString() && newData.val() === $storeId"
+            },
+            "$other": {
+              ".validate": true
+            }
+          }
+        }
+      }
+    },
+
+    "purchase_hubs": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        ".indexOn": ["purchase_date", "status", "category_id"],
+        "$hubId": {
+          "purchase_hub_id": {
+            ".validate": "newData.isString() && newData.val() === $hubId"
+          },
+          "$other": {
+            ".validate": true
+          }
+        }
+      }
+    },
+
+    "receipts": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        ".indexOn": ["purchase_date", "purchase_month", "merchant_name_lower", "category_id"],
+        "$receiptId": {
+          "receipt_id": {
+            ".validate": "newData.isString() && newData.val() === $receiptId"
+          },
+          "$other": {
+            ".validate": true
+          }
+        }
+      }
+    },
+
+    "warranties": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        ".indexOn": ["warranty_end", "status", "merchant_id"],
+        "$warrantyId": {
+          "warranty_id": {
+            ".validate": "newData.isString() && newData.val() === $warrantyId"
+          },
+          "$other": {
+            ".validate": true
+          }
+        }
+      }
+    },
+
+    "reminders": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        ".indexOn": ["due_date", "status", "type"],
+        "$reminderId": {
+          "reminder_id": {
+            ".validate": "newData.isString() && newData.val() === $reminderId"
+          },
+          "$other": {
+            ".validate": true
+          }
+        }
+      }
+    },
+
+    "attachments": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "$attachmentId": {
+          "owner_uid": {
+            ".validate": "newData.isString() && newData.val() === $uid"
+          },
+          "$other": {
+            ".validate": true
+          }
+        }
+      }
+    },
+
+    "attention_items": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        ".indexOn": ["due_date", "severity", "status", "sort_order"],
+        "$attentionId": {
+          "attention_id": {
+            ".validate": "newData.isString() && newData.val() === $attentionId"
+          },
+          "$other": {
+            ".validate": true
+          }
+        }
+      }
+    },
+
+    "service_history": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        ".indexOn": ["service_date", "purchase_hub_id", "warranty_id", "type"],
+        "$serviceId": {
+          "service_id": {
+            ".validate": "newData.isString() && newData.val() === $serviceId"
+          },
+          "$other": {
+            ".validate": true
+          }
+        }
+      }
+    },
+
+    "claims": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        ".indexOn": ["created_date", "status", "kind", "purchase_hub_id"],
+        "$claimId": {
+          "claim_id": {
+            ".validate": "newData.isString() && newData.val() === $claimId"
+          },
+          "$other": {
+            ".validate": true
+          }
+        }
+      }
+    },
+
+    "generated_exports": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false
+      }
+    },
+
+    "category_learning": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false
+      }
+    },
+
+    "user_profiles": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false
+      }
+    },
+
+    "home_cache": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false
+      }
+    },
+
+    "report_summaries": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false
+      }
+    },
+
+    "ai_context_cache": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false
+      }
+    },
+
+    "ai_conversations": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        ".indexOn": ["updated_at_ms", "created_at_ms", "status"],
+        "$conversationId": {
+          "conversation_id": {
+            ".validate": "newData.isString() && newData.val() === $conversationId"
+          },
+          "$other": {
+            ".validate": true
+          }
+        }
+      }
+    },
+
+    "ai_messages": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "$conversationId": {
+          "$messageId": {
+            "message_id": {
+              ".validate": "newData.isString() && newData.val() === $messageId"
+            },
+            "$other": {
+              ".validate": true
+            }
+          }
+        }
+      }
+    },
+
+    "ai_action_proposals": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "$conversationId": {
+          "$proposalId": {
+            "proposal_id": {
+              ".validate": "newData.isString() && newData.val() === $proposalId"
+            },
+            "$other": {
+              ".validate": true
+            }
+          }
+        }
+      }
+    },
+
+    "activity_events": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        ".indexOn": ["type", "screen", "created_at_ms"],
+        "$eventId": {
+          "$other": {
+            ".validate": true
+          }
+        }
+      }
+    },
+
+    "seed_runs": {
+      ".read": false,
+      ".write": false
+    }
+  }
+}
