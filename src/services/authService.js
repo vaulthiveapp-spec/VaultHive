@@ -13,7 +13,11 @@ import { ref, get, update, serverTimestamp, runTransaction } from "firebase/data
 import { auth, database } from "../config/firebase";
 
 const usernameKey = (name = "") =>
-  String(name).toLowerCase().trim().replace(/[.#$\[\]]/g, "_");
+  String(name)
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "")
+    .replace(/[.#$\[\]]/g, "_");
 
 const buildActionCodeSettings = () => {
   const url = process.env.EXPO_PUBLIC_VERIFY_REDIRECT_URL;

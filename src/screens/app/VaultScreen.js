@@ -14,7 +14,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 import { useAuth } from "../../context/AuthContext";
 import { useAlert } from "../../components/AlertProvider";
-import { scale, getFontSize, getSpacing, verticalScale } from "../../utils/responsive";
+import Input from "../../components/Input";
 import { VaultColors, VaultRadius, VaultShadows, VaultSpacing } from "../../styles/DesignSystem";
 import { listHubsFiltered } from "../../services/repo/repoHubs";
 import { useCurrency } from "../../hooks/useCurrency";
@@ -250,7 +250,7 @@ export default function VaultScreen({ navigation }) {
 
   const ListHeader = (
     <>
-      <View style={[styles.pageHeader, { paddingTop: insets.top + getSpacing(10) }]}>
+      <View style={[styles.pageHeader, { paddingTop: 0 }]}>
         <View>
           <Text style={styles.pageTitle}>Vault</Text>
           <Text style={styles.pageSub}>Your purchases, all in one place.</Text>
@@ -299,23 +299,19 @@ export default function VaultScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.searchWrap}>
-        <Ionicons name="search-outline" size={scale(16)} color={VaultColors.textMuted} style={styles.searchIcon} />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search purchases, merchants, categories…"
-          placeholderTextColor={VaultColors.inputPlaceholder}
-          value={q}
-          onChangeText={setQ}
-          autoCapitalize="none"
-          returnKeyType="search"
-        />
-        {q.length > 0 ? (
+      <Input
+        placeholder="Search purchases, merchants, categories…"
+        leftIcon="search"
+        value={q}
+        onChangeText={setQ}
+        style={styles.searchInputWrap}
+        inputStyle={styles.searchInput}
+        suffix={q.length > 0 ? (
           <TouchableOpacity onPress={() => setQ("")} activeOpacity={0.8}>
             <Ionicons name="close-circle" size={scale(17)} color={VaultColors.textMuted} />
           </TouchableOpacity>
         ) : null}
-      </View>
+      />
 
       <View style={styles.controlsRow}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterRow}>
@@ -333,8 +329,8 @@ export default function VaultScreen({ navigation }) {
   );
 
   return (
-    <SafeAreaView style={styles.container} edges={["bottom"]}>
-      <StatusBar barStyle="dark-content" backgroundColor={VaultColors.appBackground} />
+    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+      <StatusBar barStyle="light-content" backgroundColor={VaultColors.appBackground} />
       <FlatList
         data={hubs}
         keyExtractor={(item) => String(item.hub_id)}
@@ -348,7 +344,7 @@ export default function VaultScreen({ navigation }) {
             onPress={() => navigation.navigate("HubDetail", { hubId: item.hub_id })}
           />
         )}
-        ItemSeparatorComponent={() => <View style={{ height: getSpacing(10) }} />}
+        ItemSeparatorComponent={() => <View style={{ height: scale(10) }} />}
         ListEmptyComponent={
           !loading ? <EmptyState filter={status} onAdd={() => navigation.navigate("AddReceipt")} /> : null
         }
@@ -361,81 +357,80 @@ export default function VaultScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: VaultColors.appBackground },
-  listContent: { paddingHorizontal: VaultSpacing.screenPadding, paddingTop: getSpacing(4) },
+  listContent: { paddingHorizontal: VaultSpacing.screenPadding, paddingTop: scale(4) },
 
-  pageHeader: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingBottom: getSpacing(14) },
+  pageHeader: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingBottom: scale(14) },
   pageTitle: { fontSize: getFontSize(26), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "900" },
-  pageSub: { marginTop: getSpacing(3), fontSize: getFontSize(12), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600" },
+  pageSub: { marginTop: scale(3), fontSize: getFontSize(12), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600" },
   addBtn: { width: scale(46), height: scale(46), borderRadius: scale(23), backgroundColor: VaultColors.brandGoldDark, alignItems: "center", justifyContent: "center", ...Platform.select({ android: { elevation: 4 }, ios: VaultShadows.md }) },
 
-  heroCard: { backgroundColor: VaultColors.surfaceAlt, borderRadius: scale(24), borderWidth: 1.5, borderColor: VaultColors.border, padding: getSpacing(16), ...Platform.select({ android: { elevation: 2 }, ios: VaultShadows.sm }) },
-  heroTopRow: { flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", marginBottom: getSpacing(14) },
-  heroEyebrow: { fontSize: getFontSize(11), color: VaultColors.textSecondary, fontFamily: "Poppins", fontWeight: "800", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: getSpacing(4) },
+  heroCard: { backgroundColor: VaultColors.surfaceAlt, borderRadius: scale(24), borderWidth: 1.5, borderColor: VaultColors.border, padding: scale(16), ...Platform.select({ android: { elevation: 2 }, ios: VaultShadows.sm }) },
+  heroTopRow: { flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", marginBottom: scale(14) },
+  heroEyebrow: { fontSize: getFontSize(11), color: VaultColors.textSecondary, fontFamily: "Poppins", fontWeight: "800", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: scale(4) },
   heroValue: { fontSize: getFontSize(26), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "900" },
   heroIconWrap: { width: scale(48), height: scale(48), borderRadius: scale(16), backgroundColor: VaultColors.brandGoldDark, alignItems: "center", justifyContent: "center" },
 
-  statRow: { flexDirection: "row", alignItems: "center", paddingTop: getSpacing(12), borderTopWidth: 1, borderTopColor: VaultColors.border },
+  statRow: { flexDirection: "row", alignItems: "center", paddingTop: scale(12), borderTopWidth: 1, borderTopColor: VaultColors.border },
   statCell: { flex: 1, alignItems: "center" },
   statNum: { fontSize: getFontSize(18), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "900" },
   statLabel: { fontSize: getFontSize(10), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "700", marginTop: 2 },
   statDivider: { width: 1, height: scale(34), backgroundColor: VaultColors.border },
 
-  quickRow: { flexDirection: "row", gap: getSpacing(10), marginTop: getSpacing(12) },
-  quickCard: { flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: getSpacing(7), paddingVertical: getSpacing(12), borderRadius: scale(18), borderWidth: 1.5, borderColor: VaultColors.border, backgroundColor: VaultColors.surfaceAlt },
+  quickRow: { flexDirection: "row", gap: scale(10), marginTop: scale(12) },
+  quickCard: { flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: scale(7), paddingVertical: scale(12), borderRadius: scale(18), borderWidth: 1.5, borderColor: VaultColors.border, backgroundColor: VaultColors.surfaceAlt },
   quickCardPrimary: { backgroundColor: VaultColors.brandGoldDark, borderColor: VaultColors.brandGoldDark },
   quickLabel: { fontSize: getFontSize(12), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "800" },
   quickLabelPrimary: { fontSize: getFontSize(12), color: VaultColors.buttonTextOnGold, fontFamily: "Poppins", fontWeight: "800" },
 
-  searchWrap: { flexDirection: "row", alignItems: "center", marginTop: getSpacing(14), backgroundColor: VaultColors.surfaceAlt, borderRadius: scale(18), borderWidth: 1.5, borderColor: VaultColors.border, paddingHorizontal: getSpacing(12), height: scale(48) },
-  searchIcon: { marginRight: getSpacing(8) },
-  searchInput: { flex: 1, fontSize: getFontSize(13), color: VaultColors.inputText, fontFamily: "Poppins", fontWeight: "600" },
+  searchInputWrap: { marginTop: scale(14) },
+  searchInput: { fontSize: getFontSize(13), fontWeight: "600" },
 
-  controlsRow: { marginTop: getSpacing(12), flexDirection: "row", alignItems: "center", gap: getSpacing(8) },
-  filterRow: { gap: getSpacing(8), paddingRight: getSpacing(4) },
-  filterChip: { paddingVertical: getSpacing(7), paddingHorizontal: getSpacing(14), borderRadius: VaultRadius.full, borderWidth: 1.5, borderColor: VaultColors.border, backgroundColor: VaultColors.surfaceAlt },
+  controlsRow: { marginTop: scale(12), flexDirection: "row", alignItems: "center", gap: scale(8) },
+  filterRow: { gap: scale(8), paddingRight: scale(4) },
+  filterChip: { paddingVertical: scale(7), paddingHorizontal: scale(14), borderRadius: VaultRadius.full, borderWidth: 1.5, borderColor: VaultColors.border, backgroundColor: VaultColors.surfaceAlt },
   filterChipActive: { backgroundColor: VaultColors.brandGoldDark, borderColor: VaultColors.brandGoldDark },
   filterChipText: { fontSize: getFontSize(12), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "800" },
   filterChipTextActive: { color: VaultColors.buttonTextOnGold },
 
   sortWrap: { position: "relative" },
-  sortBtn: { flexDirection: "row", alignItems: "center", gap: getSpacing(5), paddingVertical: getSpacing(7), paddingHorizontal: getSpacing(12), borderRadius: VaultRadius.full, borderWidth: 1.5, borderColor: VaultColors.border, backgroundColor: VaultColors.surfaceAlt },
+  sortBtn: { flexDirection: "row", alignItems: "center", gap: scale(5), paddingVertical: scale(7), paddingHorizontal: scale(12), borderRadius: VaultRadius.full, borderWidth: 1.5, borderColor: VaultColors.border, backgroundColor: VaultColors.surfaceAlt },
   sortBtnText: { fontSize: getFontSize(11), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "800", maxWidth: scale(80) },
   sortDropdown: { position: "absolute", top: scale(38), right: 0, backgroundColor: VaultColors.surfaceAlt, borderRadius: scale(16), borderWidth: 1.5, borderColor: VaultColors.border, width: scale(170), zIndex: 100, ...Platform.select({ android: { elevation: 8 }, ios: VaultShadows.md }) },
-  sortItem: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingVertical: getSpacing(11), paddingHorizontal: getSpacing(14), borderBottomWidth: 1, borderBottomColor: VaultColors.border },
+  sortItem: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingVertical: scale(11), paddingHorizontal: scale(14), borderBottomWidth: 1, borderBottomColor: VaultColors.border },
   sortItemActive: { backgroundColor: VaultColors.brandGoldSoft },
   sortItemText: { fontSize: getFontSize(12), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "700" },
   sortItemTextActive: { color: VaultColors.brandGoldDark, fontWeight: "900" },
 
-  listMeta: { marginTop: getSpacing(14), marginBottom: getSpacing(8) },
+  listMeta: { marginTop: scale(14), marginBottom: scale(8) },
   listMetaText: { fontSize: getFontSize(11), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "700", textTransform: "uppercase", letterSpacing: 0.5 },
 
   hubCard: { flexDirection: "row", backgroundColor: VaultColors.surfaceAlt, borderRadius: scale(22), borderWidth: 1.5, borderColor: VaultColors.border, overflow: "hidden", ...Platform.select({ android: { elevation: 1 }, ios: VaultShadows.sm }) },
   hubStrip: { width: scale(4) },
-  hubInner: { flex: 1, padding: getSpacing(12) },
-  hubTopRow: { flexDirection: "row", alignItems: "flex-start", gap: getSpacing(10) },
+  hubInner: { flex: 1, padding: scale(12) },
+  hubTopRow: { flexDirection: "row", alignItems: "flex-start", gap: scale(10) },
   hubIconWrap: { width: scale(38), height: scale(38), borderRadius: scale(13), alignItems: "center", justifyContent: "center" },
   hubTitleBlock: { flex: 1 },
   hubTitle: { fontSize: getFontSize(14), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "900" },
   hubMerchant: { marginTop: 2, fontSize: getFontSize(11), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600" },
-  hubAmountCol: { alignItems: "flex-end", gap: getSpacing(3) },
+  hubAmountCol: { alignItems: "flex-end", gap: scale(3) },
   hubAmount: { fontSize: getFontSize(13), color: VaultColors.textSecondary, fontFamily: "Poppins", fontWeight: "900" },
 
-  hubMetaRow: { flexDirection: "row", flexWrap: "wrap", gap: getSpacing(6), marginTop: getSpacing(10) },
-  hubMetaChip: { flexDirection: "row", alignItems: "center", gap: scale(4), paddingVertical: getSpacing(4), paddingHorizontal: getSpacing(9), borderRadius: VaultRadius.full, backgroundColor: VaultColors.appBackground, borderWidth: 1, borderColor: VaultColors.border },
+  hubMetaRow: { flexDirection: "row", flexWrap: "wrap", gap: scale(6), marginTop: scale(10) },
+  hubMetaChip: { flexDirection: "row", alignItems: "center", gap: scale(4), paddingVertical: scale(4), paddingHorizontal: scale(9), borderRadius: VaultRadius.full, backgroundColor: VaultColors.appBackground, borderWidth: 1, borderColor: VaultColors.border },
   hubMetaText: { fontSize: getFontSize(10), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "700" },
 
-  hubAlertRow: { flexDirection: "row", flexWrap: "wrap", gap: getSpacing(6), marginTop: getSpacing(8) },
-  alertBadge: { flexDirection: "row", alignItems: "center", gap: scale(4), paddingVertical: getSpacing(4), paddingHorizontal: getSpacing(9), borderRadius: VaultRadius.full, borderWidth: 1 },
-  alertBadgeWarn: { flexDirection: "row", alignItems: "center", gap: scale(4), paddingVertical: getSpacing(4), paddingHorizontal: getSpacing(9), borderRadius: VaultRadius.full, borderWidth: 1, backgroundColor: VaultColors.warningSoft, borderColor: VaultColors.warning },
+  hubAlertRow: { flexDirection: "row", flexWrap: "wrap", gap: scale(6), marginTop: scale(8) },
+  alertBadge: { flexDirection: "row", alignItems: "center", gap: scale(4), paddingVertical: scale(4), paddingHorizontal: scale(9), borderRadius: VaultRadius.full, borderWidth: 1 },
+  alertBadgeWarn: { flexDirection: "row", alignItems: "center", gap: scale(4), paddingVertical: scale(4), paddingHorizontal: scale(9), borderRadius: VaultRadius.full, borderWidth: 1, backgroundColor: VaultColors.warningSoft, borderColor: VaultColors.warning },
   alertBadgeDanger: { backgroundColor: VaultColors.errorSoft, borderColor: VaultColors.error },
   alertBadgeText: { fontSize: getFontSize(10), fontFamily: "Poppins", fontWeight: "800" },
   alertTextWarn: { fontSize: getFontSize(10), fontFamily: "Poppins", fontWeight: "800", color: VaultColors.warning },
   alertTextDanger: { fontSize: getFontSize(10), fontFamily: "Poppins", fontWeight: "800", color: VaultColors.error },
 
-  emptyBox: { marginTop: getSpacing(12), alignItems: "center", backgroundColor: VaultColors.surfaceAlt, borderRadius: scale(24), borderWidth: 1.5, borderColor: VaultColors.border, paddingVertical: getSpacing(28), paddingHorizontal: getSpacing(22) },
+  emptyBox: { marginTop: scale(12), alignItems: "center", backgroundColor: VaultColors.surfaceAlt, borderRadius: scale(24), borderWidth: 1.5, borderColor: VaultColors.border, paddingVertical: scale(28), paddingHorizontal: scale(22) },
   emptyIconWrap: { width: scale(72), height: scale(72), borderRadius: scale(24), backgroundColor: VaultColors.brandGoldSoft, alignItems: "center", justifyContent: "center" },
-  emptyTitle: { marginTop: getSpacing(14), fontSize: getFontSize(17), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "900" },
-  emptyText: { marginTop: getSpacing(8), fontSize: getFontSize(12), lineHeight: getFontSize(20), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600", textAlign: "center" },
-  emptyBtn: { marginTop: getSpacing(16), backgroundColor: VaultColors.brandGoldDark, borderRadius: VaultRadius.full, paddingVertical: getSpacing(11), paddingHorizontal: getSpacing(20) },
+  emptyTitle: { marginTop: scale(14), fontSize: getFontSize(17), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "900" },
+  emptyText: { marginTop: scale(8), fontSize: getFontSize(12), lineHeight: getFontSize(20), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600", textAlign: "center" },
+  emptyBtn: { marginTop: scale(16), backgroundColor: VaultColors.brandGoldDark, borderRadius: VaultRadius.full, paddingVertical: scale(11), paddingHorizontal: scale(20) },
   emptyBtnText: { color: VaultColors.buttonTextOnGold, fontSize: getFontSize(12), fontFamily: "Poppins", fontWeight: "900" },
 });

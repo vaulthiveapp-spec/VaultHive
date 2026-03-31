@@ -119,17 +119,17 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.root} edges={["bottom"]}>
-      <StatusBar barStyle="dark-content" backgroundColor={VaultColors.appBackground} />
+      <StatusBar barStyle="light-content" backgroundColor={VaultColors.appBackground} />
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: getSpacing(32) }}
+        contentContainerStyle={{ paddingBottom: scale(32) }}
       >
         {/* ── Hero ──────────────────────────────────────────────── */}
         <LinearGradient
           colors={[VaultColors.brown, "#7A4F2C"]}
           start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
-          style={[styles.hero, { paddingTop: insets.top + getSpacing(20) }]}
+          style={[styles.hero, { paddingTop: insets.top + scale(20) }]}
         >
           {/* Settings shortcut top-right */}
           <TouchableOpacity
@@ -273,12 +273,12 @@ const styles = StyleSheet.create({
   // Hero
   hero: {
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingBottom: getSpacing(28),
+    paddingBottom: scale(28),
     alignItems: "center",
   },
   heroSettings: {
     position: "absolute",
-    top: getSpacing(16),
+    top: scale(16),
     right: VaultSpacing.screenPadding,
     width: scale(40), height: scale(40),
     alignItems: "center", justifyContent: "center",
@@ -301,13 +301,13 @@ const styles = StyleSheet.create({
     alignItems: "center", justifyContent: "center",
     borderWidth: 2, borderColor: VaultColors.brown,
   },
-  heroName:  { marginTop: getSpacing(14), fontSize: getFontSize(22), fontWeight: "900", color: "#FEF7E6", letterSpacing: -0.4 },
-  heroEmail: { marginTop: getSpacing(3),  fontSize: getFontSize(12), fontWeight: "600", color: "rgba(254,247,230,0.7)" },
-  heroPillRow: { flexDirection: "row", gap: getSpacing(8), marginTop: getSpacing(12) },
+  heroName:  { marginTop: scale(14), fontSize: getFontSize(22), fontWeight: "900", color: "#FEF7E6", letterSpacing: -0.4 },
+  heroEmail: { marginTop: scale(3),  fontSize: getFontSize(12), fontWeight: "600", color: "rgba(254,247,230,0.7)" },
+  heroPillRow: { flexDirection: "row", gap: scale(8), marginTop: scale(12) },
   heroPill: {
-    flexDirection: "row", alignItems: "center", gap: getSpacing(4),
+    flexDirection: "row", alignItems: "center", gap: scale(4),
     backgroundColor: "rgba(255,255,255,0.12)",
-    paddingHorizontal: getSpacing(10), paddingVertical: getSpacing(5),
+    paddingHorizontal: scale(10), paddingVertical: scale(5),
     borderRadius: scale(12),
   },
   heroPillText: { fontSize: getFontSize(11), fontWeight: "700", color: "rgba(254,247,230,0.85)" },
@@ -317,20 +317,20 @@ const styles = StyleSheet.create({
     flexDirection: "row", alignItems: "center",
     backgroundColor: "#fff",
     marginHorizontal: VaultSpacing.screenPadding,
-    marginTop: -getSpacing(18),
+    marginTop: -scale(18),
     borderRadius: scale(18),
     borderWidth: 1, borderColor: VaultColors.border,
-    paddingVertical: getSpacing(16),
+    paddingVertical: scale(16),
     ...Platform.select({ ios: VaultShadows.md, android: { elevation: 4 } }),
   },
   statTile:    { flex: 1, alignItems: "center" },
   statsDivider: { width: 1, height: scale(28), backgroundColor: VaultColors.divider },
   statValue:   { fontSize: getFontSize(20), fontWeight: "900", color: VaultColors.textPrimary, letterSpacing: -0.4 },
-  statLabel:   { marginTop: getSpacing(2), fontSize: getFontSize(10), fontWeight: "700", color: VaultColors.textMuted },
+  statLabel:   { marginTop: scale(2), fontSize: getFontSize(10), fontWeight: "700", color: VaultColors.textMuted },
 
   // Menu
-  menuSection:      { paddingHorizontal: VaultSpacing.screenPadding, marginTop: getSpacing(18) },
-  menuSectionLabel: { fontSize: getFontSize(11), fontWeight: "800", color: VaultColors.textMuted, textTransform: "uppercase", letterSpacing: 0.9, marginBottom: getSpacing(8) },
+  menuSection:      { paddingHorizontal: VaultSpacing.screenPadding, marginTop: scale(18) },
+  menuSectionLabel: { fontSize: getFontSize(11), fontWeight: "800", color: VaultColors.textMuted, textTransform: "uppercase", letterSpacing: 0.9, marginBottom: scale(8) },
   menuCard: {
     backgroundColor: "#fff", borderRadius: scale(18),
     borderWidth: 1, borderColor: VaultColors.border,
@@ -339,8 +339,8 @@ const styles = StyleSheet.create({
   },
   menuItem: {
     flexDirection: "row", alignItems: "center",
-    paddingHorizontal: getSpacing(16), paddingVertical: getSpacing(14),
-    gap: getSpacing(12),
+    paddingHorizontal: scale(16), paddingVertical: scale(14),
+    gap: scale(12),
   },
   menuIcon: {
     width: scale(36), height: scale(36), borderRadius: scale(11),
@@ -351,12 +351,12 @@ const styles = StyleSheet.create({
   menuBody:       { flex: 1, minWidth: 0 },
   menuLabel:      { fontSize: getFontSize(14), fontWeight: "700", color: VaultColors.textPrimary },
   menuLabelDanger:{ color: VaultColors.error },
-  menuSub:        { marginTop: getSpacing(1), fontSize: getFontSize(11), fontWeight: "600", color: VaultColors.textMuted },
+  menuSub:        { marginTop: scale(1), fontSize: getFontSize(11), fontWeight: "600", color: VaultColors.textMuted },
   menuBadge: {
     backgroundColor: VaultColors.brandGoldSoft, borderRadius: scale(12),
-    paddingHorizontal: getSpacing(8), paddingVertical: getSpacing(3),
+    paddingHorizontal: scale(8), paddingVertical: scale(3),
     borderWidth: 1, borderColor: VaultColors.border,
   },
   menuBadgeText: { fontSize: getFontSize(11), fontWeight: "800", color: VaultColors.brandGoldDark },
-  divider:       { height: 1, marginLeft: getSpacing(16) + scale(36) + getSpacing(12), backgroundColor: VaultColors.divider },
+  divider:       { height: 1, marginLeft: scale(16) + scale(36) + scale(12), backgroundColor: VaultColors.divider },
 });

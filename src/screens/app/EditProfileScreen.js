@@ -50,7 +50,7 @@ const CurrencyPicker = ({ visible, selected, onSelect, onClose }) => (
         <View style={cp.handle} />
         <Text style={cp.title}>Base currency</Text>
         <Text style={cp.sub}>All amounts display in this currency</Text>
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: getSpacing(24) }}>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: scale(24) }}>
           {SUPPORTED_CURRENCIES.map((c) => {
             const active = selected === c.code;
             return (
@@ -80,18 +80,18 @@ const CurrencyPicker = ({ visible, selected, onSelect, onClose }) => (
 
 const cp = StyleSheet.create({
   overlay:    { flex: 1, backgroundColor: "rgba(0,0,0,0.4)", justifyContent: "flex-end" },
-  sheet:      { backgroundColor: "#fff", borderTopLeftRadius: scale(24), borderTopRightRadius: scale(24), paddingHorizontal: getSpacing(20), paddingTop: getSpacing(12), maxHeight: "82%" },
-  handle:     { width: scale(36), height: scale(4), borderRadius: 2, backgroundColor: VaultColors.border, alignSelf: "center", marginBottom: getSpacing(16) },
-  title:      { fontSize: getFontSize(18), fontWeight: "900", color: VaultColors.textPrimary, marginBottom: getSpacing(4) },
-  sub:        { fontSize: getFontSize(12), fontWeight: "600", color: VaultColors.textMuted, marginBottom: getSpacing(16) },
-  row:        { flexDirection: "row", alignItems: "center", paddingVertical: getSpacing(13), borderBottomWidth: 1, borderBottomColor: VaultColors.divider, gap: getSpacing(14) },
-  rowActive:  { backgroundColor: VaultColors.brandGoldSoft, marginHorizontal: -getSpacing(20), paddingHorizontal: getSpacing(20), borderRadius: 0 },
+  sheet:      { backgroundColor: "#fff", borderTopLeftRadius: scale(24), borderTopRightRadius: scale(24), paddingHorizontal: scale(20), paddingTop: scale(12), maxHeight: "82%" },
+  handle:     { width: scale(36), height: scale(4), borderRadius: 2, backgroundColor: VaultColors.border, alignSelf: "center", marginBottom: scale(16) },
+  title:      { fontSize: getFontSize(18), fontWeight: "900", color: VaultColors.textPrimary, marginBottom: scale(4) },
+  sub:        { fontSize: getFontSize(12), fontWeight: "600", color: VaultColors.textMuted, marginBottom: scale(16) },
+  row:        { flexDirection: "row", alignItems: "center", paddingVertical: scale(13), borderBottomWidth: 1, borderBottomColor: VaultColors.divider, gap: scale(14) },
+  rowActive:  { backgroundColor: VaultColors.brandGoldSoft, marginHorizontal: -scale(20), paddingHorizontal: scale(20), borderRadius: 0 },
   flag:       { fontSize: 22 },
   rowBody:    { flex: 1 },
   code:       { fontSize: getFontSize(15), fontWeight: "800", color: VaultColors.textPrimary },
   codeActive: { color: VaultColors.brandGoldDark },
-  name:       { fontSize: getFontSize(12), fontWeight: "600", color: VaultColors.textMuted, marginTop: getSpacing(1) },
-  cancelBtn:  { backgroundColor: VaultColors.appBackground, borderRadius: scale(14), height: scale(48), alignItems: "center", justifyContent: "center", marginVertical: getSpacing(12) },
+  name:       { fontSize: getFontSize(12), fontWeight: "600", color: VaultColors.textMuted, marginTop: scale(1) },
+  cancelBtn:  { backgroundColor: VaultColors.appBackground, borderRadius: scale(14), height: scale(48), alignItems: "center", justifyContent: "center", marginVertical: scale(12) },
   cancelText: { fontSize: getFontSize(14), fontWeight: "800", color: VaultColors.textPrimary },
 });
 
@@ -250,10 +250,10 @@ export default function EditProfileScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.root} edges={["bottom"]}>
-      <StatusBar barStyle="dark-content" backgroundColor={VaultColors.appBackground} />
+      <StatusBar barStyle="light-content" backgroundColor={VaultColors.appBackground} />
 
       {/* Header */}
-      <View style={[styles.header, { paddingTop: insets.top + getSpacing(10) }]}>
+      <View style={[styles.header, { paddingTop: insets.top + scale(10) }]}>
         <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()} activeOpacity={0.85}>
           <Ionicons name="chevron-back" size={scale(22)} color={VaultColors.textPrimary} />
         </TouchableOpacity>
@@ -264,7 +264,7 @@ export default function EditProfileScreen({ navigation }) {
       <ScrollView
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={[styles.content, { paddingBottom: getSpacing(40) }]}
+        contentContainerStyle={[styles.content, { paddingBottom: scale(40) }]}
       >
         {/* ── Avatar ──────────────────────────────────────────── */}
         <View style={styles.avatarSection}>
@@ -369,7 +369,7 @@ const styles = StyleSheet.create({
   root:    { flex: 1, backgroundColor: VaultColors.appBackground },
   header: {
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingBottom: getSpacing(10),
+    paddingBottom: scale(10),
     flexDirection: "row", alignItems: "center",
   },
   backBtn: {
@@ -383,10 +383,10 @@ const styles = StyleSheet.create({
     fontSize: getFontSize(18), fontWeight: "900",
     color: VaultColors.textPrimary, letterSpacing: -0.3,
   },
-  content: { paddingHorizontal: VaultSpacing.screenPadding, paddingTop: getSpacing(8) },
+  content: { paddingHorizontal: VaultSpacing.screenPadding, paddingTop: scale(8) },
 
   // Avatar
-  avatarSection: { alignItems: "center", paddingVertical: getSpacing(24) },
+  avatarSection: { alignItems: "center", paddingVertical: scale(24) },
   avatarWrap: {
     width: scale(100), height: scale(100), borderRadius: scale(50),
     overflow: "hidden", borderWidth: 3, borderColor: VaultColors.border,
@@ -407,11 +407,11 @@ const styles = StyleSheet.create({
     alignItems: "center", justifyContent: "center",
     borderWidth: 2, borderColor: "#fff",
   },
-  avatarHint:    { marginTop: getSpacing(10), fontSize: getFontSize(12), fontWeight: "600", color: VaultColors.textMuted },
-  avatarActions: { flexDirection: "row", gap: getSpacing(10), marginTop: getSpacing(12) },
+  avatarHint:    { marginTop: scale(10), fontSize: getFontSize(12), fontWeight: "600", color: VaultColors.textMuted },
+  avatarActions: { flexDirection: "row", gap: scale(10), marginTop: scale(12) },
   avatarBtn: {
-    flexDirection: "row", alignItems: "center", gap: getSpacing(6),
-    paddingHorizontal: getSpacing(16), paddingVertical: getSpacing(9),
+    flexDirection: "row", alignItems: "center", gap: scale(6),
+    paddingHorizontal: scale(16), paddingVertical: scale(9),
     borderRadius: scale(12), backgroundColor: VaultColors.brandGoldSoft,
     borderWidth: 1, borderColor: VaultColors.border,
   },
@@ -423,24 +423,24 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#fff", borderRadius: scale(18),
     borderWidth: 1, borderColor: VaultColors.border,
-    marginBottom: getSpacing(14),
+    marginBottom: scale(14),
     ...Platform.select({ ios: VaultShadows.sm, android: { elevation: 1 } }),
   },
-  fieldRow:    { flexDirection: "row", alignItems: "flex-start", paddingHorizontal: getSpacing(16), paddingVertical: getSpacing(12), gap: getSpacing(12) },
-  fieldIcon:   { width: scale(32), height: scale(32), borderRadius: scale(10), backgroundColor: VaultColors.brandGoldSoft, alignItems: "center", justifyContent: "center", marginTop: getSpacing(2) },
+  fieldRow:    { flexDirection: "row", alignItems: "flex-start", paddingHorizontal: scale(16), paddingVertical: scale(12), gap: scale(12) },
+  fieldIcon:   { width: scale(32), height: scale(32), borderRadius: scale(10), backgroundColor: VaultColors.brandGoldSoft, alignItems: "center", justifyContent: "center", marginTop: scale(2) },
   fieldBody:   { flex: 1 },
-  fieldLabel:  { fontSize: getFontSize(11), fontWeight: "800", color: VaultColors.textMuted, textTransform: "uppercase", letterSpacing: 0.7, marginBottom: getSpacing(4) },
-  fieldDivider:{ height: 1, backgroundColor: VaultColors.divider, marginLeft: getSpacing(16) + scale(32) + getSpacing(12) },
+  fieldLabel:  { fontSize: getFontSize(11), fontWeight: "800", color: VaultColors.textMuted, textTransform: "uppercase", letterSpacing: 0.7, marginBottom: scale(4) },
+  fieldDivider:{ height: 1, backgroundColor: VaultColors.divider, marginLeft: scale(16) + scale(32) + scale(12) },
   inputInline: { marginBottom: 0 },
 
   // Currency selector
-  currencySelector: { flexDirection: "row", alignItems: "center", gap: getSpacing(8), paddingVertical: getSpacing(4) },
+  currencySelector: { flexDirection: "row", alignItems: "center", gap: scale(8), paddingVertical: scale(4) },
   currencyFlag: { fontSize: 20 },
   currencyCode: { fontSize: getFontSize(15), fontWeight: "800", color: VaultColors.textPrimary },
   currencyName: { fontSize: getFontSize(12), fontWeight: "600", color: VaultColors.textMuted },
   currencyNote: {
     fontSize: getFontSize(11), fontWeight: "500", color: VaultColors.textMuted,
-    lineHeight: 17, marginBottom: getSpacing(16), textAlign: "center",
-    paddingHorizontal: getSpacing(8),
+    lineHeight: 17, marginBottom: scale(16), textAlign: "center",
+    paddingHorizontal: scale(8),
   },
 });

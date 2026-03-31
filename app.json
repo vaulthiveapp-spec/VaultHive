@@ -87,9 +87,7 @@
       }
     },
     "owner": "vaulthive",
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
+"runtimeVersion": "1.0.0",
     "updates": {
       "url": "https://u.expo.dev/65e8b106-c421-47ff-b6b4-4f8a62d0af48"
     }

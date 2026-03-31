@@ -137,9 +137,9 @@ export default function WarrantyDetailsScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
-      <StatusBar barStyle="dark-content" backgroundColor={VaultColors.appBackground} />
+      <StatusBar barStyle="light-content" backgroundColor={VaultColors.appBackground} />
 
-      <View style={[styles.header, { paddingTop: insets.top + getSpacing(10) }]}>
+      <View style={[styles.header, { paddingTop: insets.top + scale(10) }]}>
         <TouchableOpacity style={styles.headerBtn} activeOpacity={0.85} onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back" size={scale(20)} color={VaultColors.textPrimary} />
         </TouchableOpacity>
@@ -280,10 +280,10 @@ const styles = StyleSheet.create({
 
   header: {
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingBottom: getSpacing(10),
+    paddingBottom: scale(10),
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(12),
+    gap: scale(12),
   },
 
   headerBtn: {
@@ -326,14 +326,14 @@ const styles = StyleSheet.create({
     borderRadius: scale(24),
     borderWidth: 1,
     borderColor: VaultColors.brandGoldLight,
-    padding: getSpacing(16),
+    padding: scale(16),
     ...Platform.select({ android: { elevation: 3 }, ios: VaultShadows.md }),
   },
 
   summaryTopRow: {
     flexDirection: "row",
     alignItems: "flex-start",
-    gap: getSpacing(12),
+    gap: scale(12),
     justifyContent: "space-between",
   },
 
@@ -346,7 +346,7 @@ const styles = StyleSheet.create({
   },
 
   summaryTitle: {
-    marginTop: getSpacing(4),
+    marginTop: scale(4),
     color: VaultColors.textPrimary,
     fontSize: getFontSize(20),
     fontFamily: "Poppins",
@@ -354,8 +354,8 @@ const styles = StyleSheet.create({
   },
 
   summaryBadge: {
-    paddingHorizontal: getSpacing(12),
-    paddingVertical: getSpacing(10),
+    paddingHorizontal: scale(12),
+    paddingVertical: scale(10),
     borderRadius: scale(16),
     backgroundColor: VaultColors.appBackground,
     borderWidth: 1,
@@ -371,12 +371,12 @@ const styles = StyleSheet.create({
 
   statusPill: {
     alignSelf: "flex-start",
-    marginTop: getSpacing(14),
+    marginTop: scale(14),
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(6),
-    paddingHorizontal: getSpacing(10),
-    paddingVertical: getSpacing(8),
+    gap: scale(6),
+    paddingHorizontal: scale(10),
+    paddingVertical: scale(8),
     borderRadius: VaultRadius.full,
     borderWidth: 1,
   },
@@ -388,12 +388,12 @@ const styles = StyleSheet.create({
   },
 
   infoCard: {
-    marginTop: getSpacing(14),
+    marginTop: scale(14),
     backgroundColor: VaultColors.surfaceAlt,
     borderRadius: scale(22),
     borderWidth: 1,
     borderColor: VaultColors.border,
-    paddingHorizontal: getSpacing(14),
+    paddingHorizontal: scale(14),
     ...Platform.select({ android: { elevation: 2 }, ios: VaultShadows.sm }),
   },
 
@@ -402,7 +402,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: getSpacing(12),
+    gap: scale(12),
   },
 
   divider: {
@@ -431,8 +431,8 @@ const styles = StyleSheet.create({
   },
 
   sectionHeader: {
-    marginTop: getSpacing(18),
-    marginBottom: getSpacing(10),
+    marginTop: scale(18),
+    marginBottom: scale(10),
   },
 
   sectionTitle: {
@@ -447,7 +447,7 @@ const styles = StyleSheet.create({
     borderRadius: scale(20),
     borderWidth: 1,
     borderColor: VaultColors.border,
-    padding: getSpacing(14),
+    padding: scale(14),
     ...Platform.select({ android: { elevation: 2 }, ios: VaultShadows.sm }),
   },
 
@@ -464,11 +464,11 @@ const styles = StyleSheet.create({
     borderRadius: scale(20),
     borderWidth: 1,
     borderColor: VaultColors.border,
-    padding: getSpacing(12),
-    marginBottom: getSpacing(10),
+    padding: scale(12),
+    marginBottom: scale(10),
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(10),
+    gap: scale(10),
     ...Platform.select({ android: { elevation: 2 }, ios: VaultShadows.sm }),
   },
 
@@ -499,8 +499,8 @@ const styles = StyleSheet.create({
   },
 
   actionsCard: {
-    marginTop: getSpacing(14),
-    gap: getSpacing(10),
+    marginTop: scale(14),
+    gap: scale(10),
   },
 
   emptyCardCompact: {
@@ -508,7 +508,7 @@ const styles = StyleSheet.create({
     borderRadius: scale(18),
     borderWidth: 1,
     borderColor: VaultColors.border,
-    padding: getSpacing(14),
+    padding: scale(14),
   },
 
   emptyText: {

@@ -86,7 +86,7 @@ export default function App() {
         >
           <AuthProvider>
             <AlertProvider>
-              <StatusBar style="dark" backgroundColor={BRAND} />
+              <StatusBar style="light" backgroundColor={BRAND} />
               <View style={{ flex: 1, backgroundColor: BRAND, direction: 'ltr' }}>
                 <AppNavigator />
               </View>

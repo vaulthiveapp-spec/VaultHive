@@ -5,12 +5,13 @@
  * Uses React Native Animated for three dots that pulse in a staggered sequence.
  */
 
-import React, { memo, useEffect, useRef } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { Animated, View, StyleSheet } from "react-native";
 import { Image } from "expo-image";
 import { scale } from "../../utils/responsive";
+import { IcoHandler } from "../../utils/icoHandler";
 
-const AI_AVATAR = require("../../../assets/AIicon.ico");
+const AI_AVATAR_ICO = require("../../../assets/AIicon.ico");
 const DOT_DELAY = 200;
 
 function Dot({ delay }) {
@@ -58,10 +59,25 @@ function Dot({ delay }) {
 }
 
 function AITypingIndicator() {
+  const [avatarSource, setAvatarSource] = useState(AI_AVATAR_ICO);
+
+  useEffect(() => {
+    const loadIco = async () => {
+      try {
+        const icoSource = await IcoHandler.getIcoSource(AI_AVATAR_ICO);
+        setAvatarSource(icoSource);
+      } catch (error) {
+        console.warn('Failed to load ICO avatar in typing indicator:', error);
+        // Keep the original ICO as fallback
+      }
+    };
+    loadIco();
+  }, []);
+
   return (
     <View style={styles.row}>
       <View style={styles.avatarWrap}>
-        <Image source={AI_AVATAR} style={styles.avatar} contentFit="cover" />
+        <Image source={avatarSource} style={styles.avatar} contentFit="cover" />
       </View>
       <View style={styles.bubble}>
         <Dot delay={0} />

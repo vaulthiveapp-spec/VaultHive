@@ -414,8 +414,8 @@ export default function HubDetailScreen({ navigation, route }) {
   if (loading || !detail) {
     return (
       <SafeAreaView style={styles.container} edges={["bottom"]}>
-        <StatusBar barStyle="dark-content" backgroundColor={VaultColors.appBackground} />
-        <View style={[styles.loadingHeader, { paddingTop: insets.top + getSpacing(10) }]}>
+        <StatusBar barStyle="light-content" backgroundColor={VaultColors.appBackground} />
+        <View style={[styles.loadingHeader, { paddingTop: insets.top + scale(10) }]}>
           <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()} activeOpacity={0.82}>
             <Ionicons name="chevron-back" size={scale(20)} color={VaultColors.textPrimary} />
           </TouchableOpacity>
@@ -439,10 +439,10 @@ export default function HubDetailScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
-      <StatusBar barStyle="dark-content" backgroundColor={VaultColors.appBackground} />
+      <StatusBar barStyle="light-content" backgroundColor={VaultColors.appBackground} />
 
       {/* Header */}
-      <View style={[styles.topBar, { paddingTop: insets.top + getSpacing(8) }]}>
+      <View style={[styles.topBar, { paddingTop: insets.top + scale(8) }]}>
         <TouchableOpacity style={styles.backBtn} activeOpacity={0.82} onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back" size={scale(20)} color={VaultColors.textPrimary} />
         </TouchableOpacity>
@@ -514,46 +514,46 @@ export default function HubDetailScreen({ navigation, route }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: VaultColors.appBackground },
-  content: { paddingHorizontal: VaultSpacing.screenPadding, paddingTop: getSpacing(8) },
+  content: { paddingHorizontal: VaultSpacing.screenPadding, paddingTop: scale(8) },
 
-  topBar: { flexDirection: "row", alignItems: "center", paddingHorizontal: VaultSpacing.screenPadding, paddingBottom: getSpacing(10), gap: getSpacing(10) },
+  topBar: { flexDirection: "row", alignItems: "center", paddingHorizontal: VaultSpacing.screenPadding, paddingBottom: scale(10), gap: scale(10) },
   backBtn: { width: scale(40), height: scale(40), borderRadius: scale(14), backgroundColor: VaultColors.surfaceAlt, borderWidth: 1.5, borderColor: VaultColors.border, alignItems: "center", justifyContent: "center", ...Platform.select({ android: { elevation: 1 }, ios: VaultShadows.sm }) },
   topBarTitle: { flex: 1, fontSize: getFontSize(17), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "900" },
   deleteBtn: { width: scale(40), height: scale(40), borderRadius: scale(14), backgroundColor: VaultColors.errorSoft, borderWidth: 1.5, borderColor: "#F5BABA", alignItems: "center", justifyContent: "center" },
 
-  loadingHeader: { paddingHorizontal: VaultSpacing.screenPadding, paddingBottom: getSpacing(10) },
-  loadingBody: { flex: 1, alignItems: "center", justifyContent: "center", gap: getSpacing(12) },
+  loadingHeader: { paddingHorizontal: VaultSpacing.screenPadding, paddingBottom: scale(10) },
+  loadingBody: { flex: 1, alignItems: "center", justifyContent: "center", gap: scale(12) },
   loadingText: { fontSize: getFontSize(14), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600" },
 
   // Hero
-  heroCard: { backgroundColor: VaultColors.surfaceAlt, borderRadius: scale(24), borderWidth: 1.5, borderColor: VaultColors.border, padding: getSpacing(16), marginBottom: getSpacing(12), ...Platform.select({ android: { elevation: 2 }, ios: VaultShadows.sm }) },
-  statusBadge: { flexDirection: "row", alignItems: "center", gap: scale(5), alignSelf: "flex-start", paddingVertical: getSpacing(5), paddingHorizontal: getSpacing(10), borderRadius: VaultRadius.full, borderWidth: 1, marginBottom: getSpacing(10) },
+  heroCard: { backgroundColor: VaultColors.surfaceAlt, borderRadius: scale(24), borderWidth: 1.5, borderColor: VaultColors.border, padding: scale(16), marginBottom: scale(12), ...Platform.select({ android: { elevation: 2 }, ios: VaultShadows.sm }) },
+  statusBadge: { flexDirection: "row", alignItems: "center", gap: scale(5), alignSelf: "flex-start", paddingVertical: scale(5), paddingHorizontal: scale(10), borderRadius: VaultRadius.full, borderWidth: 1, marginBottom: scale(10) },
   statusText: { fontSize: getFontSize(11), fontFamily: "Poppins", fontWeight: "900" },
   heroTitle: { fontSize: getFontSize(20), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "900" },
-  heroMerchant: { marginTop: getSpacing(3), fontSize: getFontSize(13), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600" },
-  heroAmountRow: { flexDirection: "row", alignItems: "baseline", gap: getSpacing(8), marginTop: getSpacing(10) },
+  heroMerchant: { marginTop: scale(3), fontSize: getFontSize(13), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600" },
+  heroAmountRow: { flexDirection: "row", alignItems: "baseline", gap: scale(8), marginTop: scale(10) },
   heroAmount: { fontSize: getFontSize(28), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "900" },
   heroAmountOrig: { fontSize: getFontSize(13), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600" },
-  pendingBanner: { flexDirection: "row", alignItems: "center", gap: getSpacing(6), marginTop: getSpacing(10), paddingVertical: getSpacing(6), paddingHorizontal: getSpacing(10), borderRadius: scale(12), backgroundColor: VaultColors.warningSoft, borderWidth: 1, borderColor: VaultColors.warning },
+  pendingBanner: { flexDirection: "row", alignItems: "center", gap: scale(6), marginTop: scale(10), paddingVertical: scale(6), paddingHorizontal: scale(10), borderRadius: scale(12), backgroundColor: VaultColors.warningSoft, borderWidth: 1, borderColor: VaultColors.warning },
   pendingText: { fontSize: getFontSize(11), color: VaultColors.warning, fontFamily: "Poppins", fontWeight: "800" },
-  heroMetaGrid: { marginTop: getSpacing(14), paddingTop: getSpacing(12), borderTopWidth: 1, borderTopColor: VaultColors.border, gap: getSpacing(8) },
+  heroMetaGrid: { marginTop: scale(14), paddingTop: scale(12), borderTopWidth: 1, borderTopColor: VaultColors.border, gap: scale(8) },
 
   // Section card
-  sectionCard: { backgroundColor: VaultColors.surfaceAlt, borderRadius: scale(22), borderWidth: 1.5, borderColor: VaultColors.border, padding: getSpacing(14), marginBottom: getSpacing(12), ...Platform.select({ android: { elevation: 1 }, ios: VaultShadows.sm }) },
-  sectionHeaderRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: getSpacing(12) },
-  sectionHeaderLeft: { flexDirection: "row", alignItems: "center", gap: getSpacing(8) },
+  sectionCard: { backgroundColor: VaultColors.surfaceAlt, borderRadius: scale(22), borderWidth: 1.5, borderColor: VaultColors.border, padding: scale(14), marginBottom: scale(12), ...Platform.select({ android: { elevation: 1 }, ios: VaultShadows.sm }) },
+  sectionHeaderRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: scale(12) },
+  sectionHeaderLeft: { flexDirection: "row", alignItems: "center", gap: scale(8) },
   sectionIconWrap: { width: scale(30), height: scale(30), borderRadius: scale(10), backgroundColor: VaultColors.brandGoldSoft, alignItems: "center", justifyContent: "center" },
   sectionTitle: { fontSize: getFontSize(14), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "900" },
   sectionAction: { fontSize: getFontSize(12), color: VaultColors.brandGoldDark, fontFamily: "Poppins", fontWeight: "800" },
 
   // InfoRow
-  infoRow: { flexDirection: "row", alignItems: "flex-start", gap: getSpacing(8), marginBottom: getSpacing(7) },
+  infoRow: { flexDirection: "row", alignItems: "flex-start", gap: scale(8), marginBottom: scale(7) },
   infoIcon: { marginTop: 2 },
   infoLabel: { fontSize: getFontSize(12), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "700", width: scale(90) },
   infoValue: { flex: 1, fontSize: getFontSize(12), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "800" },
 
   // Chip
-  chip: { flexDirection: "row", alignItems: "center", gap: scale(4), alignSelf: "flex-start", paddingVertical: getSpacing(4), paddingHorizontal: getSpacing(9), borderRadius: VaultRadius.full, backgroundColor: VaultColors.appBackground, borderWidth: 1, borderColor: VaultColors.border, marginTop: getSpacing(4) },
+  chip: { flexDirection: "row", alignItems: "center", gap: scale(4), alignSelf: "flex-start", paddingVertical: scale(4), paddingHorizontal: scale(9), borderRadius: VaultRadius.full, backgroundColor: VaultColors.appBackground, borderWidth: 1, borderColor: VaultColors.border, marginTop: scale(4) },
   chipText: { fontSize: getFontSize(10), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "800" },
   chipWarn: { backgroundColor: VaultColors.warningSoft, borderColor: VaultColors.warning },
   chipTextWarn: { fontSize: getFontSize(10), color: VaultColors.warning, fontFamily: "Poppins", fontWeight: "800" },
@@ -565,47 +565,47 @@ const styles = StyleSheet.create({
   emptyNote: { fontSize: getFontSize(12), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600", fontStyle: "italic" },
 
   // Receipt line items
-  itemList: { marginTop: getSpacing(10), paddingTop: getSpacing(10), borderTopWidth: 1, borderTopColor: VaultColors.border },
-  itemListLabel: { fontSize: getFontSize(11), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "700", marginBottom: getSpacing(6) },
-  lineItem: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingVertical: getSpacing(5) },
+  itemList: { marginTop: scale(10), paddingTop: scale(10), borderTopWidth: 1, borderTopColor: VaultColors.border },
+  itemListLabel: { fontSize: getFontSize(11), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "700", marginBottom: scale(6) },
+  lineItem: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingVertical: scale(5) },
   lineItemName: { flex: 1, fontSize: getFontSize(12), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "700" },
   lineItemAmt: { fontSize: getFontSize(12), color: VaultColors.textSecondary, fontFamily: "Poppins", fontWeight: "900" },
-  itemsMore: { fontSize: getFontSize(11), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600", marginTop: getSpacing(4) },
+  itemsMore: { fontSize: getFontSize(11), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600", marginTop: scale(4) },
 
   // Attachments
-  attachRow: { flexDirection: "row", alignItems: "center", gap: getSpacing(10), paddingVertical: getSpacing(8), borderBottomWidth: 1, borderBottomColor: VaultColors.border },
+  attachRow: { flexDirection: "row", alignItems: "center", gap: scale(10), paddingVertical: scale(8), borderBottomWidth: 1, borderBottomColor: VaultColors.border },
   attachIcon: { width: scale(36), height: scale(36), borderRadius: scale(12), backgroundColor: VaultColors.brandGoldSoft, alignItems: "center", justifyContent: "center" },
   attachInfo: { flex: 1 },
   attachName: { fontSize: getFontSize(12), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "800" },
   attachMeta: { fontSize: getFontSize(10), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600", marginTop: 2 },
 
   // Reminders
-  reminderRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingVertical: getSpacing(8), borderBottomWidth: 1, borderBottomColor: VaultColors.border },
-  reminderLeft: { flexDirection: "row", alignItems: "flex-start", gap: getSpacing(8) },
+  reminderRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingVertical: scale(8), borderBottomWidth: 1, borderBottomColor: VaultColors.border },
+  reminderLeft: { flexDirection: "row", alignItems: "flex-start", gap: scale(8) },
   reminderType: { fontSize: getFontSize(12), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "800", textTransform: "capitalize" },
   reminderDate: { fontSize: getFontSize(11), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600", marginTop: 2 },
 
   // Service history
-  serviceRow: { paddingVertical: getSpacing(8), borderBottomWidth: 1, borderBottomColor: VaultColors.border },
-  serviceLeft: { flexDirection: "row", alignItems: "flex-start", gap: getSpacing(10) },
+  serviceRow: { paddingVertical: scale(8), borderBottomWidth: 1, borderBottomColor: VaultColors.border },
+  serviceLeft: { flexDirection: "row", alignItems: "flex-start", gap: scale(10) },
   serviceDot: { width: scale(8), height: scale(8), borderRadius: scale(4), backgroundColor: VaultColors.brandGoldDark, marginTop: scale(5) },
   serviceTitle: { fontSize: getFontSize(12), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "800", textTransform: "capitalize" },
   serviceMeta: { fontSize: getFontSize(11), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600", marginTop: 2 },
 
   // Claims
-  claimRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingVertical: getSpacing(8), borderBottomWidth: 1, borderBottomColor: VaultColors.border },
+  claimRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingVertical: scale(8), borderBottomWidth: 1, borderBottomColor: VaultColors.border },
   claimKind: { fontSize: getFontSize(12), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "800", textTransform: "capitalize" },
   claimDate: { fontSize: getFontSize(11), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600", marginTop: 2 },
 
   // Exports
-  exportRow: { flexDirection: "row", alignItems: "center", gap: getSpacing(10), paddingVertical: getSpacing(8), borderBottomWidth: 1, borderBottomColor: VaultColors.border },
+  exportRow: { flexDirection: "row", alignItems: "center", gap: scale(10), paddingVertical: scale(8), borderBottomWidth: 1, borderBottomColor: VaultColors.border },
   exportInfo: { flex: 1 },
   exportName: { fontSize: getFontSize(12), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "800" },
   exportMeta: { fontSize: getFontSize(10), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600", marginTop: 2 },
 
   // AI
-  aiSubtitle: { fontSize: getFontSize(12), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600", marginBottom: getSpacing(10) },
-  aiConvList: { gap: getSpacing(8) },
-  aiConvRow: { flexDirection: "row", alignItems: "flex-start", gap: getSpacing(8), paddingVertical: getSpacing(6), borderTopWidth: 1, borderTopColor: VaultColors.border },
+  aiSubtitle: { fontSize: getFontSize(12), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600", marginBottom: scale(10) },
+  aiConvList: { gap: scale(8) },
+  aiConvRow: { flexDirection: "row", alignItems: "flex-start", gap: scale(8), paddingVertical: scale(6), borderTopWidth: 1, borderTopColor: VaultColors.border },
   aiConvPreview: { flex: 1, fontSize: getFontSize(12), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "600" },
 });

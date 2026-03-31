@@ -176,7 +176,11 @@ const CreateAccountScreen = ({ navigation }) => {
   }, []);
 
   const usernameKey = (name = "") =>
-    String(name).toLowerCase().trim().replace(/[.#$\[\]]/g, "_");
+    String(name)
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "")
+      .replace(/[.#$\[\]]/g, "_");
 
   const checkUsernameUnique = async (rawName) => {
     const key = usernameKey(rawName);
@@ -525,7 +529,7 @@ const CreateAccountScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
-      <StatusBar style="dark" backgroundColor={VaultColors.appBackground} />
+      <StatusBar style="light" backgroundColor={VaultColors.appBackground} />
 
       <View style={styles.topWaveWrap}>
         <TopWave />

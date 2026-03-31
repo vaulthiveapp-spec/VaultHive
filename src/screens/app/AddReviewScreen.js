@@ -45,9 +45,9 @@ export default function AddReviewScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
-      <StatusBar barStyle="dark-content" backgroundColor={VaultColors.appBackground} />
+      <StatusBar barStyle="light-content" backgroundColor={VaultColors.appBackground} />
 
-      <View style={[styles.header, { paddingTop: insets.top + getSpacing(10) }]}>
+      <View style={[styles.header, { paddingTop: insets.top + scale(10) }]}>
         <TouchableOpacity style={styles.backBtn} activeOpacity={0.85} onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back" size={scale(20)} color={VaultColors.textPrimary} />
         </TouchableOpacity>
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
 
   header: {
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingBottom: getSpacing(10),
+    paddingBottom: scale(10),
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -134,11 +134,11 @@ const styles = StyleSheet.create({
     borderRadius: VaultRadius.lg,
     borderWidth: 1,
     borderColor: VaultColors.border,
-    padding: getSpacing(14),
-    marginBottom: getSpacing(14),
+    padding: scale(14),
+    marginBottom: scale(14),
     ...Platform.select({ android: { elevation: 2 }, ios: VaultShadows.sm }),
   },
   label: { color: VaultColors.textPrimary, fontWeight: "900", fontSize: getFontSize(14) },
-  starsRow: { flexDirection: "row", gap: getSpacing(6), marginTop: getSpacing(10) },
-  hint: { marginTop: getSpacing(8), color: VaultColors.textMuted, fontWeight: "800", fontSize: getFontSize(12), textAlign: "right" },
+  starsRow: { flexDirection: "row", gap: scale(6), marginTop: scale(10) },
+  hint: { marginTop: scale(8), color: VaultColors.textMuted, fontWeight: "800", fontSize: getFontSize(12), textAlign: "right" },
 });

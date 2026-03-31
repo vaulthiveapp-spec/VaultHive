@@ -1,20 +1,8 @@
-/**
- * AIAssistantScreen — Phase 9
- *
- * Full-featured AI assistant with:
- *   - Persistent conversations (SQLite + Firebase via offlineActions)
- *   - Structured message rendering: text reply + sections + cards + suggestions
- *   - Action proposals (navigable shortcuts below last assistant message)
- *   - Context-aware: reasons over hubs, receipts, warranties, reminders,
- *     attention items, service history, claims, and favorite stores
- *   - File attachment support (ready for Supabase Edge Function processing)
- *   - Follow-up suggestion chips
- *   - Starter prompts when conversation is empty
- *   - New conversation button
- */
+
 
 import React, {
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -44,10 +32,11 @@ import AIActionBar from "../../components/ai/AIActionBar";
 import AITypingIndicator from "../../components/ai/AITypingIndicator";
 
 import { scale, getFontSize } from "../../utils/responsive";
+import { IcoHandler } from "../../utils/icoHandler";
 
-const AI_AVATAR = require("../../../assets/AIicon.ico");
+const AI_AVATAR_ICO = require("../../../assets/AIicon.ico");
 
-// ─── Starter prompts ──────────────────────────────────────────────────────────
+
 
 const STARTER_PROMPTS = [
   { id: "p1", icon: "flash-outline",              text: "What needs my attention?" },
@@ -96,9 +85,9 @@ const UserAvatar = ({ uri }) => (
   </View>
 );
 
-const AIAvatar = () => (
+const AIAvatar = ({ avatarSource }) => (
   <View style={styles.avatarWrap}>
-    <Image source={AI_AVATAR} style={styles.avatarImg} contentFit="cover" />
+    <Image source={avatarSource || AI_AVATAR_ICO} style={styles.avatarImg} contentFit="cover" />
   </View>
 );
 
@@ -117,7 +106,7 @@ const MessageRow = React.memo(function MessageRow({
   return (
     <View style={styles.msgBlock}>
       <View style={[styles.msgRow, isUser ? styles.msgRowRight : styles.msgRowLeft]}>
-        {!isUser ? <AIAvatar /> : null}
+        {!isUser ? <AIAvatar avatarSource={aiAvatarSource} /> : null}
 
         {isUser ? (
           <View style={styles.userBubble}>
@@ -164,14 +153,14 @@ const MessageRow = React.memo(function MessageRow({
 const StarterCard = ({ prompt, onPress }) => (
   <TouchableOpacity
     style={styles.starterCard}
-    activeOpacity={0.82}
+    activeOpacity={0.7}
     onPress={() => onPress(prompt.text)}
   >
     <View style={styles.starterIcon}>
-      <Ionicons name={prompt.icon} size={scale(18)} color="#8A5509" />
+      <Ionicons name={prompt.icon} size={scale(16)} color="#8A5509" />
     </View>
-    <Text style={styles.starterText}>{prompt.text}</Text>
-    <Ionicons name="arrow-forward-outline" size={scale(13)} color="#C9A96B" />
+    <Text style={styles.starterText} numberOfLines={2}>{prompt.text}</Text>
+    <Ionicons name="chevron-forward" size={scale(14)} color="#C9A96B" />
   </TouchableOpacity>
 );
 
@@ -198,7 +187,22 @@ export default function AIAssistantScreen({ navigation }) {
 
   const [input, setInput]           = useState("");
   const [attachment, setAttachment] = useState(null);
+  const [aiAvatarSource, setAiAvatarSource] = useState(AI_AVATAR_ICO);
   const listRef = useRef(null);
+
+  // Load ICO avatar on component mount
+  useEffect(() => {
+    const loadIcoAvatar = async () => {
+      try {
+        const icoSource = await IcoHandler.getIcoSource(AI_AVATAR_ICO);
+        setAiAvatarSource(icoSource);
+      } catch (error) {
+        console.warn('Failed to load ICO avatar:', error);
+        // Keep the original ICO as fallback
+      }
+    };
+    loadIcoAvatar();
+  }, []);
 
   const hasMessages = messages.length > 0;
 
@@ -229,22 +233,30 @@ export default function AIAssistantScreen({ navigation }) {
   }, [loading, alert]);
 
   const handleSend = useCallback(async (textOverride = null) => {
-    const text = String(textOverride || input || "").trim();
-    if (!text && !attachment) return;
-    if (loading) return;
+    try {
+      const text = String(textOverride || input || "").trim();
+      if (!text && !attachment) return;
+      if (loading) return;
 
-    const finalText = text || "Please review the attached file.";
-    const sentAttachment = attachment ? { ...attachment } : null;
-    setInput("");
-    setAttachment(null);
+      const finalText = text || "Please review the attached file.";
+      const sentAttachment = attachment ? { ...attachment } : null;
+      setInput("");
+      setAttachment(null);
 
-    await sendMessage({ text: finalText, attachment: sentAttachment });
-    scrollToEnd();
-  }, [input, attachment, loading, sendMessage, scrollToEnd]);
+      await sendMessage({ text: finalText, attachment: sentAttachment });
+      scrollToEnd();
+    } catch (error) {
+      alert?.warning?.("Error", "Failed to send message. Please try again.");
+    }
+  }, [input, attachment, loading, sendMessage, scrollToEnd, alert]);
 
   const handleSuggestionPress = useCallback((text) => {
-    handleSend(text);
-  }, [handleSend]);
+    try {
+      handleSend(text);
+    } catch (error) {
+      alert?.warning?.("Error", "Failed to send message. Please try again.");
+    }
+  }, [handleSend, alert]);
 
   const handleNewConversation = useCallback(async () => {
     await startNewConversation();
@@ -279,7 +291,7 @@ export default function AIAssistantScreen({ navigation }) {
   const canSend = !loading && (!!String(input || "").trim() || !!attachment);
 
   return (
-    <SafeAreaView style={styles.root} edges={["bottom"]}>
+    <SafeAreaView style={styles.root} edges={["top", "bottom"]}>
       <StatusBar barStyle="light-content" backgroundColor="#4E2C10" />
 
       {/* ── Header ─────────────────────────────────────────────────────────── */}
@@ -299,7 +311,7 @@ export default function AIAssistantScreen({ navigation }) {
 
         <View style={styles.headerCenter}>
           <View style={styles.headerAvatarWrap}>
-            <Image source={AI_AVATAR} style={styles.headerAvatar} contentFit="cover" />
+            <Image source={aiAvatarSource} style={styles.headerAvatar} contentFit="cover" />
           </View>
           <View>
             <Text style={styles.headerTitle}>VaultHive AI</Text>
@@ -327,15 +339,26 @@ export default function AIAssistantScreen({ navigation }) {
         {!hasMessages && !booting ? (
           <View style={styles.emptyState}>
             <View style={styles.emptyHero}>
-              <Image source={AI_AVATAR} style={styles.emptyAvatar} contentFit="cover" />
+              <Image source={aiAvatarSource} style={styles.emptyAvatar} contentFit="cover" />
             </View>
-            <Text style={styles.emptyTitle}>How can I help you?</Text>
+            <Text style={styles.emptyTitle}>How can I help?</Text>
             <Text style={styles.emptySub}>
-              I can reason over your purchases, warranties, reminders, and stores.
+              Ask about purchases, warranties & reminders
             </Text>
             <View style={styles.startersGrid}>
-              {STARTER_PROMPTS.map((p) => (
-                <StarterCard key={p.id} prompt={p} onPress={handleSuggestionPress} />
+              {STARTER_PROMPTS.reduce((rows, prompt, index) => {
+                if (index % 2 === 0) {
+                  rows.push([prompt]);
+                } else {
+                  rows[rows.length - 1].push(prompt);
+                }
+                return rows;
+              }, []).map((row, rowIndex) => (
+                <View key={rowIndex} style={styles.starterRow}>
+                  {row.map((p) => (
+                    <StarterCard key={p.id} prompt={p} onPress={handleSuggestionPress} />
+                  ))}
+                </View>
               ))}
             </View>
           </View>
@@ -425,7 +448,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: scale(6),
-    paddingTop: scale(10),
+    paddingTop: 0,
     paddingBottom: scale(12),
   },
   headerBtn: {
@@ -465,49 +488,51 @@ const styles = StyleSheet.create({
   emptyState: {
     flex: 1,
     paddingHorizontal: scale(20),
-    paddingTop: scale(28),
+    paddingTop: scale(20),
     alignItems: "center",
   },
   emptyHero: {
-    width: scale(70),
-    height: scale(70),
-    borderRadius: scale(35),
+    width: scale(60),
+    height: scale(60),
+    borderRadius: scale(30),
     overflow: "hidden",
-    marginBottom: scale(14),
+    marginBottom: scale(12),
     backgroundColor: "#E8D4A0",
   },
   emptyAvatar: { width: "100%", height: "100%" },
   emptyTitle: {
-    fontSize: getFontSize(22),
+    fontSize: getFontSize(20),
     fontWeight: "700",
     color: "#3D2208",
-    marginBottom: scale(8),
+    marginBottom: scale(6),
     letterSpacing: -0.4,
   },
   emptySub: {
-    fontSize: getFontSize(14),
+    fontSize: getFontSize(13),
     color: "#8A5509",
     textAlign: "center",
-    lineHeight: 20,
-    marginBottom: scale(24),
+    lineHeight: 18,
+    marginBottom: scale(20),
     paddingHorizontal: scale(12),
   },
-  startersGrid: { width: "100%", gap: scale(8) },
+  startersGrid: { width: "100%", gap: scale(12) },
+  starterRow: { flexDirection: "row", gap: scale(12) },
   starterCard: {
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#FFFBF2",
-    borderRadius: scale(14),
+    borderRadius: scale(12),
     borderWidth: 1,
     borderColor: "#EDD898",
-    paddingHorizontal: scale(14),
-    paddingVertical: scale(12),
-    gap: scale(12),
+    paddingHorizontal: scale(12),
+    paddingVertical: scale(10),
+    gap: scale(8),
   },
   starterIcon: {
-    width: scale(32),
-    height: scale(32),
-    borderRadius: scale(10),
+    width: scale(28),
+    height: scale(28),
+    borderRadius: scale(8),
     backgroundColor: "#FEF7E6",
     alignItems: "center",
     justifyContent: "center",
@@ -515,9 +540,10 @@ const styles = StyleSheet.create({
   },
   starterText: {
     flex: 1,
-    fontSize: getFontSize(14),
+    fontSize: getFontSize(12),
     color: "#3D2208",
     fontWeight: "600",
+    lineHeight: 16,
   },
 
   // Message list

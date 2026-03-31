@@ -92,7 +92,7 @@ const SplashScreen = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="dark" />
+      <StatusBar style="light" />
 
       <Animated.View
         style={[

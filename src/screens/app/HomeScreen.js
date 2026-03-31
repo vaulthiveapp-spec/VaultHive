@@ -135,14 +135,14 @@ function HomeSkeleton() {
 }
 
 const sk = StyleSheet.create({
-  wrap: { paddingHorizontal: VaultSpacing.screenPadding, paddingTop: getSpacing(8) },
+  wrap: { paddingHorizontal: VaultSpacing.screenPadding, paddingTop: scale(8) },
   row: { flexDirection: "row", justifyContent: "space-between" },
-  mb6: { marginBottom: getSpacing(6) },
-  mb18: { marginBottom: getSpacing(18) },
-  mb20: { marginBottom: getSpacing(20) },
-  mt10: { marginTop: getSpacing(10) },
-  mt12: { marginTop: getSpacing(12) },
-  mt22: { marginTop: getSpacing(22) },
+  mb6: { marginBottom: scale(6) },
+  mb18: { marginBottom: scale(18) },
+  mb20: { marginBottom: scale(20) },
+  mt10: { marginTop: scale(10) },
+  mt12: { marginTop: scale(12) },
+  mt22: { marginTop: scale(22) },
 });
 
 // ── Shared section header ─────────────────────────────────────────────────────
@@ -527,12 +527,11 @@ export default function HomeScreen({ navigation }) {
   const initial     = shortName.charAt(0).toUpperCase() || "V";
 
   return (
-    <SafeAreaView style={styles.container} edges={["bottom"]}>
-      <StatusBar barStyle="dark-content" backgroundColor={VaultColors.appBackground} />
+    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+      <StatusBar barStyle="light-content" backgroundColor={VaultColors.appBackground} />
 
       {/* ── Fixed header ── */}
-      <View style={[styles.header, { paddingTop: insets.top + getSpacing(6) }]}>
-        <TouchableOpacity style={styles.headerIconBtn} activeOpacity={0.88} onPress={() => navigation.openDrawer()}>
+      <View style={[styles.header, { paddingTop: 0 }]}>        <TouchableOpacity style={styles.headerIconBtn} activeOpacity={0.88} onPress={() => navigation.openDrawer()}>
           <Ionicons name="menu-outline" size={scale(22)} color={VaultColors.brandGoldDark} />
         </TouchableOpacity>
 
@@ -602,7 +601,7 @@ export default function HomeScreen({ navigation }) {
             </View>
           ) : null}
 
-          <View style={{ height: getSpacing(24) }} />
+          <View style={{ height: scale(24) }} />
         </ScrollView>
       ) : null}
     </SafeAreaView>
@@ -616,10 +615,10 @@ const styles = StyleSheet.create({
 
   header: {
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingBottom: getSpacing(10),
+    paddingVertical: scale(12),
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(10),
+    gap: scale(10),
   },
   headerIconBtn: {
     width: scale(42),
@@ -644,7 +643,7 @@ const styles = StyleSheet.create({
     color: VaultColors.textPrimary,
     fontFamily: "Poppins",
     fontWeight: "900",
-    marginTop: getSpacing(1),
+    marginTop: scale(1),
   },
   notifBadge: {
     position: "absolute",
@@ -684,12 +683,12 @@ const styles = StyleSheet.create({
   offlineBanner: {
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(8),
+    gap: scale(8),
     backgroundColor: "#FEF3C7",
     borderBottomWidth: 1,
     borderBottomColor: "#F5D89A",
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingVertical: getSpacing(10),
+    paddingVertical: scale(10),
   },
   offlineBannerText: {
     flex: 1,
@@ -719,7 +718,7 @@ const styles = StyleSheet.create({
     backgroundColor: VaultColors.errorSoft,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: getSpacing(16),
+    marginBottom: scale(16),
   },
   errorTitle: {
     fontSize: getFontSize(18),
@@ -727,7 +726,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins",
     fontWeight: "900",
     textAlign: "center",
-    marginBottom: getSpacing(8),
+    marginBottom: scale(8),
   },
   errorText: {
     fontSize: getFontSize(12),
@@ -736,17 +735,17 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     textAlign: "center",
     lineHeight: getFontSize(19),
-    marginBottom: getSpacing(24),
+    marginBottom: scale(24),
   },
   retryBtn: {
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(8),
+    gap: scale(8),
     backgroundColor: VaultColors.brandGoldDark,
     borderRadius: VaultRadius.full,
-    paddingVertical: getSpacing(13),
-    paddingHorizontal: getSpacing(28),
-    ...VaultShadows.sm,
+    paddingVertical: scale(13),
+    paddingHorizontal: scale(28),
+    ...VaultShadows.md,
   },
   retryBtnText: {
     color: VaultColors.buttonTextOnGold,
@@ -757,22 +756,24 @@ const styles = StyleSheet.create({
 
   scrollContent: {
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingTop: getSpacing(4),
-    paddingBottom: getSpacing(24),
-    gap: getSpacing(22),
+    paddingTop: scale(8),
+    paddingBottom: scale(24),
+    gap: scale(20),
   },
 
   sectionHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: getSpacing(12),
+    marginBottom: scale(14),
+    marginTop: scale(4),
   },
   sectionTitle: {
     fontSize: getFontSize(16),
     color: VaultColors.textPrimary,
     fontFamily: "Poppins",
     fontWeight: "900",
+    letterSpacing: -0.2,
   },
   sectionAction: {
     fontSize: getFontSize(12),
@@ -784,23 +785,24 @@ const styles = StyleSheet.create({
   heroCard: {
     backgroundColor: VaultColors.brandGoldDark,
     borderRadius: scale(28),
-    padding: getSpacing(20),
+    padding: scale(20),
+    marginBottom: scale(4),
     ...VaultShadows.lg,
   },
   heroTop: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: getSpacing(16),
+    marginBottom: scale(16),
   },
   heroBadge: {
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(5),
+    gap: scale(5),
     backgroundColor: "rgba(255,255,255,0.14)",
     borderRadius: VaultRadius.full,
-    paddingHorizontal: getSpacing(10),
-    paddingVertical: getSpacing(6),
+    paddingHorizontal: scale(10),
+    paddingVertical: scale(6),
   },
   heroBadgeText: {
     color: "#FEF7E6",
@@ -811,8 +813,8 @@ const styles = StyleSheet.create({
   heroMonthPill: {
     backgroundColor: "rgba(255,255,255,0.10)",
     borderRadius: VaultRadius.full,
-    paddingHorizontal: getSpacing(10),
-    paddingVertical: getSpacing(5),
+    paddingHorizontal: scale(10),
+    paddingVertical: scale(5),
   },
   heroMonthText: {
     color: "rgba(254,247,230,0.82)",
@@ -832,22 +834,22 @@ const styles = StyleSheet.create({
     fontSize: getFontSize(11),
     fontFamily: "Poppins",
     fontWeight: "600",
-    marginBottom: getSpacing(16),
+    marginBottom: scale(16),
   },
   heroTileRow: {
     flexDirection: "row",
     alignItems: "center",
     borderTopWidth: 1,
     borderTopColor: "rgba(255,255,255,0.14)",
-    paddingTop: getSpacing(14),
+    paddingTop: scale(14),
   },
-  heroTile: { flex: 1, alignItems: "center", gap: getSpacing(3) },
+  heroTile: { flex: 1, alignItems: "center", gap: scale(3) },
   heroTileValue: {
     color: "#FFFFFF",
     fontSize: getFontSize(16),
     fontFamily: "Poppins",
     fontWeight: "900",
-    marginTop: getSpacing(3),
+    marginTop: scale(3),
   },
   heroTileValueSmall: { fontSize: getFontSize(12) },
   heroTileValueAlert: { color: "#FFD166" },
@@ -863,13 +865,14 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,0.16)",
   },
 
-  attentionScroll: { gap: getSpacing(12), paddingRight: getSpacing(2) },
+  attentionScroll: { gap: scale(12), paddingRight: scale(2) },
   attentionCard: {
     width: scale(200),
     borderRadius: scale(20),
     borderWidth: 1,
-    padding: getSpacing(14),
-    gap: getSpacing(6),
+    padding: scale(14),
+    gap: scale(6),
+    ...VaultShadows.md,
   },
   attentionIconWrap: {
     width: scale(36),
@@ -898,27 +901,27 @@ const styles = StyleSheet.create({
     fontSize: getFontSize(10),
     fontFamily: "Poppins",
     fontWeight: "800",
-    marginTop: getSpacing(4),
+    marginTop: scale(4),
   },
 
-  quickScroll: { gap: getSpacing(10), paddingRight: getSpacing(2) },
+  quickScroll: { gap: scale(10), paddingRight: scale(2) },
   quickChip: {
     alignItems: "center",
-    gap: getSpacing(8),
+    gap: scale(8),
     backgroundColor: VaultColors.surfaceAlt,
     borderRadius: scale(18),
     borderWidth: 1,
     borderColor: VaultColors.border,
-    paddingVertical: getSpacing(12),
-    paddingHorizontal: getSpacing(14),
+    paddingVertical: scale(12),
+    paddingHorizontal: scale(14),
     minWidth: scale(80),
-    ...VaultShadows.sm,
+    ...VaultShadows.md,
   },
   quickChipIcon: {
     width: scale(44),
     height: scale(44),
     borderRadius: scale(14),
-    backgroundColor: VaultColors.brandGoldSoft,
+    backgroundColor: VaultColors.brandGoldDark,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -926,7 +929,7 @@ const styles = StyleSheet.create({
     fontSize: getFontSize(10),
     color: VaultColors.textPrimary,
     fontFamily: "Poppins",
-    fontWeight: "800",
+    fontWeight: "700",
     textAlign: "center",
   },
 
@@ -937,18 +940,18 @@ const styles = StyleSheet.create({
     borderRadius: scale(20),
     borderWidth: 1,
     borderColor: VaultColors.border,
-    marginBottom: getSpacing(10),
+    marginBottom: scale(10),
     overflow: "hidden",
-    ...Platform.select({ android: { elevation: 2 }, ios: VaultShadows.sm }),
+    ...Platform.select({ android: { elevation: 3 }, ios: VaultShadows.md }),
   },
   hubStrip: { width: scale(4), alignSelf: "stretch", opacity: 0.7 },
-  hubBody: { flex: 1, padding: getSpacing(12), gap: getSpacing(4) },
-  hubChevron: { paddingRight: getSpacing(12) },
+  hubBody: { flex: 1, padding: scale(12), gap: scale(4) },
+  hubChevron: { paddingRight: scale(12) },
   hubTopRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    gap: getSpacing(8),
+    gap: scale(8),
   },
   hubTitle: {
     flex: 1,
@@ -966,7 +969,7 @@ const styles = StyleSheet.create({
   hubMetaRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(6),
+    gap: scale(6),
   },
   hubMerchant: {
     fontSize: getFontSize(11),
@@ -985,8 +988,8 @@ const styles = StyleSheet.create({
   hubChipRow: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: getSpacing(6),
-    marginTop: getSpacing(4),
+    gap: scale(6),
+    marginTop: scale(4),
   },
   hubStatusChip: {
     flexDirection: "row",
@@ -994,8 +997,8 @@ const styles = StyleSheet.create({
     gap: scale(4),
     borderRadius: VaultRadius.full,
     borderWidth: 1,
-    paddingHorizontal: getSpacing(8),
-    paddingVertical: getSpacing(4),
+    paddingHorizontal: scale(8),
+    paddingVertical: scale(4),
   },
   hubStatusText: {
     fontSize: getFontSize(9.5),
@@ -1008,8 +1011,8 @@ const styles = StyleSheet.create({
     backgroundColor: VaultColors.brandGoldSoft,
     borderWidth: 1,
     borderColor: VaultColors.border,
-    paddingHorizontal: getSpacing(8),
-    paddingVertical: getSpacing(4),
+    paddingHorizontal: scale(8),
+    paddingVertical: scale(4),
   },
   hubCatText: {
     fontSize: getFontSize(9.5),
@@ -1024,8 +1027,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: VaultColors.border,
     alignItems: "center",
-    padding: getSpacing(24),
-    ...VaultShadows.sm,
+    padding: scale(24),
+    ...VaultShadows.md,
   },
   emptyIconWrap: {
     width: scale(60),
@@ -1034,14 +1037,14 @@ const styles = StyleSheet.create({
     backgroundColor: VaultColors.brandGoldSoft,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: getSpacing(10),
+    marginBottom: scale(10),
   },
   emptyTitle: {
     fontSize: getFontSize(15),
     color: VaultColors.textPrimary,
     fontFamily: "Poppins",
     fontWeight: "900",
-    marginBottom: getSpacing(6),
+    marginBottom: scale(6),
   },
   emptyText: {
     fontSize: getFontSize(11),
@@ -1050,13 +1053,14 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     textAlign: "center",
     lineHeight: getFontSize(17),
-    marginBottom: getSpacing(16),
+    marginBottom: scale(16),
   },
   emptyBtn: {
     backgroundColor: VaultColors.brandGoldDark,
     borderRadius: VaultRadius.full,
-    paddingVertical: getSpacing(11),
-    paddingHorizontal: getSpacing(22),
+    paddingVertical: scale(11),
+    paddingHorizontal: scale(22),
+    ...VaultShadows.md,
   },
   emptyBtnText: {
     color: VaultColors.buttonTextOnGold,
@@ -1068,14 +1072,14 @@ const styles = StyleSheet.create({
   reminderRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(12),
+    gap: scale(12),
     backgroundColor: VaultColors.surfaceAlt,
     borderRadius: scale(16),
     borderWidth: 1,
     borderColor: VaultColors.border,
-    padding: getSpacing(12),
-    marginBottom: getSpacing(8),
-    ...Platform.select({ android: { elevation: 1 }, ios: VaultShadows.sm }),
+    padding: scale(12),
+    marginBottom: scale(8),
+    ...Platform.select({ android: { elevation: 3 }, ios: VaultShadows.md }),
   },
   reminderIconWrap: {
     width: scale(40),
@@ -1101,15 +1105,15 @@ const styles = StyleSheet.create({
     color: VaultColors.textMuted,
     fontFamily: "Poppins",
     fontWeight: "600",
-    marginTop: getSpacing(2),
+    marginTop: scale(2),
   },
   reminderCountdown: {
     borderRadius: VaultRadius.full,
     backgroundColor: VaultColors.brandGoldSoft,
     borderWidth: 1,
     borderColor: VaultColors.border,
-    paddingHorizontal: getSpacing(10),
-    paddingVertical: getSpacing(5),
+    paddingHorizontal: scale(10),
+    paddingVertical: scale(5),
   },
   reminderCountdownUrgent:  { backgroundColor: "#FFF6E3", borderColor: "#F5D89A" },
   reminderCountdownOverdue: { backgroundColor: "#FDECEC", borderColor: "#F5BABA" },
@@ -1119,7 +1123,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
   },
 
-  storesScroll: { gap: getSpacing(12), paddingRight: getSpacing(2) },
+  storesScroll: { gap: scale(12), paddingRight: scale(2) },
   storeCard: {
     width: scale(180),
     backgroundColor: VaultColors.surfaceAlt,
@@ -1127,17 +1131,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: VaultColors.border,
     overflow: "hidden",
-    ...VaultShadows.sm,
+    ...VaultShadows.md,
   },
   storeCover: { width: "100%", height: scale(100) },
-  storeCardBody: { padding: getSpacing(12), gap: getSpacing(4) },
+  storeCardBody: { padding: scale(12), gap: scale(5) },
   storeName: {
     fontSize: getFontSize(13),
     color: VaultColors.textPrimary,
     fontFamily: "Poppins",
     fontWeight: "900",
+    lineHeight: getFontSize(16),
   },
-  storeRatingRow: { flexDirection: "row", alignItems: "center", gap: getSpacing(4) },
+  storeRatingRow: { flexDirection: "row", alignItems: "center", gap: scale(4) },
   storeRatingText: {
     fontSize: getFontSize(11),
     color: VaultColors.textPrimary,
@@ -1161,9 +1166,9 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     backgroundColor: VaultColors.brandGoldSoft,
     borderRadius: VaultRadius.full,
-    paddingHorizontal: getSpacing(8),
-    paddingVertical: getSpacing(4),
-    marginTop: getSpacing(4),
+    paddingHorizontal: scale(8),
+    paddingVertical: scale(4),
+    marginTop: scale(4),
   },
   storeCatText: {
     fontSize: getFontSize(9.5),
@@ -1177,8 +1182,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: getSpacing(5),
-    paddingVertical: getSpacing(8),
+    gap: scale(5),
+    paddingVertical: scale(8),
   },
   cacheHintText: {
     fontSize: getFontSize(10),

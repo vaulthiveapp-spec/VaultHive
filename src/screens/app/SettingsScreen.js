@@ -183,18 +183,18 @@ const ItemEditorModal = ({ visible, item, type, onSave, onClose }) => {
 
 const em = StyleSheet.create({
   overlay:      { flex: 1, backgroundColor: "rgba(0,0,0,0.45)", justifyContent: "flex-end" },
-  sheet:        { backgroundColor: "#fff", borderTopLeftRadius: scale(24), borderTopRightRadius: scale(24), paddingHorizontal: getSpacing(20), paddingTop: getSpacing(12), paddingBottom: getSpacing(32) },
-  handle:       { width: scale(36), height: scale(4), borderRadius: 2, backgroundColor: VaultColors.border, alignSelf: "center", marginBottom: getSpacing(16) },
-  title:        { fontSize: getFontSize(18), fontWeight: "900", color: VaultColors.textPrimary, marginBottom: getSpacing(16) },
-  fieldLabel:   { fontSize: getFontSize(11), fontWeight: "800", color: VaultColors.textMuted, textTransform: "uppercase", letterSpacing: 0.8, marginBottom: getSpacing(6), marginTop: getSpacing(12) },
-  input:        { backgroundColor: VaultColors.appBackground, borderRadius: scale(12), borderWidth: 1, borderColor: VaultColors.border, paddingHorizontal: getSpacing(14), paddingVertical: getSpacing(12), fontSize: getFontSize(15), fontWeight: "600", color: VaultColors.textPrimary },
-  iconScroll:   { marginVertical: getSpacing(4) },
-  iconBtn:      { width: scale(40), height: scale(40), borderRadius: scale(12), backgroundColor: VaultColors.brandGoldSoft, alignItems: "center", justifyContent: "center", marginRight: getSpacing(8), borderWidth: 1, borderColor: VaultColors.border },
+  sheet:        { backgroundColor: "#fff", borderTopLeftRadius: scale(24), borderTopRightRadius: scale(24), paddingHorizontal: scale(20), paddingTop: scale(12), paddingBottom: scale(32) },
+  handle:       { width: scale(36), height: scale(4), borderRadius: 2, backgroundColor: VaultColors.border, alignSelf: "center", marginBottom: scale(16) },
+  title:        { fontSize: getFontSize(18), fontWeight: "900", color: VaultColors.textPrimary, marginBottom: scale(16) },
+  fieldLabel:   { fontSize: getFontSize(11), fontWeight: "800", color: VaultColors.textMuted, textTransform: "uppercase", letterSpacing: 0.8, marginBottom: scale(6), marginTop: scale(12) },
+  input:        { backgroundColor: VaultColors.appBackground, borderRadius: scale(12), borderWidth: 1, borderColor: VaultColors.border, paddingHorizontal: scale(14), paddingVertical: scale(12), fontSize: getFontSize(15), fontWeight: "600", color: VaultColors.textPrimary },
+  iconScroll:   { marginVertical: scale(4) },
+  iconBtn:      { width: scale(40), height: scale(40), borderRadius: scale(12), backgroundColor: VaultColors.brandGoldSoft, alignItems: "center", justifyContent: "center", marginRight: scale(8), borderWidth: 1, borderColor: VaultColors.border },
   iconBtnActive:{ backgroundColor: VaultColors.brandGoldDark, borderColor: VaultColors.brandGoldDark },
-  colorRow:     { flexDirection: "row", flexWrap: "wrap", gap: getSpacing(10), marginTop: getSpacing(4) },
+  colorRow:     { flexDirection: "row", flexWrap: "wrap", gap: scale(10), marginTop: scale(4) },
   colorDot:     { width: scale(32), height: scale(32), borderRadius: scale(16), alignItems: "center", justifyContent: "center" },
   colorDotActive:{ borderWidth: 3, borderColor: "#fff", shadowColor: "#000", shadowOpacity: 0.25, shadowRadius: 4, shadowOffset: { width: 0, height: 2 } },
-  actions:      { flexDirection: "row", gap: getSpacing(10), marginTop: getSpacing(20) },
+  actions:      { flexDirection: "row", gap: scale(10), marginTop: scale(20) },
   cancelBtn:    { flex: 1, height: scale(46), borderRadius: scale(12), backgroundColor: VaultColors.appBackground, borderWidth: 1, borderColor: VaultColors.border, alignItems: "center", justifyContent: "center" },
   cancelText:   { fontSize: getFontSize(14), fontWeight: "700", color: VaultColors.textPrimary },
   saveBtn:      { flex: 1, height: scale(46), borderRadius: scale(12), backgroundColor: VaultColors.brown, alignItems: "center", justifyContent: "center" },
@@ -299,10 +299,10 @@ export default function SettingsScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.root} edges={["bottom"]}>
-      <StatusBar barStyle="dark-content" backgroundColor={VaultColors.appBackground} />
+      <StatusBar barStyle="light-content" backgroundColor={VaultColors.appBackground} />
 
       {/* Header */}
-      <View style={[styles.header, { paddingTop: insets.top + getSpacing(10) }]}>
+      <View style={[styles.header, { paddingTop: insets.top + scale(10) }]}>
         <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()} activeOpacity={0.85}>
           <Ionicons name="chevron-back" size={scale(22)} color={VaultColors.textPrimary} />
         </TouchableOpacity>
@@ -315,7 +315,7 @@ export default function SettingsScreen({ navigation }) {
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={[styles.content, { paddingBottom: getSpacing(40) }]}
+        contentContainerStyle={[styles.content, { paddingBottom: scale(40) }]}
       >
 
         {/* ─── 1. Notifications ──────────────────────────────────── */}
@@ -485,12 +485,12 @@ export default function SettingsScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   root:    { flex: 1, backgroundColor: VaultColors.appBackground },
-  content: { paddingHorizontal: VaultSpacing.screenPadding, gap: getSpacing(4) },
+  content: { paddingHorizontal: VaultSpacing.screenPadding, gap: scale(4) },
 
   header: {
     flexDirection: "row", alignItems: "center",
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingBottom: getSpacing(10), gap: getSpacing(12),
+    paddingBottom: scale(10), gap: scale(12),
   },
   backBtn: {
     width: scale(42), height: scale(42), borderRadius: scale(14),
@@ -500,13 +500,13 @@ const styles = StyleSheet.create({
   },
   headerCenter:  { flex: 1 },
   headerTitle:   { fontSize: getFontSize(20), fontWeight: "900", color: VaultColors.textPrimary, letterSpacing: -0.4 },
-  headerSub:     { fontSize: getFontSize(11), fontWeight: "600", color: VaultColors.textMuted, marginTop: getSpacing(1) },
+  headerSub:     { fontSize: getFontSize(11), fontWeight: "600", color: VaultColors.textMuted, marginTop: scale(1) },
   savingBadge:   { fontSize: getFontSize(10), fontWeight: "700", color: VaultColors.textMuted },
 
   // Section
-  sectionHeader: { paddingTop: getSpacing(18), paddingBottom: getSpacing(8) },
+  sectionHeader: { paddingTop: scale(18), paddingBottom: scale(8) },
   sectionTitle:  { fontSize: getFontSize(13), fontWeight: "900", color: VaultColors.textPrimary, letterSpacing: -0.2 },
-  sectionSub:    { fontSize: getFontSize(11), fontWeight: "600", color: VaultColors.textMuted, marginTop: getSpacing(2) },
+  sectionSub:    { fontSize: getFontSize(11), fontWeight: "600", color: VaultColors.textMuted, marginTop: scale(2) },
 
   sectionCard: {
     backgroundColor: "#fff", borderRadius: scale(18),
@@ -517,8 +517,8 @@ const styles = StyleSheet.create({
 
   settingRow: {
     flexDirection: "row", alignItems: "center",
-    paddingHorizontal: getSpacing(14), paddingVertical: getSpacing(12),
-    gap: getSpacing(12),
+    paddingHorizontal: scale(14), paddingVertical: scale(12),
+    gap: scale(12),
   },
   settingIconWrap: {
     width: scale(34), height: scale(34), borderRadius: scale(10),
@@ -526,48 +526,48 @@ const styles = StyleSheet.create({
   },
   settingBody:   { flex: 1 },
   settingLabel:  { fontSize: getFontSize(14), fontWeight: "700", color: VaultColors.textPrimary },
-  settingHint:   { marginTop: getSpacing(1), fontSize: getFontSize(11), fontWeight: "600", color: VaultColors.textMuted },
+  settingHint:   { marginTop: scale(1), fontSize: getFontSize(11), fontWeight: "600", color: VaultColors.textMuted },
   settingRight:  { flexShrink: 0 },
-  rowDivider:    { height: 1, marginLeft: getSpacing(14) + scale(34) + getSpacing(12), backgroundColor: VaultColors.divider },
+  rowDivider:    { height: 1, marginLeft: scale(14) + scale(34) + scale(12), backgroundColor: VaultColors.divider },
 
   // Tone grid
   toneGrid: {
     flexDirection: "row", flexWrap: "wrap",
-    gap: getSpacing(10), marginBottom: getSpacing(4),
+    gap: scale(10), marginBottom: scale(4),
   },
   toneCard: {
     width: "47%", backgroundColor: "#fff",
     borderRadius: scale(16), borderWidth: 1.5, borderColor: VaultColors.border,
-    padding: getSpacing(12), position: "relative",
+    padding: scale(12), position: "relative",
     ...Platform.select({ ios: VaultShadows.sm, android: { elevation: 1 } }),
   },
   toneCardActive: { borderColor: VaultColors.brandGoldDark, backgroundColor: VaultColors.brandGoldSoft },
   toneIcon: {
     width: scale(40), height: scale(40), borderRadius: scale(12),
     backgroundColor: VaultColors.brandGoldSoft,
-    alignItems: "center", justifyContent: "center", marginBottom: getSpacing(8),
+    alignItems: "center", justifyContent: "center", marginBottom: scale(8),
   },
   toneIconActive:  { backgroundColor: VaultColors.brandGoldDark },
-  toneLabel:       { fontSize: getFontSize(13), fontWeight: "800", color: VaultColors.textPrimary, marginBottom: getSpacing(3) },
+  toneLabel:       { fontSize: getFontSize(13), fontWeight: "800", color: VaultColors.textPrimary, marginBottom: scale(3) },
   toneLabelActive: { color: VaultColors.brandGoldDark },
   toneDesc:        { fontSize: getFontSize(10), fontWeight: "600", color: VaultColors.textMuted, lineHeight: 15 },
-  toneCheck:       { position: "absolute", top: getSpacing(8), right: getSpacing(8) },
+  toneCheck:       { position: "absolute", top: scale(8), right: scale(8) },
 
   // Chips
-  chipsWrap: { flexDirection: "row", flexWrap: "wrap", gap: getSpacing(8), padding: getSpacing(12) },
+  chipsWrap: { flexDirection: "row", flexWrap: "wrap", gap: scale(8), padding: scale(12) },
   chip: {
-    flexDirection: "row", alignItems: "center", gap: getSpacing(6),
-    paddingHorizontal: getSpacing(10), paddingVertical: getSpacing(7),
+    flexDirection: "row", alignItems: "center", gap: scale(6),
+    paddingHorizontal: scale(10), paddingVertical: scale(7),
     borderRadius: scale(10), borderWidth: 1,
     backgroundColor: VaultColors.appBackground,
   },
   chipIcon:  { width: scale(20), height: scale(20), borderRadius: scale(5), alignItems: "center", justifyContent: "center" },
   chipDot:   { width: scale(8), height: scale(8), borderRadius: scale(4) },
   chipLabel: { fontSize: getFontSize(12), fontWeight: "700", color: VaultColors.textPrimary, maxWidth: scale(100) },
-  emptyHint: { padding: getSpacing(14), fontSize: getFontSize(12), fontWeight: "600", color: VaultColors.textMuted },
+  emptyHint: { padding: scale(14), fontSize: getFontSize(12), fontWeight: "600", color: VaultColors.textMuted },
   addRowBtn: {
-    flexDirection: "row", alignItems: "center", gap: getSpacing(8),
-    paddingHorizontal: getSpacing(14), paddingVertical: getSpacing(12),
+    flexDirection: "row", alignItems: "center", gap: scale(8),
+    paddingHorizontal: scale(14), paddingVertical: scale(12),
     borderTopWidth: 1, borderTopColor: VaultColors.divider,
   },
   addRowText: { fontSize: getFontSize(13), fontWeight: "700", color: VaultColors.brandGoldDark },

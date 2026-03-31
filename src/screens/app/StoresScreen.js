@@ -36,7 +36,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 import useStoreRecommendations from "../../hooks/useStoreRecommendations";
 import { getStoreCoverSource, getStoreCategoryLabel } from "../../utils/storeCovers";
-import { scale, getFontSize, getSpacing } from "../../utils/responsive";
+import Input from "../../components/Input";
 import { VaultColors, VaultRadius, VaultShadows, VaultSpacing } from "../../styles/DesignSystem";
 
 // ─── Category config ──────────────────────────────────────────────────────────
@@ -364,10 +364,10 @@ export default function StoresScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.root} edges={["bottom"]}>
-      <StatusBar barStyle="dark-content" backgroundColor={VaultColors.appBackground} />
+      <StatusBar barStyle="light-content" backgroundColor={VaultColors.appBackground} />
 
       {/* ── Header ──────────────────────────────────────────────────────── */}
-      <View style={[styles.header, { paddingTop: insets.top + getSpacing(10) }]}>
+      <View style={[styles.header, { paddingTop: insets.top + scale(10) }]}>
         <View style={styles.headerTop}>
           <View>
             <Text style={styles.headerTitle}>Stores</Text>
@@ -383,22 +383,19 @@ export default function StoresScreen({ navigation }) {
         </View>
 
         {/* Search bar */}
-        <View style={styles.searchWrap}>
-          <Ionicons name="search-outline" size={scale(17)} color={VaultColors.textMuted} />
-          <TextInput
-            value={query}
-            onChangeText={setQuery}
-            placeholder="Search stores…"
-            placeholderTextColor={VaultColors.inputPlaceholder}
-            style={styles.searchInput}
-            returnKeyType="search"
-          />
-          {!!query ? (
+        <Input
+          placeholder="Search stores…"
+          leftIcon="search"
+          value={query}
+          onChangeText={setQuery}
+          style={styles.searchWrap}
+          inputStyle={styles.searchInput}
+          suffix={!!query ? (
             <TouchableOpacity onPress={() => setQuery("")} activeOpacity={0.8}>
               <Ionicons name="close-circle" size={scale(17)} color={VaultColors.textMuted} />
             </TouchableOpacity>
           ) : null}
-        </View>
+        />
       </View>
 
       {/* ── Body ────────────────────────────────────────────────────────── */}
@@ -419,7 +416,7 @@ export default function StoresScreen({ navigation }) {
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         contentContainerStyle={[
           styles.listContent,
-          { paddingBottom: getSpacing(32) },
+          { paddingBottom: scale(32) },
         ]}
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -443,14 +440,14 @@ const styles = StyleSheet.create({
   // Header
   header: {
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingBottom: getSpacing(12),
+    paddingBottom: scale(12),
     backgroundColor: VaultColors.appBackground,
   },
   headerTop: {
     flexDirection: "row",
     alignItems: "flex-start",
     justifyContent: "space-between",
-    marginBottom: getSpacing(14),
+    marginBottom: scale(14),
   },
   headerTitle: {
     fontSize: getFontSize(28),
@@ -462,7 +459,7 @@ const styles = StyleSheet.create({
     fontSize: getFontSize(12),
     fontWeight: "600",
     color: VaultColors.textMuted,
-    marginTop: getSpacing(2),
+    marginTop: scale(2),
   },
   aiBtn: {
     width: scale(42),
@@ -474,38 +471,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  searchWrap: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: scale(16),
-    borderWidth: 1,
-    borderColor: VaultColors.border,
-    paddingHorizontal: getSpacing(14),
-    minHeight: scale(46),
-    gap: getSpacing(8),
-    ...Platform.select({
-      ios: { shadowColor: "#8A5509", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 6 },
-      android: { elevation: 1 },
-    }),
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: getFontSize(14),
-    fontWeight: "600",
-    color: VaultColors.textPrimary,
-    paddingVertical: 0,
-  },
+  searchWrap: { marginHorizontal: VaultSpacing.screenPadding },
+  searchInput: { fontSize: getFontSize(14), fontWeight: "600" },
 
   // Category tabs
-  tabsScroll:   { marginBottom: getSpacing(4) },
-  tabsContent:  { paddingHorizontal: VaultSpacing.screenPadding, paddingVertical: getSpacing(10), gap: getSpacing(8) },
+  tabsScroll:   { marginBottom: scale(4) },
+  tabsContent:  { paddingHorizontal: VaultSpacing.screenPadding, paddingVertical: scale(10), gap: scale(8) },
   catTab: {
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(5),
-    paddingHorizontal: getSpacing(12),
-    paddingVertical: getSpacing(7),
+    gap: scale(5),
+    paddingHorizontal: scale(12),
+    paddingVertical: scale(7),
     borderRadius: scale(20),
     backgroundColor: "#fff",
     borderWidth: 1,
@@ -529,8 +506,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-end",
     paddingHorizontal: VaultSpacing.screenPadding,
-    marginTop: getSpacing(18),
-    marginBottom: getSpacing(12),
+    marginTop: scale(18),
+    marginBottom: scale(12),
   },
   sectionTitle: {
     fontSize: getFontSize(18),
@@ -542,7 +519,7 @@ const styles = StyleSheet.create({
     fontSize: getFontSize(11),
     fontWeight: "600",
     color: VaultColors.textMuted,
-    marginTop: getSpacing(2),
+    marginTop: scale(2),
   },
   seeAll: {
     fontSize: getFontSize(12),
@@ -551,7 +528,7 @@ const styles = StyleSheet.create({
   },
 
   // Featured card
-  horizontalList:  { paddingHorizontal: VaultSpacing.screenPadding, gap: getSpacing(12) },
+  horizontalList:  { paddingHorizontal: VaultSpacing.screenPadding, gap: scale(12) },
   featuredCard: {
     width: scale(180),
   },
@@ -559,14 +536,14 @@ const styles = StyleSheet.create({
     height: scale(160),
     borderRadius: scale(20),
     overflow: "hidden",
-    marginBottom: getSpacing(8),
+    marginBottom: scale(8),
   },
   featuredImage:    { width: "100%", height: "100%" },
   featuredGradient: { ...StyleSheet.absoluteFillObject },
   featuredHeart: {
     position: "absolute",
-    top: getSpacing(10),
-    right: getSpacing(10),
+    top: scale(10),
+    right: scale(10),
     width: scale(30),
     height: scale(30),
     borderRadius: scale(15),
@@ -576,9 +553,9 @@ const styles = StyleSheet.create({
   },
   featuredBottom: {
     position: "absolute",
-    bottom: getSpacing(10),
-    left: getSpacing(10),
-    right: getSpacing(10),
+    bottom: scale(10),
+    left: scale(10),
+    right: scale(10),
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -593,10 +570,10 @@ const styles = StyleSheet.create({
   featuredRating: {
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(3),
+    gap: scale(3),
     backgroundColor: "rgba(0,0,0,0.35)",
-    paddingHorizontal: getSpacing(6),
-    paddingVertical: getSpacing(3),
+    paddingHorizontal: scale(6),
+    paddingVertical: scale(3),
     borderRadius: scale(10),
   },
   featuredRatingText: {
@@ -607,7 +584,7 @@ const styles = StyleSheet.create({
   featuredReason: {
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(4),
+    gap: scale(4),
   },
   featuredReasonText: {
     flex: 1,
@@ -624,15 +601,15 @@ const styles = StyleSheet.create({
     height: scale(110),
     borderRadius: scale(16),
     overflow: "hidden",
-    marginBottom: getSpacing(6),
+    marginBottom: scale(6),
     borderWidth: 1,
     borderColor: VaultColors.border,
   },
   favImage: { width: "100%", height: "100%" },
   favHeart: {
     position: "absolute",
-    top: getSpacing(6),
-    right: getSpacing(6),
+    top: scale(6),
+    right: scale(6),
     width: scale(24),
     height: scale(24),
     borderRadius: scale(12),
@@ -651,18 +628,18 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: VaultColors.warning,
     textAlign: "center",
-    marginTop: getSpacing(2),
+    marginTop: scale(2),
   },
 
   // Vertical store row
-  listContent:  { paddingBottom: getSpacing(20) },
+  listContent:  { paddingBottom: scale(20) },
   separator:    { height: 1, marginHorizontal: VaultSpacing.screenPadding, backgroundColor: VaultColors.divider },
   storeRow: {
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingVertical: getSpacing(12),
-    gap: getSpacing(12),
+    paddingVertical: scale(12),
+    gap: scale(12),
   },
   storeRowThumb: {
     width: scale(58),
@@ -676,8 +653,8 @@ const styles = StyleSheet.create({
   storeRowImage: { width: "100%", height: "100%" },
   verifiedDot: {
     position: "absolute",
-    bottom: getSpacing(3),
-    right: getSpacing(3),
+    bottom: scale(3),
+    right: scale(3),
     width: scale(14),
     height: scale(14),
     borderRadius: scale(7),
@@ -686,7 +663,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   storeRowBody:     { flex: 1, minWidth: 0 },
-  storeRowTitleRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: getSpacing(6) },
+  storeRowTitleRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: scale(6) },
   storeRowName: {
     flex: 1,
     fontSize: getFontSize(15),
@@ -694,18 +671,18 @@ const styles = StyleSheet.create({
     color: VaultColors.textPrimary,
     letterSpacing: -0.2,
   },
-  storeRowMeta:   { flexDirection: "row", alignItems: "center", marginTop: getSpacing(2), gap: getSpacing(4) },
+  storeRowMeta:   { flexDirection: "row", alignItems: "center", marginTop: scale(2), gap: scale(4) },
   storeRowCat:    { fontSize: getFontSize(11), fontWeight: "600", color: VaultColors.textMuted, textTransform: "capitalize" },
   storeRowDot:    { fontSize: getFontSize(11), color: VaultColors.textMuted },
   storeRowCity:   { fontSize: getFontSize(11), fontWeight: "600", color: VaultColors.textMuted },
-  storeRowReason: { flexDirection: "row", alignItems: "center", gap: getSpacing(4), marginTop: getSpacing(3) },
+  storeRowReason: { flexDirection: "row", alignItems: "center", gap: scale(4), marginTop: scale(3) },
   storeRowReasonText: { flex: 1, fontSize: getFontSize(11), fontWeight: "600", color: VaultColors.brandGold },
-  storeRowBottomRow:  { flexDirection: "row", alignItems: "center", marginTop: getSpacing(4) },
-  storeRowRatingPill: { flexDirection: "row", alignItems: "center", gap: getSpacing(3) },
+  storeRowBottomRow:  { flexDirection: "row", alignItems: "center", marginTop: scale(4) },
+  storeRowRatingPill: { flexDirection: "row", alignItems: "center", gap: scale(3) },
   storeRowRatingText: { fontSize: getFontSize(11), fontWeight: "700", color: VaultColors.textSecondary },
   storeRowReviewCount:{ fontSize: getFontSize(10), fontWeight: "600", color: VaultColors.textMuted },
 
   // Empty
-  empty:     { marginTop: getSpacing(40), alignItems: "center", gap: getSpacing(8) },
-  emptyText: { fontSize: getFontSize(13), fontWeight: "700", color: VaultColors.textMuted, textAlign: "center", paddingHorizontal: getSpacing(24) },
+  empty:     { marginTop: scale(40), alignItems: "center", gap: scale(8) },
+  emptyText: { fontSize: getFontSize(13), fontWeight: "700", color: VaultColors.textMuted, textAlign: "center", paddingHorizontal: scale(24) },
 });

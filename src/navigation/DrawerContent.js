@@ -17,6 +17,8 @@ import { VaultColors, VaultShadows } from "../styles/DesignSystem";
 
 const DRAWER_ITEMS = [
   { name: "MainTabs",        icon: "grid-outline",         label: "Home"             },
+  { name: "Vault",           icon: "cube-outline",         label: "Vault"            },
+  { name: "AIAssistant",     icon: "sparkles-outline",     label: "AI Assistant"     },
   { name: "AttentionCenter", icon: "flash-outline",        label: "Attention Center" },
   { name: "Stores",          icon: "storefront-outline",   label: "Stores"           },
   { name: "Reports",         icon: "bar-chart-outline",    label: "Reports"          },
@@ -87,7 +89,7 @@ export default function DrawerContent({ state, navigation }) {
   };
 
   return (
-    <View style={[styles.panel, { paddingTop: insets.top + getSpacing(10) }]}>
+    <View style={[styles.panel, { paddingTop: insets.top + scale(10) }]}>
       {/* Profile header */}
       <TouchableOpacity
         style={styles.profileHeader}
@@ -150,7 +152,7 @@ export default function DrawerContent({ state, navigation }) {
 const styles = StyleSheet.create({
   panel: {
     flex: 1,
-    backgroundColor: VaultColors.brandGoldDark || "#8B5A00",
+    backgroundColor: VaultColors.brown || "#5B3B1F",
     borderTopRightRadius: scale(32),
     borderBottomRightRadius: scale(32),
     paddingHorizontal: scale(18),
@@ -158,16 +160,16 @@ const styles = StyleSheet.create({
   },
 
   profileHeader: {
-    paddingVertical: getSpacing(16),
+    paddingVertical: scale(16),
     borderBottomWidth: 1,
     borderBottomColor: "rgba(255,255,255,0.18)",
-    marginBottom: getSpacing(6),
+    marginBottom: scale(6),
   },
 
   profileRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(12),
+    gap: scale(12),
   },
 
   avatar: {
@@ -204,7 +206,7 @@ const styles = StyleSheet.create({
   },
 
   profileEmail: {
-    marginTop: getSpacing(3),
+    marginTop: scale(3),
     color: "rgba(255,255,255,0.76)",
     fontSize: getFontSize(11),
     fontFamily: "Poppins",
@@ -212,14 +214,14 @@ const styles = StyleSheet.create({
   },
 
   scrollContent: {
-    paddingBottom: getSpacing(20),
+    paddingBottom: scale(20),
   },
 
   itemRow: {
     minHeight: scale(64),
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: getSpacing(8),
+    paddingVertical: scale(8),
   },
 
   itemIconWrap: {
@@ -229,7 +231,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(247,241,227,0.14)",
     alignItems: "center",
     justifyContent: "center",
-    marginRight: getSpacing(12),
+    marginRight: scale(12),
   },
 
   itemIconWrapDanger: {
@@ -260,6 +262,6 @@ const styles = StyleSheet.create({
   },
 
   logoutWrap: {
-    marginTop: getSpacing(16),
+    marginTop: scale(16),
   },
 });

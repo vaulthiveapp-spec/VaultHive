@@ -41,9 +41,9 @@ export default function AttentionCenterScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
-      <StatusBar barStyle="dark-content" backgroundColor={VaultColors.appBackground} />
+      <StatusBar barStyle="light-content" backgroundColor={VaultColors.appBackground} />
 
-      <View style={[styles.header, { paddingTop: insets.top + getSpacing(10) }]}>
+      <View style={[styles.header, { paddingTop: insets.top + scale(10) }]}>
         <TouchableOpacity
           style={styles.backBtn}
           activeOpacity={0.85}
@@ -95,10 +95,10 @@ const styles = StyleSheet.create({
 
   header: {
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingBottom: getSpacing(12),
+    paddingBottom: scale(12),
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(12),
+    gap: scale(12),
   },
 
   backBtn: {
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   },
 
   headerSub: {
-    marginTop: getSpacing(2),
+    marginTop: scale(2),
     fontSize: getFontSize(11),
     color: VaultColors.textMuted,
     fontFamily: "Poppins",
@@ -137,9 +137,9 @@ const styles = StyleSheet.create({
     borderRadius: scale(24),
     borderWidth: 1.5,
     borderColor: VaultColors.brandGoldLight || VaultColors.border,
-    padding: getSpacing(20),
+    padding: scale(20),
     alignItems: "center",
-    marginBottom: getSpacing(24),
+    marginBottom: scale(24),
     ...VaultShadows.sm,
   },
 
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     backgroundColor: VaultColors.brandGoldSoft,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: getSpacing(14),
+    marginBottom: scale(14),
   },
 
   comingSoonTitle: {
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   },
 
   comingSoonText: {
-    marginTop: getSpacing(10),
+    marginTop: scale(10),
     fontSize: getFontSize(12),
     lineHeight: getFontSize(19),
     color: VaultColors.textMuted,
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     color: VaultColors.textSecondary,
     fontFamily: "Poppins",
     fontWeight: "800",
-    marginBottom: getSpacing(12),
+    marginBottom: scale(12),
     textTransform: "uppercase",
     letterSpacing: 0.5,
   },
@@ -184,11 +184,11 @@ const styles = StyleSheet.create({
   itemCard: {
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(12),
+    gap: scale(12),
     borderRadius: scale(18),
     borderWidth: 1,
-    padding: getSpacing(14),
-    marginBottom: getSpacing(10),
+    padding: scale(14),
+    marginBottom: scale(10),
   },
 
   itemIconWrap: {
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
   },
 
   itemDesc: {
-    marginTop: getSpacing(3),
+    marginTop: scale(3),
     fontSize: getFontSize(11),
     color: VaultColors.textMuted,
     fontFamily: "Poppins",

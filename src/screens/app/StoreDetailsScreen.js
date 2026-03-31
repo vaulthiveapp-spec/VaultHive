@@ -210,7 +210,7 @@ export default function StoreDetailsScreen({ navigation, route }) {
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: getSpacing(100) }}
+        contentContainerStyle={{ paddingBottom: scale(100) }}
       >
         {/* ── Hero ──────────────────────────────────────────────────── */}
         <View style={styles.hero}>
@@ -221,7 +221,7 @@ export default function StoreDetailsScreen({ navigation, route }) {
           />
 
           {/* Back + favorite */}
-          <View style={[styles.heroNav, { paddingTop: insets.top + getSpacing(10) }]}>
+          <View style={[styles.heroNav, { paddingTop: insets.top + scale(10) }]}>
             <TouchableOpacity style={styles.heroBtn} onPress={() => navigation.goBack()} activeOpacity={0.85}>
               <Ionicons name="chevron-back" size={scale(22)} color="#FEF7E6" />
             </TouchableOpacity>
@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    paddingHorizontal: getSpacing(16),
+    paddingHorizontal: scale(16),
     flexDirection: "row",
     justifyContent: "space-between",
   },
@@ -380,11 +380,11 @@ const styles = StyleSheet.create({
   },
   heroBottom: {
     position: "absolute",
-    bottom: getSpacing(18),
-    left: getSpacing(18),
-    right: getSpacing(18),
+    bottom: scale(18),
+    left: scale(18),
+    right: scale(18),
   },
-  heroNameRow: { flexDirection: "row", alignItems: "center", gap: getSpacing(8) },
+  heroNameRow: { flexDirection: "row", alignItems: "center", gap: scale(8) },
   heroName: {
     flex: 1,
     fontSize: getFontSize(26),
@@ -395,22 +395,22 @@ const styles = StyleSheet.create({
   verifiedBadge: {
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(3),
+    gap: scale(3),
     backgroundColor: "rgba(0,0,0,0.35)",
-    paddingHorizontal: getSpacing(8),
-    paddingVertical: getSpacing(4),
+    paddingHorizontal: scale(8),
+    paddingVertical: scale(4),
     borderRadius: scale(10),
   },
   verifiedText:  { fontSize: getFontSize(10), fontWeight: "700", color: "#4ADE80" },
-  heroCityRow:   { flexDirection: "row", alignItems: "center", gap: getSpacing(4), marginTop: getSpacing(4) },
+  heroCityRow:   { flexDirection: "row", alignItems: "center", gap: scale(4), marginTop: scale(4) },
   heroCity:      { fontSize: getFontSize(12), fontWeight: "600", color: "rgba(255,255,255,0.75)" },
 
   // Stats bar
   statsBar: {
     flexDirection: "row",
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingVertical: getSpacing(12),
-    gap: getSpacing(10),
+    paddingVertical: scale(12),
+    gap: scale(10),
     borderBottomWidth: 1,
     borderBottomColor: VaultColors.divider,
     backgroundColor: VaultColors.appBackground,
@@ -418,10 +418,10 @@ const styles = StyleSheet.create({
   statPill: {
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(4),
+    gap: scale(4),
     backgroundColor: VaultColors.brandGoldSoft,
-    paddingHorizontal: getSpacing(10),
-    paddingVertical: getSpacing(5),
+    paddingHorizontal: scale(10),
+    paddingVertical: scale(5),
     borderRadius: scale(12),
     borderWidth: 1,
     borderColor: VaultColors.border,
@@ -430,14 +430,14 @@ const styles = StyleSheet.create({
   statLabel:  { fontSize: getFontSize(11), fontWeight: "600", color: VaultColors.textMuted },
 
   // Body
-  body: { paddingHorizontal: VaultSpacing.screenPadding, paddingTop: getSpacing(16) },
+  body: { paddingHorizontal: VaultSpacing.screenPadding, paddingTop: scale(16) },
   card: {
     backgroundColor: "#fff",
     borderRadius: scale(18),
     borderWidth: 1,
     borderColor: VaultColors.border,
-    padding: getSpacing(16),
-    marginBottom: getSpacing(14),
+    padding: scale(16),
+    marginBottom: scale(14),
     ...Platform.select({
       ios: { shadowColor: "#8A5509", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8 },
       android: { elevation: 2 },
@@ -450,29 +450,29 @@ const styles = StyleSheet.create({
     borderRadius: scale(18),
     borderWidth: 1,
     borderColor: VaultColors.border,
-    padding: getSpacing(16),
-    marginBottom: getSpacing(14),
+    padding: scale(16),
+    marginBottom: scale(14),
   },
-  summaryHeader: { flexDirection: "row", alignItems: "center", gap: getSpacing(6), marginBottom: getSpacing(8) },
+  summaryHeader: { flexDirection: "row", alignItems: "center", gap: scale(6), marginBottom: scale(8) },
   summaryLabel:  { fontSize: getFontSize(11), fontWeight: "700", color: VaultColors.brandGoldDark, textTransform: "uppercase", letterSpacing: 0.8 },
   summaryText:   { fontSize: getFontSize(14), fontWeight: "500", color: VaultColors.textPrimary, lineHeight: 21 },
 
   // Star breakdown
-  breakdownLayout: { flexDirection: "row", alignItems: "center", gap: getSpacing(16) },
+  breakdownLayout: { flexDirection: "row", alignItems: "center", gap: scale(16) },
   breakdownScore:  { alignItems: "center", minWidth: scale(56) },
   bigRating:       { fontSize: getFontSize(36), fontWeight: "900", color: VaultColors.textPrimary, letterSpacing: -1 },
-  bigStars:        { fontSize: getFontSize(14), color: VaultColors.warning, marginTop: getSpacing(2) },
-  bigReviewCount:  { fontSize: getFontSize(10), fontWeight: "600", color: VaultColors.textMuted, marginTop: getSpacing(4) },
-  breakdownBars:   { flex: 1, gap: getSpacing(5) },
-  starBarRow:      { flexDirection: "row", alignItems: "center", gap: getSpacing(5) },
+  bigStars:        { fontSize: getFontSize(14), color: VaultColors.warning, marginTop: scale(2) },
+  bigReviewCount:  { fontSize: getFontSize(10), fontWeight: "600", color: VaultColors.textMuted, marginTop: scale(4) },
+  breakdownBars:   { flex: 1, gap: scale(5) },
+  starBarRow:      { flexDirection: "row", alignItems: "center", gap: scale(5) },
   starBarNum:      { fontSize: getFontSize(11), fontWeight: "700", color: VaultColors.textSecondary, width: scale(10), textAlign: "right" },
   starBarTrack:    { flex: 1, height: scale(5), backgroundColor: VaultColors.brandGoldSoft, borderRadius: scale(3), overflow: "hidden" },
   starBarFill:     { height: "100%", backgroundColor: VaultColors.warning, borderRadius: scale(3) },
   starBarCount:    { fontSize: getFontSize(10), fontWeight: "600", color: VaultColors.textMuted, width: scale(22), textAlign: "right" },
 
   // Categories
-  catsRow:    { flexDirection: "row", flexWrap: "wrap", gap: getSpacing(8), marginBottom: getSpacing(18) },
-  catChip:    { paddingHorizontal: getSpacing(12), paddingVertical: getSpacing(6), borderRadius: scale(12), backgroundColor: "#fff", borderWidth: 1, borderColor: VaultColors.border },
+  catsRow:    { flexDirection: "row", flexWrap: "wrap", gap: scale(8), marginBottom: scale(18) },
+  catChip:    { paddingHorizontal: scale(12), paddingVertical: scale(6), borderRadius: scale(12), backgroundColor: "#fff", borderWidth: 1, borderColor: VaultColors.border },
   catChipText:{ fontSize: getFontSize(12), fontWeight: "700", color: VaultColors.textSecondary, textTransform: "capitalize" },
 
   // Reviews
@@ -480,7 +480,7 @@ const styles = StyleSheet.create({
     fontSize: getFontSize(18),
     fontWeight: "900",
     color: VaultColors.textPrimary,
-    marginBottom: getSpacing(12),
+    marginBottom: scale(12),
     letterSpacing: -0.3,
   },
   reviewCard: {
@@ -488,20 +488,20 @@ const styles = StyleSheet.create({
     borderRadius: scale(16),
     borderWidth: 1,
     borderColor: VaultColors.border,
-    padding: getSpacing(14),
-    marginBottom: getSpacing(10),
+    padding: scale(14),
+    marginBottom: scale(10),
   },
-  reviewTopRow:    { flexDirection: "row", alignItems: "flex-start", gap: getSpacing(10), marginBottom: getSpacing(8) },
+  reviewTopRow:    { flexDirection: "row", alignItems: "flex-start", gap: scale(10), marginBottom: scale(8) },
   reviewAvatar:    { width: scale(36), height: scale(36), borderRadius: scale(18), alignItems: "center", justifyContent: "center", flexShrink: 0 },
   reviewAvatarText:{ fontSize: getFontSize(11), fontWeight: "900", color: "#fff" },
   reviewMeta:      { flex: 1 },
   reviewAuthor:    { fontSize: getFontSize(13), fontWeight: "700", color: VaultColors.textPrimary },
-  reviewDate:      { fontSize: getFontSize(11), fontWeight: "600", color: VaultColors.textMuted, marginTop: getSpacing(1) },
-  reviewStarRow:   { alignItems: "flex-end", gap: getSpacing(2) },
+  reviewDate:      { fontSize: getFontSize(11), fontWeight: "600", color: VaultColors.textMuted, marginTop: scale(1) },
+  reviewStarRow:   { alignItems: "flex-end", gap: scale(2) },
   reviewStars:     { fontSize: getFontSize(12), color: VaultColors.warning },
   reviewRatingNum: { fontSize: getFontSize(11), fontWeight: "700", color: VaultColors.textSecondary },
   reviewComment:   { fontSize: getFontSize(13), fontWeight: "500", color: VaultColors.textSecondary, lineHeight: 20 },
-  noReviews:       { alignItems: "center", gap: getSpacing(8), paddingVertical: getSpacing(24) },
+  noReviews:       { alignItems: "center", gap: scale(8), paddingVertical: scale(24) },
   noReviewsText:   { fontSize: getFontSize(13), fontWeight: "600", color: VaultColors.textMuted },
 
   // CTA bar
@@ -511,9 +511,9 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     flexDirection: "row",
-    gap: getSpacing(10),
+    gap: scale(10),
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingTop: getSpacing(12),
+    paddingTop: scale(12),
     backgroundColor: VaultColors.appBackground,
     borderTopWidth: 1,
     borderTopColor: VaultColors.border,
@@ -523,7 +523,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: getSpacing(7),
+    gap: scale(7),
     height: scale(48),
     borderRadius: scale(14),
     backgroundColor: VaultColors.brown,
@@ -534,7 +534,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: getSpacing(7),
+    gap: scale(7),
     height: scale(48),
     borderRadius: scale(14),
     backgroundColor: VaultColors.brandGoldSoft,

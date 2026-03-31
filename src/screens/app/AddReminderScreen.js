@@ -186,10 +186,10 @@ export default function AddReminderScreen({ navigation, route }) {
   // ── Render ────────────────────────────────────────────────────────────────────
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
-      <StatusBar barStyle="dark-content" backgroundColor={VaultColors.appBackground} />
+      <StatusBar barStyle="light-content" backgroundColor={VaultColors.appBackground} />
 
       {/* Header */}
-      <View style={[styles.header, { paddingTop: insets.top + getSpacing(10) }]}>
+      <View style={[styles.header, { paddingTop: insets.top + scale(10) }]}>
         <TouchableOpacity style={styles.backBtn} activeOpacity={0.85} onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back" size={scale(20)} color={VaultColors.textPrimary} />
         </TouchableOpacity>
@@ -319,7 +319,7 @@ export default function AddReminderScreen({ navigation, route }) {
           loading={saving}
           disabled={saving}
           size="md"
-          style={{ width: "100%", marginTop: getSpacing(14) }}
+          style={{ width: "100%", marginTop: scale(14) }}
         />
 
         <View style={{ height: verticalScale(40) }} />
@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
 
   header: {
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingBottom: getSpacing(10),
+    paddingBottom: scale(10),
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -364,15 +364,15 @@ const styles = StyleSheet.create({
   },
 
   sectionCard: {
-    marginTop: getSpacing(14),
+    marginTop: scale(14),
     backgroundColor: VaultColors.surfaceAlt,
     borderRadius: VaultRadius.xl,
     borderWidth: 1.5,
     borderColor: VaultColors.border,
-    padding: getSpacing(16),
+    padding: scale(16),
     ...Platform.select({ android: { elevation: 2 }, ios: VaultShadows.sm }),
   },
-  sectionHead: { marginBottom: getSpacing(12) },
+  sectionHead: { marginBottom: scale(12) },
   sectionTitle: {
     color: VaultColors.textPrimary,
     fontSize: getFontSize(14),
@@ -380,7 +380,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins",
   },
   sectionSubtitle: {
-    marginTop: getSpacing(3),
+    marginTop: scale(3),
     color: VaultColors.textMuted,
     fontSize: getFontSize(11),
     lineHeight: getFontSize(16),
@@ -391,7 +391,7 @@ const styles = StyleSheet.create({
   chipRow: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: getSpacing(8),
+    gap: scale(8),
   },
   chip: {
     flexDirection: "row",
@@ -419,10 +419,10 @@ const styles = StyleSheet.create({
   notifyBanner: {
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(7),
-    marginTop: getSpacing(10),
-    paddingVertical: getSpacing(8),
-    paddingHorizontal: getSpacing(12),
+    gap: scale(7),
+    marginTop: scale(10),
+    paddingVertical: scale(8),
+    paddingHorizontal: scale(12),
     backgroundColor: VaultColors.brandGoldSoft,
     borderRadius: scale(12),
     borderWidth: 1,
@@ -440,16 +440,16 @@ const styles = StyleSheet.create({
     color: VaultColors.brandGoldDark,
   },
 
-  entityPicker: { marginTop: getSpacing(12) },
+  entityPicker: { marginTop: scale(12) },
   entityPickerLabel: {
     fontSize: getFontSize(11),
     color: VaultColors.textMuted,
     fontWeight: "700",
     fontFamily: "Poppins",
     textTransform: "capitalize",
-    marginBottom: getSpacing(8),
+    marginBottom: scale(8),
   },
-  entityPickerRow: { gap: getSpacing(8), paddingVertical: getSpacing(2) },
+  entityPickerRow: { gap: scale(8), paddingVertical: scale(2) },
   entityChip: {
     paddingHorizontal: scale(14),
     paddingVertical: scale(10),
@@ -472,7 +472,7 @@ const styles = StyleSheet.create({
   entityChipTextActive: { color: VaultColors.buttonTextOnGold },
 
   emptySmall: {
-    marginTop: getSpacing(8),
+    marginTop: scale(8),
     color: VaultColors.textMuted,
     fontSize: getFontSize(12),
     fontWeight: "700",
@@ -480,13 +480,13 @@ const styles = StyleSheet.create({
   },
 
   summaryCard: {
-    marginTop: getSpacing(16),
+    marginTop: scale(16),
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(14),
+    gap: scale(14),
     backgroundColor: VaultColors.brandGoldDark,
     borderRadius: scale(20),
-    padding: getSpacing(16),
+    padding: scale(16),
     ...Platform.select({ android: { elevation: 3 }, ios: VaultShadows.md }),
   },
   summaryIconWrap: {
@@ -504,7 +504,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins",
   },
   summaryMeta: {
-    marginTop: getSpacing(3),
+    marginTop: scale(3),
     fontSize: getFontSize(11),
     color: "rgba(254,247,230,0.78)",
     fontWeight: "700",
@@ -515,7 +515,7 @@ const styles = StyleSheet.create({
     color: VaultColors.buttonTextOnGold,
   },
   summaryLink: {
-    marginTop: getSpacing(3),
+    marginTop: scale(3),
     fontSize: getFontSize(10),
     color: "rgba(254,247,230,0.65)",
     fontWeight: "700",

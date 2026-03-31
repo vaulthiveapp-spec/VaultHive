@@ -47,9 +47,9 @@ export default function AddItemScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
-      <StatusBar barStyle="dark-content" backgroundColor={VaultColors.appBackground} />
+      <StatusBar barStyle="light-content" backgroundColor={VaultColors.appBackground} />
 
-      <View style={[styles.header, { paddingTop: insets.top + getSpacing(12) }]}>
+      <View style={[styles.header, { paddingTop: insets.top + scale(12) }]}>
         <TouchableOpacity style={styles.backBtn} activeOpacity={0.85} onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back" size={scale(20)} color={VaultColors.textPrimary} />
         </TouchableOpacity>
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
 
   header: {
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingBottom: getSpacing(12),
+    paddingBottom: scale(12),
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -123,17 +123,17 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingTop: getSpacing(24),
+    paddingTop: scale(24),
   },
 
-  intro: { alignItems: "center", marginBottom: getSpacing(28) },
+  intro: { alignItems: "center", marginBottom: scale(28) },
   introIconWrap: {
     width: scale(68), height: scale(68),
     borderRadius: scale(22),
     backgroundColor: VaultColors.brandGoldSoft,
     borderWidth: 2, borderColor: VaultColors.brandGoldLight,
     alignItems: "center", justifyContent: "center",
-    marginBottom: getSpacing(14),
+    marginBottom: scale(14),
     ...Platform.select({ android: { elevation: 3 }, ios: VaultShadows.md }),
   },
   introTitle: {
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   introSub: {
-    marginTop: getSpacing(5),
+    marginTop: scale(5),
     fontSize: getFontSize(12),
     color: VaultColors.textMuted,
     fontFamily: "Poppins",
@@ -152,16 +152,16 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  choices: { gap: getSpacing(12) },
+  choices: { gap: scale(12) },
   card: {
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(14),
+    gap: scale(14),
     backgroundColor: VaultColors.surfaceAlt,
     borderRadius: VaultRadius.lg,
     borderWidth: 2,
     borderColor: VaultColors.border,
-    padding: getSpacing(16),
+    padding: scale(16),
     ...Platform.select({ android: { elevation: 2 }, ios: VaultShadows.sm }),
   },
   cardAccent: {
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     color: VaultColors.textPrimary,
     fontFamily: "Poppins",
     fontWeight: "900",
-    marginBottom: getSpacing(3),
+    marginBottom: scale(3),
   },
   cardTitleAccent: { color: VaultColors.buttonTextOnGold },
   cardSub: {

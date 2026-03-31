@@ -169,8 +169,8 @@ export default function ReceiptDetailsScreen({ navigation, route }) {
   if (!receiptId) {
     return (
       <SafeAreaView style={styles.container} edges={["bottom"]}>
-        <StatusBar barStyle="dark-content" backgroundColor={VaultColors.appBackground} />
-        <View style={[styles.header, { paddingTop: insets.top + getSpacing(10) }]}>
+        <StatusBar barStyle="light-content" backgroundColor={VaultColors.appBackground} />
+        <View style={[styles.header, { paddingTop: insets.top + scale(10) }]}>
           <TouchableOpacity style={styles.headerBtn} activeOpacity={0.88} onPress={() => navigation.goBack()}>
             <Ionicons name="chevron-back" size={scale(20)} color={VaultColors.textPrimary} />
           </TouchableOpacity>
@@ -185,9 +185,9 @@ export default function ReceiptDetailsScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
-      <StatusBar barStyle="dark-content" backgroundColor={VaultColors.appBackground} />
+      <StatusBar barStyle="light-content" backgroundColor={VaultColors.appBackground} />
 
-      <View style={[styles.header, { paddingTop: insets.top + getSpacing(10) }]}>
+      <View style={[styles.header, { paddingTop: insets.top + scale(10) }]}>
         <TouchableOpacity style={styles.headerBtn} activeOpacity={0.88} onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back" size={scale(20)} color={VaultColors.textPrimary} />
         </TouchableOpacity>
@@ -249,7 +249,7 @@ export default function ReceiptDetailsScreen({ navigation, route }) {
           <View style={styles.blockCard}>
             {items.map((it, idx) => (
               <View key={it.item_id || idx} style={[styles.itemRow, idx > 0 && styles.itemRowBorder]}>
-                <View style={{ flex: 1, paddingRight: getSpacing(10) }}>
+                <View style={{ flex: 1, paddingRight: scale(10) }}>
                   <Text style={styles.itemTitle} numberOfLines={1}>{it.name}</Text>
                   <Text style={styles.itemMeta} numberOfLines={1}>
                     Qty {Number(it.qty || 1)} • Unit {fmtOriginal(it.unit_price, receipt?.currency_code)}
@@ -379,10 +379,10 @@ const styles = StyleSheet.create({
 
   header: {
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingBottom: getSpacing(10),
+    paddingBottom: scale(10),
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(12),
+    gap: scale(12),
   },
 
   headerBtn: {
@@ -425,14 +425,14 @@ const styles = StyleSheet.create({
     borderRadius: scale(24),
     borderWidth: 1,
     borderColor: VaultColors.brandGoldLight,
-    padding: getSpacing(16),
+    padding: scale(16),
     ...Platform.select({ android: { elevation: 3 }, ios: VaultShadows.md }),
   },
 
   summaryTopRow: {
     flexDirection: "row",
     alignItems: "flex-start",
-    gap: getSpacing(12),
+    gap: scale(12),
   },
 
   summaryEyebrow: {
@@ -444,7 +444,7 @@ const styles = StyleSheet.create({
   },
 
   summaryTitle: {
-    marginTop: getSpacing(4),
+    marginTop: scale(4),
     fontSize: getFontSize(20),
     color: VaultColors.textPrimary,
     fontFamily: "Poppins",
@@ -452,8 +452,8 @@ const styles = StyleSheet.create({
   },
 
   amountBadge: {
-    paddingHorizontal: getSpacing(12),
-    paddingVertical: getSpacing(10),
+    paddingHorizontal: scale(12),
+    paddingVertical: scale(10),
     borderRadius: scale(16),
     backgroundColor: VaultColors.appBackground,
     borderWidth: 1,
@@ -468,18 +468,18 @@ const styles = StyleSheet.create({
   },
 
   summaryPillsRow: {
-    marginTop: getSpacing(14),
+    marginTop: scale(14),
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: getSpacing(8),
+    gap: scale(8),
   },
 
   statusPill: {
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(6),
-    paddingHorizontal: getSpacing(10),
-    paddingVertical: getSpacing(8),
+    gap: scale(6),
+    paddingHorizontal: scale(10),
+    paddingVertical: scale(8),
     borderRadius: VaultRadius.full,
     borderWidth: 1,
   },
@@ -491,8 +491,8 @@ const styles = StyleSheet.create({
   },
 
   statusPillMuted: {
-    paddingHorizontal: getSpacing(10),
-    paddingVertical: getSpacing(8),
+    paddingHorizontal: scale(10),
+    paddingVertical: scale(8),
     borderRadius: VaultRadius.full,
     backgroundColor: VaultColors.appBackground,
     borderWidth: 1,
@@ -507,7 +507,7 @@ const styles = StyleSheet.create({
   },
 
   summaryNote: {
-    marginTop: getSpacing(12),
+    marginTop: scale(12),
     fontSize: getFontSize(12),
     lineHeight: getFontSize(18),
     color: VaultColors.textSecondary,
@@ -519,7 +519,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginTop: getSpacing(14),
+    marginTop: scale(14),
   },
 
   infoTile: {
@@ -529,8 +529,8 @@ const styles = StyleSheet.create({
     borderRadius: scale(20),
     borderWidth: 1,
     borderColor: VaultColors.border,
-    padding: getSpacing(12),
-    marginBottom: getSpacing(12),
+    padding: scale(12),
+    marginBottom: scale(12),
     ...Platform.select({ android: { elevation: 2 }, ios: VaultShadows.sm }),
   },
 
@@ -544,7 +544,7 @@ const styles = StyleSheet.create({
   },
 
   infoLabel: {
-    marginTop: getSpacing(12),
+    marginTop: scale(12),
     fontSize: getFontSize(11),
     color: VaultColors.textMuted,
     fontFamily: "Poppins",
@@ -552,7 +552,7 @@ const styles = StyleSheet.create({
   },
 
   infoValue: {
-    marginTop: getSpacing(4),
+    marginTop: scale(4),
     fontSize: getFontSize(14),
     color: VaultColors.textPrimary,
     fontFamily: "Poppins",
@@ -560,12 +560,12 @@ const styles = StyleSheet.create({
   },
 
   sectionHeader: {
-    marginTop: getSpacing(8),
-    marginBottom: getSpacing(10),
+    marginTop: scale(8),
+    marginBottom: scale(10),
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: getSpacing(10),
+    gap: scale(10),
   },
 
   sectionTitle: {
@@ -592,8 +592,8 @@ const styles = StyleSheet.create({
   },
 
   itemRow: {
-    paddingHorizontal: getSpacing(14),
-    paddingVertical: getSpacing(14),
+    paddingHorizontal: scale(14),
+    paddingVertical: scale(14),
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -629,7 +629,7 @@ const styles = StyleSheet.create({
   tagsWrap: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: getSpacing(8),
+    gap: scale(8),
   },
 
   tagChip: {
@@ -637,8 +637,8 @@ const styles = StyleSheet.create({
     borderRadius: VaultRadius.full,
     borderWidth: 1,
     borderColor: VaultColors.brandGoldDark,
-    paddingVertical: getSpacing(8),
-    paddingHorizontal: getSpacing(12),
+    paddingVertical: scale(8),
+    paddingHorizontal: scale(12),
   },
 
   tagText: {
@@ -653,11 +653,11 @@ const styles = StyleSheet.create({
     borderRadius: scale(20),
     borderWidth: 1,
     borderColor: VaultColors.border,
-    padding: getSpacing(12),
-    marginBottom: getSpacing(10),
+    padding: scale(12),
+    marginBottom: scale(10),
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(10),
+    gap: scale(10),
     ...Platform.select({ android: { elevation: 2 }, ios: VaultShadows.sm }),
   },
 
@@ -693,12 +693,12 @@ const styles = StyleSheet.create({
     color: VaultColors.textSecondary,
     fontFamily: "Poppins",
     fontWeight: "600",
-    padding: getSpacing(14),
+    padding: scale(14),
   },
 
   actionsCard: {
-    marginTop: getSpacing(14),
-    gap: getSpacing(10),
+    marginTop: scale(14),
+    gap: scale(10),
   },
 
   emptyCard: {
@@ -707,7 +707,7 @@ const styles = StyleSheet.create({
     borderRadius: scale(22),
     borderWidth: 1,
     borderColor: VaultColors.border,
-    padding: getSpacing(20),
+    padding: scale(20),
     alignItems: "center",
     justifyContent: "center",
   },
@@ -717,7 +717,7 @@ const styles = StyleSheet.create({
     borderRadius: scale(18),
     borderWidth: 1,
     borderColor: VaultColors.border,
-    padding: getSpacing(14),
+    padding: scale(14),
   },
 
   emptyTitle: {

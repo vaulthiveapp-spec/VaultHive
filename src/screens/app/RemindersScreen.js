@@ -183,9 +183,9 @@ export default function RemindersScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
-      <StatusBar barStyle="dark-content" backgroundColor={VaultColors.appBackground} />
+      <StatusBar barStyle="light-content" backgroundColor={VaultColors.appBackground} />
 
-      <View style={[styles.header, { paddingTop: insets.top + getSpacing(10) }]}> 
+      <View style={[styles.header, { paddingTop: insets.top + scale(10) }]}> 
         <View>
           <Text style={styles.headerEyebrow}>Smart reminders</Text>
           <Text style={styles.headerTitle}>Stay ahead of returns and warranties</Text>
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
 
   header: {
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingBottom: getSpacing(12),
+    paddingBottom: scale(12),
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.4,
   },
   headerTitle: {
-    marginTop: getSpacing(4),
+    marginTop: scale(4),
     fontSize: getFontSize(22),
     color: VaultColors.textPrimary,
     fontFamily: "Poppins",
@@ -317,13 +317,13 @@ const styles = StyleSheet.create({
     borderRadius: scale(28),
     borderWidth: 1,
     borderColor: VaultColors.brandGoldLight,
-    padding: getSpacing(16),
+    padding: scale(16),
     ...Platform.select({ android: { elevation: 3 }, ios: VaultShadows.md }),
   },
   heroTop: {
     flexDirection: "row",
     alignItems: "flex-start",
-    gap: getSpacing(12),
+    gap: scale(12),
   },
   heroTitle: {
     fontSize: getFontSize(18),
@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
   },
   heroSubtitle: {
-    marginTop: getSpacing(6),
+    marginTop: scale(6),
     fontSize: getFontSize(12),
     lineHeight: getFontSize(18),
     color: VaultColors.textSecondary,
@@ -351,8 +351,8 @@ const styles = StyleSheet.create({
   },
   summaryRow: {
     flexDirection: "row",
-    gap: getSpacing(10),
-    marginTop: getSpacing(16),
+    gap: scale(10),
+    marginTop: scale(16),
   },
   summaryStat: {
     flex: 1,
@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
     borderRadius: scale(20),
     borderWidth: 1,
     borderColor: VaultColors.border,
-    padding: getSpacing(12),
+    padding: scale(12),
   },
   summaryStatAccent: {
     backgroundColor: VaultColors.brandGoldDark,
@@ -379,7 +379,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(254,247,230,0.18)",
   },
   summaryStatValue: {
-    marginTop: getSpacing(12),
+    marginTop: scale(12),
     fontSize: getFontSize(22),
     color: VaultColors.textPrimary,
     fontFamily: "Poppins",
@@ -387,7 +387,7 @@ const styles = StyleSheet.create({
   },
   summaryStatValueAccent: { color: VaultColors.buttonTextOnGold },
   summaryStatLabel: {
-    marginTop: getSpacing(4),
+    marginTop: scale(4),
     fontSize: getFontSize(11),
     color: VaultColors.textMuted,
     fontFamily: "Poppins",
@@ -396,8 +396,8 @@ const styles = StyleSheet.create({
   summaryStatLabelAccent: { color: "rgba(254,247,230,0.84)" },
   heroActionsRow: {
     flexDirection: "row",
-    gap: getSpacing(10),
-    marginTop: getSpacing(16),
+    gap: scale(10),
+    marginTop: scale(16),
   },
   heroAction: {
     flex: 1,
@@ -409,7 +409,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
-    gap: getSpacing(8),
+    gap: scale(8),
   },
   heroActionPrimary: {
     backgroundColor: VaultColors.buttonPrimary,
@@ -429,11 +429,11 @@ const styles = StyleSheet.create({
   },
 
   sectionHeader: {
-    marginTop: getSpacing(18),
-    marginBottom: getSpacing(10),
+    marginTop: scale(18),
+    marginBottom: scale(10),
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(10),
+    gap: scale(10),
   },
   sectionTitle: {
     fontSize: getFontSize(16),
@@ -478,17 +478,17 @@ const styles = StyleSheet.create({
     borderRadius: scale(22),
     borderWidth: 1,
     borderColor: VaultColors.border,
-    padding: getSpacing(12),
-    marginBottom: getSpacing(10),
+    padding: scale(12),
+    marginBottom: scale(10),
     ...Platform.select({ android: { elevation: 2 }, ios: VaultShadows.sm }),
   },
   reminderCardTop: {
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(10),
+    gap: scale(10),
     borderWidth: 1,
     borderRadius: scale(18),
-    padding: getSpacing(10),
+    padding: scale(10),
   },
   reminderIconWrap: {
     width: scale(42),
@@ -513,8 +513,8 @@ const styles = StyleSheet.create({
   },
   statusPill: {
     borderRadius: VaultRadius.full,
-    paddingHorizontal: getSpacing(10),
-    paddingVertical: getSpacing(6),
+    paddingHorizontal: scale(10),
+    paddingVertical: scale(6),
     borderWidth: 1,
   },
   statusPillText: {
@@ -523,11 +523,11 @@ const styles = StyleSheet.create({
     fontWeight: "900",
   },
   reminderCardBottom: {
-    marginTop: getSpacing(10),
+    marginTop: scale(10),
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: getSpacing(10),
+    gap: scale(10),
   },
   reminderDetail: {
     flex: 1,
@@ -542,11 +542,11 @@ const styles = StyleSheet.create({
     borderRadius: scale(20),
     borderWidth: 1,
     borderColor: VaultColors.border,
-    padding: getSpacing(12),
-    marginBottom: getSpacing(10),
+    padding: scale(12),
+    marginBottom: scale(10),
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(10),
+    gap: scale(10),
     ...Platform.select({ android: { elevation: 2 }, ios: VaultShadows.sm }),
   },
   notificationCardUnread: {
@@ -570,7 +570,7 @@ const styles = StyleSheet.create({
   notificationTitleRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(6),
+    gap: scale(6),
   },
   notificationTitle: {
     flex: 1,
@@ -599,10 +599,10 @@ const styles = StyleSheet.create({
     borderRadius: scale(22),
     borderWidth: 1,
     borderColor: VaultColors.border,
-    paddingVertical: getSpacing(26),
-    paddingHorizontal: getSpacing(18),
+    paddingVertical: scale(26),
+    paddingHorizontal: scale(18),
     alignItems: "center",
-    gap: getSpacing(6),
+    gap: scale(6),
   },
   emptyTitle: {
     fontSize: getFontSize(15),

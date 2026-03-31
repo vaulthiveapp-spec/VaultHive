@@ -240,10 +240,10 @@ export default function ReportsScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.root} edges={["bottom"]}>
-      <StatusBar barStyle="dark-content" backgroundColor={VaultColors.appBackground} />
+      <StatusBar barStyle="light-content" backgroundColor={VaultColors.appBackground} />
 
       {/* ── Header ──────────────────────────────────────────────────── */}
-      <View style={[styles.header, { paddingTop: insets.top + getSpacing(10) }]}>
+      <View style={[styles.header, { paddingTop: insets.top + scale(10) }]}>
         <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()} activeOpacity={0.85}>
           <Ionicons name="chevron-back" size={scale(20)} color={VaultColors.textPrimary} />
         </TouchableOpacity>
@@ -255,7 +255,7 @@ export default function ReportsScreen({ navigation }) {
       </View>
 
       <ScrollView
-        contentContainerStyle={[styles.content, { paddingBottom: getSpacing(40) }]}
+        contentContainerStyle={[styles.content, { paddingBottom: scale(40) }]}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
@@ -452,15 +452,15 @@ export default function ReportsScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   root:    { flex: 1, backgroundColor: VaultColors.appBackground },
-  content: { paddingHorizontal: VaultSpacing.screenPadding, paddingTop: getSpacing(8) },
+  content: { paddingHorizontal: VaultSpacing.screenPadding, paddingTop: scale(8) },
 
   // Header
   header: {
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingBottom: getSpacing(12),
+    paddingBottom: scale(12),
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(8),
+    gap: scale(8),
   },
   backBtn: {
     width: scale(42), height: scale(42),
@@ -477,14 +477,14 @@ const styles = StyleSheet.create({
   },
   headerSub: {
     fontSize: getFontSize(11), fontWeight: "600",
-    color: VaultColors.textMuted, marginTop: getSpacing(1),
+    color: VaultColors.textMuted, marginTop: scale(1),
   },
 
   // Month picker
-  monthPickerWrap: { marginBottom: getSpacing(14) },
-  monthRow: { gap: getSpacing(8), paddingRight: getSpacing(4) },
+  monthPickerWrap: { marginBottom: scale(14) },
+  monthRow: { gap: scale(8), paddingRight: scale(4) },
   monthChip: {
-    paddingVertical: getSpacing(7), paddingHorizontal: getSpacing(14),
+    paddingVertical: scale(7), paddingHorizontal: scale(14),
     borderRadius: VaultRadius.full, borderWidth: 1.5, borderColor: VaultColors.border,
     backgroundColor: "#fff",
   },
@@ -497,41 +497,41 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: scale(22),
     borderWidth: 1, borderColor: VaultColors.border,
-    padding: getSpacing(16),
-    marginBottom: getSpacing(14),
+    padding: scale(16),
+    marginBottom: scale(14),
     ...Platform.select({ ios: VaultShadows.sm, android: { elevation: 2 } }),
   },
   sectionLabel: {
     fontSize: getFontSize(11), fontWeight: "800",
     color: VaultColors.textMuted,
     textTransform: "uppercase", letterSpacing: 0.9,
-    marginBottom: getSpacing(12),
+    marginBottom: scale(12),
   },
 
   // Hero card
   heroCard: {
     backgroundColor: VaultColors.brown,
     borderColor: VaultColors.brown,
-    marginBottom: getSpacing(12),
+    marginBottom: scale(12),
   },
   heroTop: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
   heroEyebrow: {
     fontSize: getFontSize(10), fontWeight: "800",
     color: "rgba(254,247,230,0.7)", textTransform: "uppercase", letterSpacing: 1,
   },
-  heroMonth: { marginTop: getSpacing(4), fontSize: getFontSize(16), fontWeight: "800", color: "#FEF7E6" },
+  heroMonth: { marginTop: scale(4), fontSize: getFontSize(16), fontWeight: "800", color: "#FEF7E6" },
   heroIconWrap: {
     width: scale(42), height: scale(42), borderRadius: scale(14),
     backgroundColor: "rgba(255,255,255,0.12)", alignItems: "center", justifyContent: "center",
   },
   heroTotal: {
-    marginTop: getSpacing(16), fontSize: getFontSize(34), fontWeight: "900",
+    marginTop: scale(16), fontSize: getFontSize(34), fontWeight: "900",
     color: "#FEF7E6", letterSpacing: -1,
   },
   deltaBadge: {
-    flexDirection: "row", alignItems: "center", gap: getSpacing(5),
-    alignSelf: "flex-start", marginTop: getSpacing(6),
-    paddingHorizontal: getSpacing(10), paddingVertical: getSpacing(4),
+    flexDirection: "row", alignItems: "center", gap: scale(5),
+    alignSelf: "flex-start", marginTop: scale(6),
+    paddingHorizontal: scale(10), paddingVertical: scale(4),
     borderRadius: scale(12),
   },
   deltaBadgeGood: { backgroundColor: "rgba(24,169,87,0.15)" },
@@ -541,9 +541,9 @@ const styles = StyleSheet.create({
   deltaTextWarn: { color: "#FBB040" },
   summaryWrap: {
     flexDirection: "row", alignItems: "flex-start",
-    gap: getSpacing(6), marginTop: getSpacing(12),
+    gap: scale(6), marginTop: scale(12),
     backgroundColor: "rgba(255,255,255,0.08)",
-    borderRadius: scale(12), padding: getSpacing(10),
+    borderRadius: scale(12), padding: scale(10),
   },
   summaryText: {
     flex: 1, fontSize: getFontSize(12), fontWeight: "500",
@@ -551,7 +551,7 @@ const styles = StyleSheet.create({
   },
   kpiRow: {
     flexDirection: "row", alignItems: "center",
-    marginTop: getSpacing(14), paddingTop: getSpacing(14),
+    marginTop: scale(14), paddingTop: scale(14),
     borderTopWidth: 1, borderTopColor: "rgba(255,255,255,0.12)",
   },
   kpiItem:    { flex: 1, alignItems: "center" },
@@ -561,71 +561,71 @@ const styles = StyleSheet.create({
     color: "#FEF7E6", letterSpacing: -0.3,
   },
   kpiLbl: {
-    marginTop: getSpacing(3), fontSize: getFontSize(10), fontWeight: "600",
+    marginTop: scale(3), fontSize: getFontSize(10), fontWeight: "600",
     color: "rgba(254,247,230,0.65)",
   },
 
   // Protection row
   protRow: {
-    flexDirection: "row", gap: getSpacing(10),
-    marginBottom: getSpacing(14),
+    flexDirection: "row", gap: scale(10),
+    marginBottom: scale(14),
   },
   protTile: {
     flex: 1, backgroundColor: "#fff",
     borderRadius: scale(18), borderWidth: 1.5,
-    padding: getSpacing(12),
+    padding: scale(12),
     ...Platform.select({ ios: VaultShadows.sm, android: { elevation: 1 } }),
   },
   protIcon: {
     width: scale(32), height: scale(32), borderRadius: scale(10),
-    alignItems: "center", justifyContent: "center", marginBottom: getSpacing(8),
+    alignItems: "center", justifyContent: "center", marginBottom: scale(8),
   },
   protValue: { fontSize: getFontSize(14), fontWeight: "900", letterSpacing: -0.3 },
   protLabel: {
-    marginTop: getSpacing(2), fontSize: getFontSize(10), fontWeight: "700",
+    marginTop: scale(2), fontSize: getFontSize(10), fontWeight: "700",
     color: VaultColors.textSecondary,
   },
   protNote: {
-    marginTop: getSpacing(2), fontSize: getFontSize(9), fontWeight: "600",
+    marginTop: scale(2), fontSize: getFontSize(9), fontWeight: "600",
     color: VaultColors.textMuted,
   },
 
   // Sparkline
-  sparklineWrap:  { alignItems: "center", paddingTop: getSpacing(4) },
+  sparklineWrap:  { alignItems: "center", paddingTop: scale(4) },
   sparklineNote:  {
-    marginTop: getSpacing(8), fontSize: getFontSize(10), fontWeight: "600",
+    marginTop: scale(8), fontSize: getFontSize(10), fontWeight: "600",
     color: VaultColors.textMuted, textAlign: "center",
   },
 
   // Insights
-  insightsList: { gap: getSpacing(8) },
+  insightsList: { gap: scale(8) },
   insightRow: {
     flexDirection: "row", alignItems: "flex-start",
-    gap: getSpacing(8), padding: getSpacing(10),
+    gap: scale(8), padding: scale(10),
     borderRadius: scale(14), borderWidth: 1,
   },
   insightText: { flex: 1, fontSize: getFontSize(12), fontWeight: "600", lineHeight: 18 },
 
   // Breakdowns
-  breakdownList: { gap: getSpacing(10) },
+  breakdownList: { gap: scale(10) },
   bRow:          {},
-  bRowTop:       { flexDirection: "row", justifyContent: "space-between", alignItems: "baseline", gap: getSpacing(8) },
+  bRowTop:       { flexDirection: "row", justifyContent: "space-between", alignItems: "baseline", gap: scale(8) },
   bRowTitle:     { flex: 1, fontSize: getFontSize(13), fontWeight: "700", color: VaultColors.textPrimary },
   bRowAmount:    { fontSize: getFontSize(12), fontWeight: "800", color: VaultColors.textSecondary },
   bTrack: {
-    marginTop: getSpacing(6), height: scale(7),
+    marginTop: scale(6), height: scale(7),
     backgroundColor: VaultColors.brandGoldSoft,
     borderRadius: scale(4), overflow: "hidden",
   },
   bFill: { height: "100%", borderRadius: scale(4) },
-  bPct:  { marginTop: getSpacing(3), fontSize: getFontSize(10), fontWeight: "600", color: VaultColors.textMuted },
+  bPct:  { marginTop: scale(3), fontSize: getFontSize(10), fontWeight: "600", color: VaultColors.textMuted },
 
   // Tip
   tipCard: {
-    flexDirection: "row", gap: getSpacing(10),
+    flexDirection: "row", gap: scale(10),
     backgroundColor: VaultColors.brandGoldSoft,
     borderRadius: scale(18), borderWidth: 1, borderColor: VaultColors.border,
-    padding: getSpacing(14), marginTop: getSpacing(2),
+    padding: scale(14), marginTop: scale(2),
   },
   tipText: {
     flex: 1, fontSize: getFontSize(12), fontWeight: "500",
@@ -634,28 +634,28 @@ const styles = StyleSheet.create({
 
   // Empty
   emptyBox: {
-    marginTop: getSpacing(24), alignItems: "center",
+    marginTop: scale(24), alignItems: "center",
     backgroundColor: "#fff", borderRadius: scale(24),
     borderWidth: 1, borderColor: VaultColors.border,
-    paddingVertical: getSpacing(36), paddingHorizontal: getSpacing(24),
+    paddingVertical: scale(36), paddingHorizontal: scale(24),
   },
   emptyIcon: {
     width: scale(72), height: scale(72), borderRadius: scale(24),
     backgroundColor: VaultColors.brandGoldSoft,
-    alignItems: "center", justifyContent: "center", marginBottom: getSpacing(14),
+    alignItems: "center", justifyContent: "center", marginBottom: scale(14),
   },
   emptyTitle: {
     fontSize: getFontSize(18), fontWeight: "900",
-    color: VaultColors.textPrimary, marginBottom: getSpacing(8),
+    color: VaultColors.textPrimary, marginBottom: scale(8),
   },
   emptyText: {
     fontSize: getFontSize(12), fontWeight: "500",
     color: VaultColors.textMuted, textAlign: "center",
-    lineHeight: 20, marginBottom: getSpacing(20),
+    lineHeight: 20, marginBottom: scale(20),
   },
   emptyBtn: {
     backgroundColor: VaultColors.brown, borderRadius: VaultRadius.full,
-    paddingVertical: getSpacing(11), paddingHorizontal: getSpacing(22),
+    paddingVertical: scale(11), paddingHorizontal: scale(22),
   },
   emptyBtnText: { color: "#FEF7E6", fontSize: getFontSize(13), fontWeight: "800" },
 });

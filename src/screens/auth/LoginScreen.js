@@ -153,6 +153,9 @@ const LoginScreen = ({ navigation, route }) => {
       .replace(/\s+/g, "")
       .replace(/[.#$\[\]]/g, "_");
 
+  const usernameLegacyKey = (name = "") =>
+    String(name).toLowerCase().trim().replace(/[.#$\[\]]/g, "_");
+
   const resolveEmailFromIdentifier = async (identifier) => {
     const trimmed = (identifier || "").trim();
 
@@ -170,7 +173,15 @@ const LoginScreen = ({ navigation, route }) => {
     if (nameErr) return { ok: false, error: nameErr };
 
     const key = usernameKey(trimmed);
-    const unameSnap = await get(ref(database, `usernames/${key}`));
+    let unameSnap = await get(ref(database, `usernames/${key}`));
+
+    if (!unameSnap.exists()) {
+      // Fallback to legacy key behavior (spaces preserved) for existing users.
+      const legacyKey = usernameLegacyKey(trimmed);
+      if (legacyKey && legacyKey !== key) {
+        unameSnap = await get(ref(database, `usernames/${legacyKey}`));
+      }
+    }
 
     if (!unameSnap.exists()) {
       return { ok: false, error: "No account found with this username" };
@@ -416,7 +427,7 @@ const LoginScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
-      <StatusBar style="dark" backgroundColor={VaultColors.appBackground} />
+      <StatusBar style="light" backgroundColor={VaultColors.appBackground} />
 
       <View style={styles.topWaveWrap}>
         <TopWave />

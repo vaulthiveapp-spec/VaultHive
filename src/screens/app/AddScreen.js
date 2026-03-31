@@ -86,9 +86,9 @@ export default function AddScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
-      <StatusBar barStyle="dark-content" backgroundColor={VaultColors.appBackground} />
+      <StatusBar barStyle="light-content" backgroundColor={VaultColors.appBackground} />
 
-      <View style={[styles.header, { paddingTop: insets.top + getSpacing(10) }]}>
+      <View style={[styles.header, { paddingTop: insets.top + scale(10) }]}>
         <Text style={styles.headerTitle}>Add</Text>
         <Text style={styles.headerSub}>What would you like to save?</Text>
       </View>
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
 
   header: {
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingBottom: getSpacing(16),
+    paddingBottom: scale(16),
   },
   headerTitle: {
     fontSize: getFontSize(26),
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
   },
   headerSub: {
-    marginTop: getSpacing(4),
+    marginTop: scale(4),
     fontSize: getFontSize(12),
     color: VaultColors.textMuted,
     fontFamily: "Poppins",
@@ -143,19 +143,19 @@ const styles = StyleSheet.create({
 
   content: {
     paddingHorizontal: VaultSpacing.screenPadding,
-    paddingBottom: getSpacing(24),
-    gap: getSpacing(12),
+    paddingBottom: scale(24),
+    gap: scale(12),
   },
 
   card: {
     flexDirection: "row",
     alignItems: "center",
-    gap: getSpacing(14),
+    gap: scale(14),
     backgroundColor: VaultColors.surfaceAlt,
     borderRadius: scale(22),
     borderWidth: 1.5,
     borderColor: VaultColors.border,
-    padding: getSpacing(18),
+    padding: scale(18),
     ...Platform.select({ android: { elevation: 2 }, ios: VaultShadows.sm }),
   },
   cardPrimary: {
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   },
   cardIconPrimary: { backgroundColor: "rgba(254,247,230,0.16)" },
   cardBody: { flex: 1 },
-  cardTitleRow: { flexDirection: "row", alignItems: "center", gap: getSpacing(8), marginBottom: getSpacing(4) },
+  cardTitleRow: { flexDirection: "row", alignItems: "center", gap: scale(8), marginBottom: scale(4) },
   cardTitle: { fontSize: getFontSize(16), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "900" },
   cardTitlePrimary: { color: VaultColors.buttonTextOnGold },
   cardSubtitle: { fontSize: getFontSize(11), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600", lineHeight: getFontSize(17) },
@@ -182,8 +182,8 @@ const styles = StyleSheet.create({
   badge: {
     backgroundColor: VaultColors.brandGoldSoft,
     borderRadius: VaultRadius.full,
-    paddingHorizontal: getSpacing(8),
-    paddingVertical: getSpacing(3),
+    paddingHorizontal: scale(8),
+    paddingVertical: scale(3),
     borderWidth: 1,
     borderColor: VaultColors.brandGoldDark,
   },
@@ -194,13 +194,13 @@ const styles = StyleSheet.create({
   tipCard: {
     flexDirection: "row",
     alignItems: "flex-start",
-    gap: getSpacing(12),
+    gap: scale(12),
     backgroundColor: VaultColors.surfaceAlt,
     borderRadius: scale(20),
     borderWidth: 1.5,
     borderColor: VaultColors.border,
-    padding: getSpacing(16),
-    marginTop: getSpacing(4),
+    padding: scale(16),
+    marginTop: scale(4),
   },
   tipIconWrap: {
     width: scale(40),
@@ -211,6 +211,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexShrink: 0,
   },
-  tipTitle: { fontSize: getFontSize(13), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "900", marginBottom: getSpacing(3) },
+  tipTitle: { fontSize: getFontSize(13), color: VaultColors.textPrimary, fontFamily: "Poppins", fontWeight: "900", marginBottom: scale(3) },
   tipText: { fontSize: getFontSize(11), color: VaultColors.textMuted, fontFamily: "Poppins", fontWeight: "600", lineHeight: getFontSize(17) },
 });

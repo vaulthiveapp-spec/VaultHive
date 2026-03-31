@@ -295,9 +295,9 @@ export default function AddWarrantyScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container} edges={["bottom"]}>
-      <StatusBar barStyle="dark-content" backgroundColor={VaultColors.appBackground} />
+      <StatusBar barStyle="light-content" backgroundColor={VaultColors.appBackground} />
 
-      <View style={[styles.header, { paddingTop: insets.top + getSpacing(10) }]}>
+      <View style={[styles.header, { paddingTop: insets.top + scale(10) }]}>
         <TouchableOpacity style={styles.backBtn} activeOpacity={0.85} onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back" size={scale(20)} color={VaultColors.textPrimary} />
         </TouchableOpacity>
@@ -313,7 +313,7 @@ export default function AddWarrantyScreen({ navigation, route }) {
           <Input label="Serial number (optional)" placeholder="Serial / IMEI / Model number" value={serialNumber} onChangeText={setSerialNumber} />
           <View style={styles.row2}>
             <View style={{ flex: 1 }}><DateInput label="Warranty start" value={warrantyStart} onChangeText={setWarrantyStart} /></View>
-            <View style={{ width: getSpacing(10) }} />
+            <View style={{ width: scale(10) }} />
             <View style={{ flex: 1 }}><DateInput label="Warranty end" value={warrantyEnd} onChangeText={setWarrantyEnd} /></View>
           </View>
           <Input label="Terms / notes (optional)" placeholder="Warranty card notes, conditions, support contact…" value={termsNote} onChangeText={setTermsNote} multiline numberOfLines={3} />
@@ -385,7 +385,7 @@ export default function AddWarrantyScreen({ navigation, route }) {
           )}
 
           {attachments.length > 0 ? (
-            <View style={{ marginTop: getSpacing(10) }}>
+            <View style={{ marginTop: scale(10) }}>
               {attachments.map((a) => {
                 const uploaded = !!a.public_url || a.upload_status === "uploaded";
                 const isImg = isImageType(a.content_type, a.local_uri || a.public_url);
@@ -473,7 +473,7 @@ export default function AddWarrantyScreen({ navigation, route }) {
           />
         </SectionCard>
 
-        <Button title={saving ? "Saving…" : "Save warranty"} onPress={save} loading={saving} disabled={saving || loading} size="md" style={{ width: "100%", marginTop: getSpacing(14) }} />
+        <Button title={saving ? "Saving…" : "Save warranty"} onPress={save} loading={saving} disabled={saving || loading} size="md" style={{ width: "100%", marginTop: scale(14) }} />
         <View style={{ height: verticalScale(40) }} />
       </ScrollView>
     </SafeAreaView>
@@ -484,39 +484,39 @@ export default function AddWarrantyScreen({ navigation, route }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: VaultColors.appBackground },
-  header: { paddingHorizontal: VaultSpacing.screenPadding, paddingBottom: getSpacing(10), flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
+  header: { paddingHorizontal: VaultSpacing.screenPadding, paddingBottom: scale(10), flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
   backBtn: { width: scale(40), height: scale(40), borderRadius: VaultRadius.lg, backgroundColor: VaultColors.surfaceAlt, borderWidth: 1, borderColor: VaultColors.border, alignItems: "center", justifyContent: "center", ...Platform.select({ android: { elevation: 1 }, ios: VaultShadows.sm }) },
   title: { color: VaultColors.textPrimary, fontSize: getFontSize(18), fontWeight: "900", fontFamily: "Poppins" },
   content: { paddingHorizontal: VaultSpacing.screenPadding, paddingBottom: verticalScale(20), maxWidth: scale(560), width: "100%", alignSelf: "center" },
 
-  sectionCard: { marginTop: getSpacing(14), backgroundColor: VaultColors.surfaceAlt, borderRadius: VaultRadius.xl, borderWidth: 1.5, borderColor: VaultColors.border, padding: getSpacing(16), ...Platform.select({ android: { elevation: 2 }, ios: VaultShadows.sm }) },
-  sectionHead: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: getSpacing(10), marginBottom: getSpacing(12) },
+  sectionCard: { marginTop: scale(14), backgroundColor: VaultColors.surfaceAlt, borderRadius: VaultRadius.xl, borderWidth: 1.5, borderColor: VaultColors.border, padding: scale(16), ...Platform.select({ android: { elevation: 2 }, ios: VaultShadows.sm }) },
+  sectionHead: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: scale(10), marginBottom: scale(12) },
   sectionTitle: { color: VaultColors.textPrimary, fontSize: getFontSize(14), fontWeight: "900", fontFamily: "Poppins" },
-  sectionSubtitle: { marginTop: getSpacing(3), color: VaultColors.textMuted, fontSize: getFontSize(11), lineHeight: getFontSize(16), fontWeight: "600", fontFamily: "Poppins" },
+  sectionSubtitle: { marginTop: scale(3), color: VaultColors.textMuted, fontSize: getFontSize(11), lineHeight: getFontSize(16), fontWeight: "600", fontFamily: "Poppins" },
   sectionAction: { color: VaultColors.brandGoldDark, fontWeight: "900", fontSize: getFontSize(12), fontFamily: "Poppins" },
 
-  row2: { flexDirection: "row", alignItems: "flex-start", marginTop: getSpacing(6) },
+  row2: { flexDirection: "row", alignItems: "flex-start", marginTop: scale(6) },
 
-  toggleRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingVertical: getSpacing(10), borderBottomWidth: 1, borderBottomColor: VaultColors.border },
+  toggleRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingVertical: scale(10), borderBottomWidth: 1, borderBottomColor: VaultColors.border },
   toggleLabel: { fontSize: getFontSize(13), color: VaultColors.textPrimary, fontWeight: "800", fontFamily: "Poppins" },
   toggleSub: { marginTop: 2, fontSize: getFontSize(10), color: VaultColors.textMuted, fontWeight: "600", fontFamily: "Poppins" },
 
-  attachBtns: { flexDirection: "row", gap: getSpacing(10), marginBottom: getSpacing(10) },
-  attachBtn: { flex: 1, minHeight: scale(44), borderRadius: VaultRadius.lg, backgroundColor: VaultColors.appBackground, borderWidth: 1.5, borderColor: VaultColors.border, alignItems: "center", justifyContent: "center", flexDirection: "row", gap: getSpacing(6) },
+  attachBtns: { flexDirection: "row", gap: scale(10), marginBottom: scale(10) },
+  attachBtn: { flex: 1, minHeight: scale(44), borderRadius: VaultRadius.lg, backgroundColor: VaultColors.appBackground, borderWidth: 1.5, borderColor: VaultColors.border, alignItems: "center", justifyContent: "center", flexDirection: "row", gap: scale(6) },
   attachText: { color: VaultColors.textPrimary, fontWeight: "900", fontSize: getFontSize(12), fontFamily: "Poppins" },
 
-  ocrBox: { marginTop: getSpacing(10), backgroundColor: VaultColors.appBackground, borderRadius: VaultRadius.lg, borderWidth: 1, borderColor: VaultColors.border, padding: getSpacing(12) },
+  ocrBox: { marginTop: scale(10), backgroundColor: VaultColors.appBackground, borderRadius: VaultRadius.lg, borderWidth: 1, borderColor: VaultColors.border, padding: scale(12) },
   ocrTitle: { color: VaultColors.textPrimary, fontSize: getFontSize(12), fontWeight: "900", fontFamily: "Poppins" },
-  ocrBox: { marginTop: getSpacing(10), backgroundColor: VaultColors.appBackground, borderRadius: VaultRadius.lg, borderWidth: 1, borderColor: VaultColors.border, padding: getSpacing(12) },
-  ocrBoxHeader: { flexDirection: "row", alignItems: "center", flexWrap: "wrap", gap: getSpacing(6), marginBottom: getSpacing(6) },
+  ocrBox: { marginTop: scale(10), backgroundColor: VaultColors.appBackground, borderRadius: VaultRadius.lg, borderWidth: 1, borderColor: VaultColors.border, padding: scale(12) },
+  ocrBoxHeader: { flexDirection: "row", alignItems: "center", flexWrap: "wrap", gap: scale(6), marginBottom: scale(6) },
   ocrTitle: { color: VaultColors.textPrimary, fontSize: getFontSize(12), fontWeight: "900", fontFamily: "Poppins" },
   ocrText: { color: VaultColors.textSecondary, fontSize: getFontSize(11), lineHeight: getFontSize(16), fontWeight: "600", fontFamily: "Poppins" },
   ocrWeakBadge: { paddingHorizontal: scale(8), paddingVertical: scale(3), borderRadius: VaultRadius.full, backgroundColor: VaultColors.warningSoft, borderWidth: 1, borderColor: VaultColors.warning },
   ocrWeakText: { fontSize: getFontSize(10), color: VaultColors.warning, fontWeight: "900", fontFamily: "Poppins" },
-  ocrStatusBox: { flexDirection: "row", alignItems: "center", gap: getSpacing(8), marginTop: getSpacing(10), paddingVertical: getSpacing(10), paddingHorizontal: getSpacing(12), backgroundColor: VaultColors.brandGoldSoft, borderRadius: VaultRadius.lg, borderWidth: 1, borderColor: VaultColors.brandGoldDark },
+  ocrStatusBox: { flexDirection: "row", alignItems: "center", gap: scale(8), marginTop: scale(10), paddingVertical: scale(10), paddingHorizontal: scale(12), backgroundColor: VaultColors.brandGoldSoft, borderRadius: VaultRadius.lg, borderWidth: 1, borderColor: VaultColors.brandGoldDark },
   ocrStatusFailed: { backgroundColor: VaultColors.errorSoft, borderColor: VaultColors.error },
   ocrStatusText: { flex: 1, fontSize: getFontSize(12), color: VaultColors.textSecondary, fontWeight: "700", fontFamily: "Poppins" },
-  confRow: { flexDirection: "row", flexWrap: "wrap", gap: getSpacing(6), marginTop: getSpacing(8) },
+  confRow: { flexDirection: "row", flexWrap: "wrap", gap: scale(6), marginTop: scale(8) },
   confChip: { flexDirection: "row", alignItems: "center", gap: scale(5), paddingHorizontal: scale(9), paddingVertical: scale(4), borderRadius: VaultRadius.full, backgroundColor: VaultColors.successSoft, borderWidth: 1, borderColor: "#A8DFC0" },
   confChipWeak: { backgroundColor: VaultColors.warningSoft, borderColor: VaultColors.warning },
   confDot: { width: scale(6), height: scale(6), borderRadius: scale(3) },
@@ -525,14 +525,14 @@ const styles = StyleSheet.create({
   confChipText: { fontSize: getFontSize(10), color: VaultColors.success, fontWeight: "800", fontFamily: "Poppins" },
   confChipTextWeak: { color: VaultColors.warning },
 
-  attRow: { backgroundColor: VaultColors.appBackground, borderRadius: VaultRadius.lg, borderWidth: 1, borderColor: VaultColors.border, padding: getSpacing(12), flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: getSpacing(8) },
-  attLeft: { flexDirection: "row", alignItems: "center", gap: getSpacing(10), flex: 1, paddingRight: getSpacing(10) },
+  attRow: { backgroundColor: VaultColors.appBackground, borderRadius: VaultRadius.lg, borderWidth: 1, borderColor: VaultColors.border, padding: scale(12), flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: scale(8) },
+  attLeft: { flexDirection: "row", alignItems: "center", gap: scale(10), flex: 1, paddingRight: scale(10) },
   iconBox: { width: scale(34), height: scale(34), borderRadius: VaultRadius.md, backgroundColor: VaultColors.brandGoldSoft, borderWidth: 1, borderColor: VaultColors.border, alignItems: "center", justifyContent: "center" },
   attName: { color: VaultColors.textPrimary, fontWeight: "900", fontSize: getFontSize(12), fontFamily: "Poppins" },
-  attSub: { marginTop: getSpacing(2), color: VaultColors.textMuted, fontWeight: "700", fontSize: getFontSize(10), fontFamily: "Poppins" },
+  attSub: { marginTop: scale(2), color: VaultColors.textMuted, fontWeight: "700", fontSize: getFontSize(10), fontFamily: "Poppins" },
   attRemove: { width: scale(28), height: scale(28), borderRadius: scale(14), alignItems: "center", justifyContent: "center" },
 
-  pickerRow: { gap: getSpacing(8), paddingVertical: getSpacing(4) },
+  pickerRow: { gap: scale(8), paddingVertical: scale(4) },
   pickerChip: { paddingHorizontal: scale(14), paddingVertical: scale(10), borderRadius: VaultRadius.full, borderWidth: 1.5, borderColor: VaultColors.border, backgroundColor: VaultColors.appBackground, maxWidth: scale(180) },
   pickerChipActive: { backgroundColor: VaultColors.brandGoldDark, borderColor: VaultColors.brandGoldDark },
   pickerChipText: { fontSize: getFontSize(12), color: VaultColors.textPrimary, fontWeight: "800", fontFamily: "Poppins" },

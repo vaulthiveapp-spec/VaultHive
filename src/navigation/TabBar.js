@@ -24,7 +24,7 @@ function TabBar({ state, descriptors, navigation }) {
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={[styles.outer, { paddingBottom: Math.max(insets.bottom, getSpacing(8)) }]}>
+    <View style={[styles.outer, { paddingBottom: Math.max(insets.bottom, scale(8)) }]}>
       <View style={styles.row}>
         {state.routes.map((route, index) => {
           const isFocused = state.index === index;
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   },
 
   label: {
-    marginTop: getSpacing(3),
+    marginTop: scale(3),
     color: "rgba(255,255,255,0.84)",
     fontSize: getFontSize(10),
     fontFamily: "Poppins",
