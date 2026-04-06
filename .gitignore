@@ -1,0 +1,69 @@
+# =========================
+# 📦 Dependencies
+# =========================
+node_modules/
+
+# =========================
+# 🚀 Expo / React Native
+# =========================
+.expo/
+.expo-shared/
+dist/
+web-build/
+expo-env.d.ts
+
+# =========================
+# 📱 Native build files
+# =========================
+android/
+ios/
+*.keystore
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# =========================
+# ⚙️ Metro / Cache
+# =========================
+.metro-health-check*
+.cache/
+
+# =========================
+# 🐞 Logs
+# =========================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =========================
+# 💻 System files
+# =========================
+.DS_Store
+
+# =========================
+# 🔐 Environment files
+# =========================
+.env
+.env.*
+.env.local
+.env.production
+
+# =========================
+# 🔥 Firebase / Secrets (VERY IMPORTANT)
+# =========================
+serviceAccount.json
+*.serviceAccount.json
+google-services.json
+GoogleService-Info.plist
+
+# =========================
+# ⚡ EAS (Expo Application Services)
+# =========================
+.eas/
+
+# =========================
+# 🧪 TypeScript
+# =========================
+*.tsbuildinfo

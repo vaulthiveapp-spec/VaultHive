@@ -1,0 +1,95 @@
+{
+  "expo": {
+    "name": "VaultHive",
+    "slug": "vaulthive",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "icon": "./assets/icon.png",
+    "scheme": "vaulthive",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "backgroundColor": "#5B3B1F",
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FEF7E6"
+    },
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "translucent": false,
+      "hidden": false,
+      "backgroundColor": "#FEF7E6"
+    },
+    "android": {
+      "package": "com.vaulthive.app",
+      "backgroundColor": "#5B3B1F",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#E2B45A"
+      },
+      "edgeToEdgeEnabled": true
+    },
+    "ios": {
+      "bundleIdentifier": "com.vaulthive.app",
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSExceptionDomains": {
+            "api.currencylayer.com": {
+              "NSExceptionAllowsInsecureHTTPLoads": true,
+              "NSIncludesSubdomains": false
+            }
+          }
+        }
+      }
+    },
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Poppins-Regular.ttf",
+            "./assets/fonts/Poppins-Medium.ttf",
+            "./assets/fonts/Poppins-SemiBold.ttf",
+            "./assets/fonts/Poppins-Bold.ttf",
+            "./assets/fonts/Poppins-ExtraBold.ttf",
+            "./assets/fonts/Poppins-Black.ttf"
+          ]
+        }
+      ],
+      "expo-secure-store",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ],
+      "expo-web-browser",
+      "./plugins/withDisableRTL",
+      "expo-sqlite",
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Allow VaultHive to access your microphone.",
+          "recordAudioAndroid": true
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "65e8b106-c421-47ff-b6b4-4f8a62d0af48"
+      }
+    },
+    "owner": "vaulthive",
+"runtimeVersion": "1.0.0",
+    "updates": {
+      "url": "https://u.expo.dev/65e8b106-c421-47ff-b6b4-4f8a62d0af48"
+    }
+  }
+}
