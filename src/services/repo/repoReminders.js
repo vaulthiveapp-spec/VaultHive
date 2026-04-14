@@ -104,11 +104,17 @@ export async function markReminderSynced(userUid, reminderId) {
 // ─── Notifications ────────────────────────────────────────────────────────────
 
 export async function listNotifications(userUid, limit = 100) {
-  const db = await getDb();
-  return await db.getAllAsync(
-    `SELECT * FROM notifications WHERE user_uid=? ORDER BY created_at DESC LIMIT ?`,
-    [String(userUid), Number(limit)]
-  );
+  try {
+    const db = await getDb();
+    const result = await db.getAllAsync(
+      `SELECT * FROM notifications WHERE user_uid=? ORDER BY created_at DESC LIMIT ?`,
+      [String(userUid), Number(limit)]
+    );
+    return result || [];
+  } catch (error) {
+    console.warn("[listNotifications] Database error:", error);
+    return [];
+  }
 }
 
 export async function countUnreadNotifications(userUid) {

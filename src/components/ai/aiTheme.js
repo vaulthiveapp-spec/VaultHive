@@ -1,28 +1,22 @@
 export const UI = {
   screen: "#F6F2E9",
-  cream: "#FEF7E5",
-  creamSoft: "#FBF3DE",
-
+  surface: "#FEF8EA",
+  surfaceSoft: "#FBF4E0",
+  surfaceCard: "#F9F1DB",
+  divider: "#E9DCB6",
   brown: "#5A3B1F",
   brownDeep: "#4E2C10",
-  brownText: "#3F250D",
+  brownText: "#3E2610",
   brownMuted: "#8E6026",
-  brownSoft: "#A7782F",
-
-  goldEdgeLeft: "#D2A751",
-  goldCenter: "#EBD68D",
-  goldEdgeRight: "#CDA044",
-
-  goldBubbleLeft: "#CEA44F",
-  goldBubbleCenter: "#ECD796",
-  goldBubbleRight: "#D7AF59",
-
+  brownSoft: "#A97A31",
   goldBorder: "#D8B266",
-  goldSurface: "#F1DFAB",
-  goldSurfaceDark: "#D7B35C",
-  goldIconDisc: "#D8B159",
-  goldAvatar: "#D4A24B",
+  goldBorderSoft: "#E6D0A0",
+  goldAvatar: "#D3A14A",
   goldHint: "#FFE7A2",
+  assistantGradientColors: ["#D1A047", "#E0BD6B", "#EEDB99", "#D6AB55"],
+  assistantGradientLocations: [0, 0.34, 0.72, 1],
+  composerGradientColors: ["#CA9B41", "#D9B35E", "#EDD78E", "#D0A249"],
+  composerGradientLocations: [0, 0.33, 0.74, 1],
 
   shadow: "#7B5322",
 };

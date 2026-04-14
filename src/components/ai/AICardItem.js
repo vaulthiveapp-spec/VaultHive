@@ -8,18 +8,7 @@ import {
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { scale, getFontSize } from "../../utils/responsive";
-
-const UI = {
-  cream: "#FEF7E5",
-  creamSoft: "#FBF3DE",
-  brown: "#5A3B1F",
-  brownText: "#3F250D",
-  brownMuted: "#8E6026",
-  goldBorder: "#D8B266",
-  goldTagBg: "#F1DFAB",
-  chevron: "#BE8D35",
-  shadow: "#7B5322",
-};
+import { UI } from "./aiTheme";
 
 const IMAGE_KEY_ICONS = {
   shopping: { icon: "bag-outline", color: "#9C651C" },
@@ -67,10 +56,10 @@ function AICardItem({ card, navigation }) {
 
   return (
     <TouchableOpacity
-      activeOpacity={onPress ? 0.82 : 1}
-      disabled={!onPress}
-      onPress={onPress}
       style={styles.card}
+      activeOpacity={onPress ? 0.82 : 1}
+      onPress={onPress}
+      disabled={!onPress}
     >
       <View style={[styles.iconWrap, { backgroundColor: `${color}18` }]}>
         <Ionicons name={icon} size={scale(20)} color={color} />
@@ -78,7 +67,7 @@ function AICardItem({ card, navigation }) {
 
       <View style={styles.content}>
         <View style={styles.titleRow}>
-          <Text numberOfLines={1} style={styles.title}>
+          <Text style={styles.title} numberOfLines={1}>
             {card.title}
           </Text>
 
@@ -90,13 +79,13 @@ function AICardItem({ card, navigation }) {
         </View>
 
         {!!card.subtitle ? (
-          <Text numberOfLines={1} style={styles.subtitle}>
+          <Text style={styles.subtitle} numberOfLines={1}>
             {card.subtitle}
           </Text>
         ) : null}
 
         {!!card.description ? (
-          <Text numberOfLines={2} style={styles.description}>
+          <Text style={styles.description} numberOfLines={2}>
             {card.description}
           </Text>
         ) : null}
@@ -106,7 +95,7 @@ function AICardItem({ card, navigation }) {
         <Ionicons
           name="chevron-forward"
           size={scale(16)}
-          color={UI.chevron}
+          color={UI.brownSoft}
           style={styles.chevron}
         />
       ) : null}
@@ -120,10 +109,10 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: UI.creamSoft,
+    backgroundColor: UI.surface,
     borderRadius: scale(16),
     borderWidth: 1,
-    borderColor: UI.goldBorder,
+    borderColor: UI.goldBorderSoft,
     paddingHorizontal: scale(14),
     paddingVertical: scale(12),
     marginBottom: scale(8),
@@ -131,7 +120,7 @@ const styles = StyleSheet.create({
       ios: {
         shadowColor: UI.shadow,
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.08,
+        shadowOpacity: 0.06,
         shadowRadius: 6,
       },
       android: {
@@ -158,14 +147,13 @@ const styles = StyleSheet.create({
   titleRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: scale(6),
   },
 
   title: {
     flex: 1,
-    color: UI.brownText,
     fontSize: getFontSize(14),
     fontWeight: "800",
+    color: UI.brownText,
     letterSpacing: -0.1,
   },
 
@@ -174,8 +162,9 @@ const styles = StyleSheet.create({
     paddingVertical: scale(2),
     borderRadius: scale(14),
     borderWidth: 1,
-    backgroundColor: UI.goldTagBg,
+    backgroundColor: UI.surfaceSoft,
     flexShrink: 0,
+    marginLeft: scale(6),
   },
 
   badgeText: {
@@ -186,17 +175,17 @@ const styles = StyleSheet.create({
 
   subtitle: {
     marginTop: scale(2),
-    color: UI.brownMuted,
     fontSize: getFontSize(12),
+    color: UI.brownMuted,
     fontWeight: "600",
   },
 
   description: {
     marginTop: scale(3),
-    color: "#B07D2A",
     fontSize: getFontSize(12),
+    color: UI.brownSoft,
     lineHeight: 17,
-    fontWeight: "600",
+    fontWeight: "500",
   },
 
   chevron: {

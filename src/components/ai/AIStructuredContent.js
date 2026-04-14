@@ -1,5 +1,3 @@
-
-
 import React, { memo } from "react";
 import {
   View,
@@ -11,18 +9,17 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AICardItem from "./AICardItem";
 import { scale, getFontSize } from "../../utils/responsive";
-
-// ─── Section ──────────────────────────────────────────────────────────────────
+import { UI } from "./aiTheme";
 
 const Section = memo(({ section }) => {
   if (!section?.title && !section?.items?.length) return null;
+
   return (
     <View style={styles.section}>
-      {!!section.title ? (
-        <Text style={styles.sectionTitle}>{section.title}</Text>
-      ) : null}
-      {(section.items || []).map((item, idx) => (
-        <View key={idx} style={styles.bulletRow}>
+      {!!section.title ? <Text style={styles.sectionTitle}>{section.title}</Text> : null}
+
+      {(section.items || []).map((item, index) => (
+        <View key={`${section.title || "section"}-${index}`} style={styles.bulletRow}>
           <View style={styles.bullet} />
           <Text style={styles.bulletText}>{item}</Text>
         </View>
@@ -31,51 +28,55 @@ const Section = memo(({ section }) => {
   );
 });
 
-// ─── Suggestion chips ─────────────────────────────────────────────────────────
-
 const SuggestionChip = memo(({ text, onPress }) => (
   <TouchableOpacity
     style={styles.chip}
-    activeOpacity={0.8}
+    activeOpacity={0.82}
     onPress={() => onPress?.(text)}
   >
-    <Text style={styles.chipText} numberOfLines={1}>{text}</Text>
-    <Ionicons name="arrow-forward-outline" size={scale(11)} color="#8A5509" style={styles.chipArrow} />
+    <Text style={styles.chipText} numberOfLines={1}>
+      {text}
+    </Text>
+    <Ionicons
+      name="arrow-forward-outline"
+      size={scale(11)}
+      color={UI.brownMuted}
+      style={styles.chipArrow}
+    />
   </TouchableOpacity>
 ));
-
-// ─── Main component ───────────────────────────────────────────────────────────
 
 function AIStructuredContent({ structured, navigation, onSuggestionPress }) {
   if (!structured) return null;
 
-  const hasSections    = structured.sections?.length > 0;
-  const hasCards       = structured.cards?.length > 0;
+  const hasSections = structured.sections?.length > 0;
+  const hasCards = structured.cards?.length > 0;
   const hasSuggestions = structured.suggestions?.length > 0;
 
   if (!hasSections && !hasCards && !hasSuggestions) return null;
 
   return (
     <View style={styles.container}>
-      {/* Sections */}
       {hasSections ? (
         <View style={styles.sectionsWrap}>
-          {structured.sections.map((s, i) => (
-            <Section key={i} section={s} />
+          {structured.sections.map((section, index) => (
+            <Section key={`section-${index}`} section={section} />
           ))}
         </View>
       ) : null}
 
-      {/* Cards */}
       {hasCards ? (
         <View style={styles.cardsWrap}>
-          {structured.cards.map((card, i) => (
-            <AICardItem key={card.ref_id || i} card={card} navigation={navigation} />
+          {structured.cards.map((card, index) => (
+            <AICardItem
+              key={card.ref_id || `card-${index}`}
+              card={card}
+              navigation={navigation}
+            />
           ))}
         </View>
       ) : null}
 
-      {/* Suggestion chips */}
       {hasSuggestions ? (
         <ScrollView
           horizontal
@@ -83,8 +84,12 @@ function AIStructuredContent({ structured, navigation, onSuggestionPress }) {
           style={styles.chipsScroll}
           contentContainerStyle={styles.chipsContent}
         >
-          {structured.suggestions.map((s, i) => (
-            <SuggestionChip key={i} text={s} onPress={onSuggestionPress} />
+          {structured.suggestions.map((suggestion, index) => (
+            <SuggestionChip
+              key={`suggestion-${index}`}
+              text={suggestion}
+              onPress={onSuggestionPress}
+            />
           ))}
         </ScrollView>
       ) : null}
@@ -94,33 +99,30 @@ function AIStructuredContent({ structured, navigation, onSuggestionPress }) {
 
 export default memo(AIStructuredContent);
 
-// ─── Styles ───────────────────────────────────────────────────────────────────
-
 const styles = StyleSheet.create({
   container: {
-    marginTop: scale(10),
-    marginLeft: scale(52),   // aligns with assistant bubble left edge
-    marginRight: scale(8),
+    marginTop: scale(8),
+    marginLeft: scale(46),
+    marginRight: scale(10),
   },
 
-  // Sections
   sectionsWrap: {
     marginBottom: scale(8),
   },
 
   section: {
-    backgroundColor: "#FFFBF2",
-    borderRadius: scale(12),
+    backgroundColor: UI.surface,
+    borderRadius: scale(14),
     borderWidth: 1,
-    borderColor: "#F0DDB8",
+    borderColor: UI.goldBorderSoft,
     padding: scale(12),
     marginBottom: scale(8),
   },
 
   sectionTitle: {
     fontSize: getFontSize(11),
-    fontWeight: "700",
-    color: "#8A5509",
+    fontWeight: "800",
+    color: UI.brownSoft,
     letterSpacing: 0.8,
     textTransform: "uppercase",
     marginBottom: scale(8),
@@ -136,8 +138,8 @@ const styles = StyleSheet.create({
     width: scale(5),
     height: scale(5),
     borderRadius: scale(3),
-    backgroundColor: "#C9A96B",
-    marginTop: scale(5),
+    backgroundColor: UI.brownSoft,
+    marginTop: scale(6),
     marginRight: scale(10),
     flexShrink: 0,
   },
@@ -145,25 +147,21 @@ const styles = StyleSheet.create({
   bulletText: {
     flex: 1,
     fontSize: getFontSize(13),
-    color: "#5B3B1F",
+    color: UI.brownText,
     lineHeight: 19,
-    fontWeight: "500",
+    fontWeight: "600",
   },
 
-  // Cards
   cardsWrap: {
     marginBottom: scale(4),
   },
 
-  // Suggestion chips
   chipsScroll: {
     marginTop: scale(4),
   },
 
   chipsContent: {
     paddingRight: scale(8),
-    gap: scale(7),
-    flexDirection: "row",
   },
 
   chip: {
@@ -171,16 +169,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: scale(12),
     paddingVertical: scale(7),
-    borderRadius: scale(20),
-    backgroundColor: "#FEF7E6",
+    borderRadius: scale(18),
+    backgroundColor: UI.surface,
     borderWidth: 1,
-    borderColor: "#DCA94D",
+    borderColor: UI.goldBorder,
+    marginRight: scale(7),
   },
 
   chipText: {
     fontSize: getFontSize(12),
-    color: "#5B3B1F",
-    fontWeight: "600",
+    color: UI.brownText,
+    fontWeight: "700",
     maxWidth: scale(180),
   },
 

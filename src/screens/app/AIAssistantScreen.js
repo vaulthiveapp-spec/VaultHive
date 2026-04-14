@@ -28,33 +28,10 @@ import { useAIConversation } from "../../hooks/useAIConversation";
 import AIStructuredContent from "../../components/ai/AIStructuredContent";
 import AIActionBar from "../../components/ai/AIActionBar";
 import AITypingIndicator from "../../components/ai/AITypingIndicator";
-// import { UI } from "../../components/ai/aiTheme";
+import { UI } from "../../components/ai/aiTheme";
+
 import { scale, getFontSize } from "../../utils/responsive";
 import { IcoHandler } from "../../utils/icoHandler";
-
-const UI = {
-  screen: "#F6F2E9",
-  cream: "#FEF7E5",
-  creamSoft: "#FBF3DE",
-  brown: "#5A3B1F",
-  brownDeep: "#4E2C10",
-  brownText: "#3F250D",
-  brownMuted: "#8E6026",
-  brownSoft: "#A7782F",
-  goldEdgeLeft: "#D2A751",
-  goldCenter: "#EBD68D",
-  goldEdgeRight: "#CDA044",
-  goldBubbleLeft: "#CEA44F",
-  goldBubbleCenter: "#ECD796",
-  goldBubbleRight: "#D7AF59",
-  goldBorder: "#D8B266",
-  goldSurface: "#F1DFAB",
-  goldSurfaceDark: "#D7B35C",
-  goldIconDisc: "#D8B159",
-  goldAvatar: "#D4A24B",
-  goldHint: "#FFE7A2",
-  shadow: "#7B5322",
-};
 
 const STARTER_PROMPTS = [
   { id: "p1", icon: "flash-outline", text: "What needs my attention?" },
@@ -63,6 +40,13 @@ const STARTER_PROMPTS = [
   { id: "p4", icon: "receipt-outline", text: "Summarize my spending" },
   { id: "p5", icon: "cube-outline", text: "Review my purchase vault" },
   { id: "p6", icon: "alarm-outline", text: "What reminders are coming?" },
+];
+
+const HISTORY_ROUTE_CANDIDATES = [
+  "AIChatHistory",
+  "AIAssistantHistory",
+  "AIHistory",
+  "ChatHistory",
 ];
 
 function formatBytes(bytes) {
@@ -93,7 +77,7 @@ const UserAvatar = ({ uri }) => (
       <Image source={{ uri }} style={styles.avatarImg} contentFit="cover" />
     ) : (
       <View style={styles.avatarFallback}>
-        <Ionicons name="person" size={scale(16)} color={UI.cream} />
+        <Ionicons name="person" size={scale(16)} color={UI.surface} />
       </View>
     )}
   </View>
@@ -115,9 +99,7 @@ const AIAvatar = ({ avatarSource }) => {
       }
     };
 
-    if (!avatarSource) {
-      loadIco();
-    }
+    if (!avatarSource) loadIco();
 
     return () => {
       mounted = false;
@@ -137,14 +119,40 @@ const AIAvatar = ({ avatarSource }) => {
 
 const AssistantBubble = ({ text }) => (
   <LinearGradient
-    colors={[UI.goldBubbleLeft, UI.goldBubbleCenter, UI.goldBubbleRight]}
-    locations={[0, 0.52, 1]}
+    colors={UI.assistantGradientColors}
+    locations={UI.assistantGradientLocations}
     start={{ x: 0, y: 0.5 }}
     end={{ x: 1, y: 0.5 }}
     style={styles.assistantBubble}
   >
     {!!text ? <Text style={styles.assistantText}>{text}</Text> : null}
   </LinearGradient>
+);
+
+const StarterCard = ({ prompt, onPress }) => (
+  <TouchableOpacity
+    activeOpacity={0.84}
+    onPress={() => onPress(prompt.text)}
+    style={styles.starterCard}
+  >
+    <LinearGradient
+      colors={UI.assistantGradientColors}
+      locations={UI.assistantGradientLocations}
+      start={{ x: 0, y: 0.5 }}
+      end={{ x: 1, y: 0.5 }}
+      style={styles.starterCardInner}
+    >
+      <View style={styles.starterIconWrap}>
+        <Ionicons name={prompt.icon} size={scale(16)} color={UI.brownMuted} />
+      </View>
+
+      <Text style={styles.starterText} numberOfLines={2}>
+        {prompt.text}
+      </Text>
+
+      <Ionicons name="chevron-forward" size={scale(14)} color={UI.brownSoft} />
+    </LinearGradient>
+  </TouchableOpacity>
 );
 
 const MessageRow = React.memo(function MessageRow({
@@ -177,6 +185,7 @@ const MessageRow = React.memo(function MessageRow({
                 </Text>
               </View>
             ) : null}
+
             {!!item.text ? <Text style={styles.userText}>{item.text}</Text> : null}
           </View>
         ) : (
@@ -200,30 +209,6 @@ const MessageRow = React.memo(function MessageRow({
     </View>
   );
 });
-
-const StarterCard = ({ prompt, onPress }) => (
-  <TouchableOpacity
-    style={styles.starterCard}
-    activeOpacity={0.85}
-    onPress={() => onPress(prompt.text)}
-  >
-    <LinearGradient
-      colors={[UI.goldBubbleLeft, UI.goldBubbleCenter, UI.goldBubbleRight]}
-      locations={[0, 0.52, 1]}
-      start={{ x: 0, y: 0.5 }}
-      end={{ x: 1, y: 0.5 }}
-      style={styles.starterCardInner}
-    >
-      <View style={styles.starterIcon}>
-        <Ionicons name={prompt.icon} size={scale(16)} color={UI.brownMuted} />
-      </View>
-      <Text style={styles.starterText} numberOfLines={2}>
-        {prompt.text}
-      </Text>
-      <Ionicons name="chevron-forward" size={scale(14)} color={UI.brownSoft} />
-    </LinearGradient>
-  </TouchableOpacity>
-);
 
 export default function AIAssistantScreen({ navigation }) {
   const insets = useSafeAreaInsets();
@@ -336,11 +321,28 @@ export default function AIAssistantScreen({ navigation }) {
     setAttachment(null);
   }, [startNewConversation]);
 
+  const handleOpenHistory = useCallback(() => {
+    const routeNames = navigation?.getState?.()?.routeNames || [];
+    const historyRoute = HISTORY_ROUTE_CANDIDATES.find((name) =>
+      routeNames.includes(name)
+    );
+
+    if (historyRoute) {
+      navigation.navigate(historyRoute);
+      return;
+    }
+
+    alert?.warning?.(
+      "Chat history",
+      "Add a history screen route like AIChatHistory to open previous chats."
+    );
+  }, [alert, navigation]);
+
   const listData = useMemo(
     () =>
-      messages.map((message, index) => ({
+      (messages || []).map((message, index) => ({
         ...message,
-        _isLast: isLastAssistantMsg(messages, index),
+        _isLast: isLastAssistantMsg(messages || [], index),
       })),
     [messages]
   );
@@ -374,15 +376,16 @@ export default function AIAssistantScreen({ navigation }) {
   const canSend = !loading && (!!String(input || "").trim() || !!attachment);
 
   return (
-    <SafeAreaView style={styles.root} edges={["bottom"]}>
-      <StatusBar/>
+    <SafeAreaView style={styles.root} edges={["top", "bottom"]}>
+      <StatusBar barStyle="light-content" backgroundColor={UI.brown} translucent={false} />
+
       <View style={styles.header}>
         <TouchableOpacity
-          style={styles.headerButton}
           activeOpacity={0.85}
           onPress={() => navigation.goBack()}
+          style={styles.headerButton}
         >
-          <Ionicons name="chevron-back" size={scale(24)} color={UI.cream} />
+          <Ionicons name="chevron-back" size={scale(24)} color={UI.surface} />
         </TouchableOpacity>
 
         <View style={styles.headerCenter}>
@@ -390,11 +393,12 @@ export default function AIAssistantScreen({ navigation }) {
         </View>
 
         <TouchableOpacity
-          style={styles.headerButton}
           activeOpacity={0.85}
-          onPress={handleNewConversation}
+          onPress={handleOpenHistory}
+          onLongPress={handleNewConversation}
+          style={styles.headerButton}
         >
-          <Ionicons name="create-outline" size={scale(20)} color={UI.cream} />
+          <Ionicons name="time-outline" size={scale(20)} color={UI.surface} />
         </TouchableOpacity>
       </View>
 
@@ -405,7 +409,7 @@ export default function AIAssistantScreen({ navigation }) {
       >
         {!hasMessages && !booting ? (
           <View style={styles.emptyState}>
-            <Text style={styles.emptySubtleTitle}>VaultHive AI Assistant</Text>
+            <Text style={styles.emptyEyebrow}>VaultHive AI Assistant</Text>
             <Text style={styles.emptyTitle}>How can I help?</Text>
             <Text style={styles.emptySub}>
               Ask about purchases, warranties, reminders, and next steps.
@@ -446,7 +450,7 @@ export default function AIAssistantScreen({ navigation }) {
         <View
           style={[
             styles.composerOuter,
-            { paddingBottom: Math.max(insets.bottom + 8, scale(12)) },
+            { paddingBottom: Math.max(insets.bottom + scale(6), scale(12)) },
           ]}
         >
           {attachment ? (
@@ -462,52 +466,49 @@ export default function AIAssistantScreen({ navigation }) {
                 </Text>
               </View>
 
-              <TouchableOpacity
-                onPress={() => setAttachment(null)}
-                activeOpacity={0.8}
-              >
+              <TouchableOpacity activeOpacity={0.8} onPress={() => setAttachment(null)}>
                 <Ionicons name="close-circle" size={scale(20)} color={UI.brownMuted} />
               </TouchableOpacity>
             </View>
           ) : null}
 
           <LinearGradient
-            colors={[UI.goldEdgeLeft, UI.goldCenter, UI.goldEdgeRight]}
-            locations={[0, 0.52, 1]}
+            colors={UI.composerGradientColors}
+            locations={UI.composerGradientLocations}
             start={{ x: 0, y: 0.5 }}
             end={{ x: 1, y: 0.5 }}
             style={styles.composer}
           >
             <TouchableOpacity
-              style={styles.plusButton}
               activeOpacity={0.85}
               onPress={handleAttach}
+              style={styles.plusButton}
             >
-              <Ionicons name="add" size={scale(24)} color={UI.cream} />
+              <Ionicons name="add" size={scale(22)} color={UI.surface} />
             </TouchableOpacity>
 
             <TextInput
               value={input}
               onChangeText={setInput}
               placeholder="Type a message..."
-              placeholderTextColor="#9E6F26"
+              placeholderTextColor="#9F742D"
               style={styles.input}
               multiline
               textAlignVertical="center"
               selectionColor={UI.brownMuted}
             />
 
-            <TouchableOpacity style={styles.micButton} activeOpacity={0.85} onPress={() => {}}>
-              <Ionicons name="mic-outline" size={scale(18)} color={UI.cream} />
+            <TouchableOpacity activeOpacity={0.85} onPress={() => {}} style={styles.micButton}>
+              <Ionicons name="mic-outline" size={scale(16)} color={UI.surface} />
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.sendButton, !canSend && styles.sendButtonDisabled]}
               activeOpacity={0.85}
               disabled={!canSend}
               onPress={() => handleSend()}
+              style={[styles.sendButton, !canSend && styles.sendButtonDisabled]}
             >
-              <Ionicons name="send" size={scale(20)} color={UI.cream} />
+              <Ionicons name="send" size={scale(18)} color={UI.surface} />
             </TouchableOpacity>
           </LinearGradient>
         </View>
@@ -538,7 +539,6 @@ const styles = StyleSheet.create({
   headerButton: {
     width: scale(40),
     height: scale(40),
-    borderRadius: scale(20),
     alignItems: "center",
     justifyContent: "center",
   },
@@ -550,7 +550,7 @@ const styles = StyleSheet.create({
   },
 
   headerTitle: {
-    color: UI.cream,
+    color: UI.surface,
     fontSize: getFontSize(16),
     fontWeight: "800",
     letterSpacing: -0.2,
@@ -558,62 +558,62 @@ const styles = StyleSheet.create({
 
   emptyState: {
     flex: 1,
-    paddingHorizontal: scale(18),
-    paddingTop: scale(26),
+    paddingTop: scale(18),
+    paddingHorizontal: scale(14),
   },
 
-  emptySubtleTitle: {
-    fontSize: getFontSize(12),
+  emptyEyebrow: {
     color: UI.brownMuted,
+    fontSize: getFontSize(11),
     fontWeight: "700",
-    marginBottom: scale(6),
+    marginBottom: scale(4),
   },
 
   emptyTitle: {
-    fontSize: getFontSize(22),
     color: UI.brownText,
+    fontSize: getFontSize(23),
     fontWeight: "800",
-    marginBottom: scale(8),
-    letterSpacing: -0.3,
+    marginBottom: scale(6),
   },
 
   emptySub: {
-    fontSize: getFontSize(13),
     color: UI.brownMuted,
+    fontSize: getFontSize(12),
     lineHeight: 18,
-    marginBottom: scale(18),
+    marginBottom: scale(16),
   },
 
   startersGrid: {
-    gap: scale(12),
+    width: "100%",
   },
 
   starterRow: {
     flexDirection: "row",
-    gap: scale(12),
+    marginBottom: scale(10),
   },
 
   starterCard: {
     flex: 1,
-    borderRadius: scale(18),
+    marginHorizontal: scale(3),
+    borderRadius: scale(17),
     overflow: "hidden",
   },
 
   starterCardInner: {
-    minHeight: scale(78),
-    borderRadius: scale(18),
-    paddingHorizontal: scale(12),
-    paddingVertical: scale(12),
-    flexDirection: "row",
-    alignItems: "center",
+    minHeight: scale(74),
+    borderRadius: scale(17),
     borderWidth: 1,
     borderColor: UI.goldBorder,
+    paddingHorizontal: scale(12),
+    paddingVertical: scale(10),
+    flexDirection: "row",
+    alignItems: "center",
     ...Platform.select({
       ios: {
         shadowColor: UI.shadow,
-        shadowOpacity: 0.12,
-        shadowRadius: scale(6),
-        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.08,
+        shadowRadius: scale(5),
+        shadowOffset: { width: 0, height: 2 },
       },
       android: {
         elevation: 2,
@@ -621,11 +621,11 @@ const styles = StyleSheet.create({
     }),
   },
 
-  starterIcon: {
-    width: scale(28),
-    height: scale(28),
-    borderRadius: scale(14),
-    backgroundColor: "rgba(255,255,255,0.18)",
+  starterIconWrap: {
+    width: scale(26),
+    height: scale(26),
+    borderRadius: scale(13),
+    backgroundColor: "rgba(255,255,255,0.16)",
     alignItems: "center",
     justifyContent: "center",
     marginRight: scale(8),
@@ -635,14 +635,14 @@ const styles = StyleSheet.create({
     flex: 1,
     color: UI.brownText,
     fontSize: getFontSize(12),
-    lineHeight: 16,
+    lineHeight: 15,
     fontWeight: "700",
     marginRight: scale(6),
   },
 
   listContent: {
-    paddingTop: scale(12),
-    paddingBottom: scale(10),
+    paddingTop: scale(10),
+    paddingBottom: scale(8),
   },
 
   messageBlock: {
@@ -652,7 +652,7 @@ const styles = StyleSheet.create({
   messageRow: {
     flexDirection: "row",
     alignItems: "flex-end",
-    paddingHorizontal: scale(10),
+    paddingHorizontal: scale(8),
   },
 
   messageRowLeft: {
@@ -670,7 +670,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     marginHorizontal: scale(4),
     backgroundColor: UI.goldAvatar,
-    flexShrink: 0,
   },
 
   avatarImg: {
@@ -686,45 +685,34 @@ const styles = StyleSheet.create({
   },
 
   userBubble: {
-    maxWidth: "70%",
+    maxWidth: "68%",
     backgroundColor: UI.brown,
-    borderRadius: scale(22),
+    borderRadius: scale(20),
     borderBottomRightRadius: scale(6),
-    paddingHorizontal: scale(15),
+    paddingHorizontal: scale(14),
     paddingVertical: scale(10),
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000000",
-        shadowOpacity: 0.08,
-        shadowRadius: scale(6),
-        shadowOffset: { width: 0, height: 2 },
-      },
-      android: {
-        elevation: 2,
-      },
-    }),
   },
 
   userText: {
-    color: UI.cream,
+    color: UI.surface,
     fontSize: getFontSize(14),
-    lineHeight: 20,
+    lineHeight: 19,
     fontWeight: "700",
   },
 
   assistantBubble: {
-    maxWidth: "74%",
-    borderRadius: scale(22),
+    maxWidth: "72%",
+    borderRadius: scale(20),
     borderBottomLeftRadius: scale(6),
-    paddingHorizontal: scale(15),
-    paddingVertical: scale(12),
+    paddingHorizontal: scale(14),
+    paddingVertical: scale(10),
     borderWidth: 1,
     borderColor: UI.goldBorder,
     ...Platform.select({
       ios: {
         shadowColor: UI.shadow,
-        shadowOpacity: 0.12,
-        shadowRadius: scale(7),
+        shadowOpacity: 0.1,
+        shadowRadius: scale(6),
         shadowOffset: { width: 0, height: 3 },
       },
       android: {
@@ -735,20 +723,19 @@ const styles = StyleSheet.create({
 
   assistantText: {
     color: UI.brownText,
-    fontSize: getFontSize(14),
-    lineHeight: 20,
+    fontSize: getFontSize(13.5),
+    lineHeight: 19,
     fontWeight: "700",
   },
 
   attachmentBadge: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "rgba(255,255,255,0.12)",
+    backgroundColor: "rgba(255,255,255,0.10)",
     borderRadius: scale(10),
     paddingHorizontal: scale(8),
     paddingVertical: scale(5),
     marginBottom: scale(6),
-    gap: scale(5),
   },
 
   attachmentBadgeText: {
@@ -756,12 +743,13 @@ const styles = StyleSheet.create({
     color: UI.goldHint,
     fontSize: getFontSize(11),
     fontWeight: "700",
+    marginLeft: scale(5),
   },
 
   composerOuter: {
     backgroundColor: UI.screen,
     borderTopWidth: 1,
-    borderTopColor: "#E8DBB5",
+    borderTopColor: UI.divider,
     paddingHorizontal: scale(8),
     paddingTop: scale(8),
   },
@@ -769,9 +757,9 @@ const styles = StyleSheet.create({
   attachBar: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: UI.goldSurface,
     borderWidth: 1,
     borderColor: UI.goldBorder,
+    backgroundColor: UI.surfaceSoft,
     borderRadius: scale(14),
     paddingHorizontal: scale(12),
     paddingVertical: scale(8),
@@ -782,11 +770,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    gap: scale(6),
   },
 
   attachBarText: {
     flex: 1,
+    marginLeft: scale(6),
     color: UI.brownText,
     fontSize: getFontSize(11),
     fontWeight: "700",
@@ -794,18 +782,18 @@ const styles = StyleSheet.create({
 
   composer: {
     minHeight: scale(50),
-    borderRadius: scale(26),
-    paddingLeft: scale(12),
-    paddingRight: scale(10),
+    borderRadius: scale(25),
+    borderWidth: 1,
+    borderColor: "#C8953D",
+    paddingLeft: scale(10),
+    paddingRight: scale(8),
     paddingVertical: scale(4),
     flexDirection: "row",
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: UI.goldSurfaceDark,
     ...Platform.select({
       ios: {
         shadowColor: UI.shadow,
-        shadowOpacity: 0.13,
+        shadowOpacity: 0.12,
         shadowRadius: scale(6),
         shadowOffset: { width: 0, height: 3 },
       },
@@ -816,11 +804,11 @@ const styles = StyleSheet.create({
   },
 
   plusButton: {
-    width: scale(32),
-    height: scale(32),
+    width: scale(28),
+    height: scale(28),
     alignItems: "center",
     justifyContent: "center",
-    marginRight: scale(2),
+    marginRight: scale(3),
   },
 
   input: {
@@ -836,24 +824,23 @@ const styles = StyleSheet.create({
   },
 
   micButton: {
-    width: scale(32),
-    height: scale(32),
-    borderRadius: scale(16),
-    backgroundColor: "rgba(186,145,55,0.38)",
+    width: scale(28),
+    height: scale(28),
+    borderRadius: scale(14),
+    backgroundColor: "rgba(140,95,33,0.16)",
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: scale(2),
-    marginRight: scale(2),
+    marginHorizontal: scale(4),
   },
 
   sendButton: {
-    width: scale(30),
-    height: scale(30),
+    width: scale(28),
+    height: scale(28),
     alignItems: "center",
     justifyContent: "center",
   },
 
   sendButtonDisabled: {
-    opacity: 0.42,
+    opacity: 0.4,
   },
 });

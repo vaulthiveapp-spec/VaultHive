@@ -4,10 +4,7 @@
     "slug": "vaulthive",
     "version": "1.0.0",
     "orientation": "portrait",
-    "platforms": [
-      "ios",
-      "android"
-    ],
+    "platforms": ["ios", "android"],
     "icon": "./assets/icon.png",
     "scheme": "vaulthive",
     "userInterfaceStyle": "automatic",
@@ -79,7 +76,21 @@
           "microphonePermission": "Allow VaultHive to access your microphone.",
           "recordAudioAndroid": true
         }
-      ]
+      ],
+      [
+        "expo-notifications",
+        {
+          "sounds": [
+            "./assets/sounds/arabian-mystery-harp.wav",
+            "./assets/sounds/bell.wav",
+            "./assets/sounds/defult.wav",
+            "./assets/sounds/fail-notification.wav",
+            "./assets/sounds/simple-tone-loop.wav",
+            "./assets/sounds/wave-alarm.wav"
+          ]
+        }
+      ],
+      "expo-asset"
     ],
     "extra": {
       "eas": {
@@ -87,7 +98,7 @@
       }
     },
     "owner": "vaulthive",
-"runtimeVersion": "1.0.0",
+    "runtimeVersion": "1.0.0",
     "updates": {
       "url": "https://u.expo.dev/65e8b106-c421-47ff-b6b4-4f8a62d0af48"
     }

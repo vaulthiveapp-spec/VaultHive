@@ -219,7 +219,7 @@ export function useAIConversation({ linkedEntityType = null, linkedEntityId = nu
       }
 
       // Build history window from current messages
-      const historyItems = [...messages, userMsg]
+      const historyItems = [...(messages || []), userMsg]
         .slice(-HISTORY_WINDOW)
         .map(messageToHistoryItem);
 

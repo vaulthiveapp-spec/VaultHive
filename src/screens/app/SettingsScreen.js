@@ -1,17 +1,4 @@
-/**
- * SettingsScreen — Phase 12
- *
- * Standalone settings. Sections:
- *   1. Notifications   — push toggle, tone selector (4 tones with visual cards),
- *                        return deadline, warranty expiry, weekly summary
- *   2. Categories      — list + add/edit/delete user purchase categories
- *   3. Tags            — list + add/edit/delete user tags
- *   4. App             — biometric, language (display only)
- *   5. Quick links     — AI Assistant, Stores, Reports
- *   6. Account         — Log out
- */
-
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Alert,
   Modal,
@@ -38,10 +25,9 @@ import useSettings, {
   CATEGORY_ICONS,
   TAG_COLORS,
 } from "../../hooks/useSettings";
-import { scale, getFontSize, getSpacing } from "../../utils/responsive";
+import useTonePreview from "../../hooks/useTonePreview";
+import { scale, getFontSize } from "../../utils/responsive";
 import { VaultColors, VaultShadows, VaultSpacing } from "../../styles/DesignSystem";
-
-// ─── Primitive components ─────────────────────────────────────────────────────
 
 const SectionHeader = ({ title, subtitle }) => (
   <View style={styles.sectionHeader}>
@@ -62,7 +48,11 @@ const SettingRow = ({ icon, iconColor, label, hint, right, onPress, danger = fal
     disabled={!onPress}
   >
     <View style={[styles.settingIconWrap, { backgroundColor: (iconColor || VaultColors.brandGoldDark) + "18" }]}>
-      <Ionicons name={icon} size={scale(17)} color={danger ? VaultColors.error : (iconColor || VaultColors.brandGoldDark)} />
+      <Ionicons
+        name={icon}
+        size={scale(17)}
+        color={danger ? VaultColors.error : iconColor || VaultColors.brandGoldDark}
+      />
     </View>
     <View style={styles.settingBody}>
       <Text style={[styles.settingLabel, danger && { color: VaultColors.error }]}>{label}</Text>
@@ -82,33 +72,79 @@ const VaultSwitch = ({ value, onValueChange }) => (
   />
 );
 
-// ─── Tone selector ────────────────────────────────────────────────────────────
-
-const ToneCard = ({ tone, selected, onPress }) => (
-  <TouchableOpacity
-    style={[styles.toneCard, selected && styles.toneCardActive]}
-    activeOpacity={0.82}
-    onPress={onPress}
-  >
-    <View style={[styles.toneIcon, selected && styles.toneIconActive]}>
-      <Ionicons name={tone.icon} size={scale(20)} color={selected ? "#fff" : VaultColors.brandGoldDark} />
-    </View>
-    <Text style={[styles.toneLabel, selected && styles.toneLabelActive]}>{tone.label}</Text>
-    <Text style={styles.toneDesc} numberOfLines={2}>{tone.desc}</Text>
-    {selected ? (
-      <View style={styles.toneCheck}>
-        <Ionicons name="checkmark-circle" size={scale(16)} color={VaultColors.brandGoldDark} />
+const ToneCard = ({ tone, selected, previewing, onSelect, onPreview }) => (
+  <View style={[styles.toneCard, selected && styles.toneCardActive]}>
+    <View style={styles.toneTopRow}>
+      <View style={[styles.toneIcon, selected && styles.toneIconActive]}>
+        <Ionicons
+          name={tone.icon}
+          size={scale(20)}
+          color={selected ? "#fff" : VaultColors.brandGoldDark}
+        />
       </View>
-    ) : null}
-  </TouchableOpacity>
+      <View style={styles.toneBadgesRow}>
+        {tone.isDefault ? (
+          <View style={styles.defaultBadge}>
+            <Text style={styles.defaultBadgeText}>Default</Text>
+          </View>
+        ) : null}
+        {selected ? (
+          <Ionicons name="checkmark-circle" size={scale(18)} color={VaultColors.brandGoldDark} />
+        ) : null}
+      </View>
+    </View>
+
+    <Text style={[styles.toneLabel, selected && styles.toneLabelActive]}>{tone.label}</Text>
+    <Text style={styles.toneDesc}>{tone.desc}</Text>
+
+    <View style={styles.toneActions}>
+      <TouchableOpacity
+        style={[
+          styles.toneGhostBtn,
+          !tone.previewAsset && styles.toneGhostBtnDisabled,
+        ]}
+        onPress={() => onPreview(tone)}
+        activeOpacity={0.85}
+        disabled={!tone.previewAsset}
+      >
+        <Ionicons
+          name={previewing ? "stop-circle-outline" : "play-circle-outline"}
+          size={scale(15)}
+          color={!tone.previewAsset ? VaultColors.textMuted : VaultColors.brandGoldDark}
+        />
+        <Text
+          style={[
+            styles.toneGhostBtnText,
+            !tone.previewAsset && styles.toneGhostBtnTextDisabled,
+          ]}
+        >
+          {tone.previewAsset ? (previewing ? "Stop" : "Preview") : "No preview"}
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.tonePrimaryBtn, selected && styles.tonePrimaryBtnSelected]}
+        onPress={() => onSelect(tone.key)}
+        activeOpacity={0.85}
+      >
+        <Text style={styles.tonePrimaryBtnText}>
+          {selected ? "Selected" : "Choose"}
+        </Text>
+      </TouchableOpacity>
+    </View>
+  </View>
 );
 
-// ─── Category / Tag editor modal ──────────────────────────────────────────────
-
 const ItemEditorModal = ({ visible, item, type, onSave, onClose }) => {
-  const [name,    setName]    = useState(item?.name  || "");
-  const [color,   setColor]   = useState(item?.color || (type === "category" ? CATEGORY_COLORS[0] : TAG_COLORS[0]));
+  const [name, setName] = useState(item?.name || "");
+  const [color, setColor] = useState(item?.color || (type === "category" ? CATEGORY_COLORS[0] : TAG_COLORS[0]));
   const [iconKey, setIconKey] = useState(item?.icon_key || "pricetag-outline");
+
+  useEffect(() => {
+    setName(item?.name || "");
+    setColor(item?.color || (type === "category" ? CATEGORY_COLORS[0] : TAG_COLORS[0]));
+    setIconKey(item?.icon_key || "pricetag-outline");
+  }, [item, type, visible]);
 
   const colorPalette = type === "category" ? CATEGORY_COLORS : TAG_COLORS;
 
@@ -147,7 +183,11 @@ const ItemEditorModal = ({ visible, item, type, onSave, onClose }) => {
                     onPress={() => setIconKey(ic.key)}
                     activeOpacity={0.8}
                   >
-                    <Ionicons name={ic.key} size={scale(18)} color={iconKey === ic.key ? "#fff" : VaultColors.brandGoldDark} />
+                    <Ionicons
+                      name={ic.key}
+                      size={scale(18)}
+                      color={iconKey === ic.key ? "#fff" : VaultColors.brandGoldDark}
+                    />
                   </TouchableOpacity>
                 ))}
               </ScrollView>
@@ -182,35 +222,13 @@ const ItemEditorModal = ({ visible, item, type, onSave, onClose }) => {
   );
 };
 
-const em = StyleSheet.create({
-  overlay:      { flex: 1, backgroundColor: "rgba(0,0,0,0.45)", justifyContent: "flex-end" },
-  sheet:        { backgroundColor: "#fff", borderTopLeftRadius: scale(24), borderTopRightRadius: scale(24), paddingHorizontal: scale(20), paddingTop: scale(12), paddingBottom: scale(32) },
-  handle:       { width: scale(36), height: scale(4), borderRadius: 2, backgroundColor: VaultColors.border, alignSelf: "center", marginBottom: scale(16) },
-  title:        { fontSize: getFontSize(18), fontWeight: "900", color: VaultColors.textPrimary, marginBottom: scale(16) },
-  fieldLabel:   { fontSize: getFontSize(11), fontWeight: "800", color: VaultColors.textMuted, textTransform: "uppercase", letterSpacing: 0.8, marginBottom: scale(6), marginTop: scale(12) },
-  input:        { backgroundColor: VaultColors.appBackground, borderRadius: scale(12), borderWidth: 1, borderColor: VaultColors.border, paddingHorizontal: scale(14), paddingVertical: scale(12), fontSize: getFontSize(15), fontWeight: "600", color: VaultColors.textPrimary },
-  iconScroll:   { marginVertical: scale(4) },
-  iconBtn:      { width: scale(40), height: scale(40), borderRadius: scale(12), backgroundColor: VaultColors.brandGoldSoft, alignItems: "center", justifyContent: "center", marginRight: scale(8), borderWidth: 1, borderColor: VaultColors.border },
-  iconBtnActive:{ backgroundColor: VaultColors.brandGoldDark, borderColor: VaultColors.brandGoldDark },
-  colorRow:     { flexDirection: "row", flexWrap: "wrap", gap: scale(10), marginTop: scale(4) },
-  colorDot:     { width: scale(32), height: scale(32), borderRadius: scale(16), alignItems: "center", justifyContent: "center" },
-  colorDotActive:{ borderWidth: 3, borderColor: "#fff", shadowColor: "#000", shadowOpacity: 0.25, shadowRadius: 4, shadowOffset: { width: 0, height: 2 } },
-  actions:      { flexDirection: "row", gap: scale(10), marginTop: scale(20) },
-  cancelBtn:    { flex: 1, height: scale(46), borderRadius: scale(12), backgroundColor: VaultColors.appBackground, borderWidth: 1, borderColor: VaultColors.border, alignItems: "center", justifyContent: "center" },
-  cancelText:   { fontSize: getFontSize(14), fontWeight: "700", color: VaultColors.textPrimary },
-  saveBtn:      { flex: 1, height: scale(46), borderRadius: scale(12), backgroundColor: VaultColors.brown, alignItems: "center", justifyContent: "center" },
-  saveText:     { fontSize: getFontSize(14), fontWeight: "800", color: "#FEF7E6" },
-});
-
-// ─── Category chip ────────────────────────────────────────────────────────────
-
 const CategoryChip = ({ item, onEdit, onDelete }) => (
   <View style={[styles.chip, { borderColor: item.color + "55" }]}>
     <View style={[styles.chipIcon, { backgroundColor: item.color + "22" }]}>
       <Ionicons name={item.icon_key || "pricetag-outline"} size={scale(13)} color={item.color || VaultColors.brandGoldDark} />
     </View>
     <Text style={styles.chipLabel} numberOfLines={1}>{item.name}</Text>
-    <TouchableOpacity onPress={onEdit}  activeOpacity={0.8} hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}>
+    <TouchableOpacity onPress={onEdit} activeOpacity={0.8} hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}>
       <Ionicons name="create-outline" size={scale(14)} color={VaultColors.textMuted} />
     </TouchableOpacity>
     <TouchableOpacity onPress={onDelete} activeOpacity={0.8} hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}>
@@ -218,14 +236,12 @@ const CategoryChip = ({ item, onEdit, onDelete }) => (
     </TouchableOpacity>
   </View>
 );
-
-// ─── Tag chip ─────────────────────────────────────────────────────────────────
 
 const TagChip = ({ item, onEdit, onDelete }) => (
   <View style={[styles.chip, { borderColor: (item.color || VaultColors.brandGoldDark) + "55" }]}>
     <View style={[styles.chipDot, { backgroundColor: item.color || VaultColors.brandGoldDark }]} />
     <Text style={styles.chipLabel} numberOfLines={1}>{item.name}</Text>
-    <TouchableOpacity onPress={onEdit}  activeOpacity={0.8} hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}>
+    <TouchableOpacity onPress={onEdit} activeOpacity={0.8} hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}>
       <Ionicons name="create-outline" size={scale(14)} color={VaultColors.textMuted} />
     </TouchableOpacity>
     <TouchableOpacity onPress={onDelete} activeOpacity={0.8} hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}>
@@ -234,22 +250,32 @@ const TagChip = ({ item, onEdit, onDelete }) => (
   </View>
 );
 
-// ─── Main screen ──────────────────────────────────────────────────────────────
-
 export default function SettingsScreen({ navigation }) {
-  const insets = useSafeAreaInsets();
   const { logout } = useAuth();
   const alert = useAlert();
 
   const {
-    settings, categories, tags, saving,
-    patchSetting, saveCategory, deleteCategory, saveTag, deleteTag,
+    settings,
+    categories,
+    tags,
+    patchSetting,
+    saveCategory,
+    deleteCategory,
+    saveTag,
+    deleteTag,
   } = useSettings();
 
-  // Editor modal state
+  const { previewingToneKey, previewTone, stopPreview } = useTonePreview();
+
   const [editorVisible, setEditorVisible] = useState(false);
-  const [editorType,    setEditorType]    = useState("category"); // "category" | "tag"
-  const [editorItem,    setEditorItem]    = useState(null);
+  const [editorType, setEditorType] = useState("category");
+  const [editorItem, setEditorItem] = useState(null);
+
+  useEffect(() => {
+    return () => {
+      stopPreview();
+    };
+  }, [stopPreview]);
 
   const openEditor = (type, item = null) => {
     setEditorType(type);
@@ -257,11 +283,14 @@ export default function SettingsScreen({ navigation }) {
     setEditorVisible(true);
   };
 
-  const handleSaveItem = useCallback(async (item) => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    if (editorType === "category") await saveCategory(item);
-    else                           await saveTag(item);
-  }, [editorType, saveCategory, saveTag]);
+  const handleSaveItem = useCallback(
+    async (item) => {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+      if (editorType === "category") await saveCategory(item);
+      else await saveTag(item);
+    },
+    [editorType, saveCategory, saveTag]
+  );
 
   const handleDeleteCategory = (cat) => {
     Alert.alert("Delete category?", `Remove "${cat.name}"? This won't affect existing receipts.`, [
@@ -277,21 +306,45 @@ export default function SettingsScreen({ navigation }) {
     ]);
   };
 
-  const handlePatchAndHaptic = (patch) => {
-    Haptics.selectionAsync();
-    patchSetting(patch);
-  };
+  const handlePatchAndHaptic = useCallback(
+    async (patch) => {
+      Haptics.selectionAsync().catch(() => {});
+      await patchSetting(patch);
+    },
+    [patchSetting]
+  );
+
+  const handleSelectTone = useCallback(
+    async (toneKey) => {
+      Haptics.selectionAsync().catch(() => {});
+      await patchSetting({ notif_sound: toneKey });
+    },
+    [patchSetting]
+  );
+
+  const handlePreviewTone = useCallback(
+    async (tone) => {
+      Haptics.selectionAsync().catch(() => {});
+      await previewTone(tone.key);
+    },
+    [previewTone]
+  );
 
   const handleLogout = () => {
     alert?.open?.({
-      type: "warning", title: "Log out?",
+      type: "warning",
+      title: "Log out?",
       message: "You can sign back in any time.",
       actions: [
         { text: "Cancel" },
-        { text: "Log out", style: "destructive", onPress: async () => {
-          const res = await logout();
-          if (!res?.success) alert?.error?.("Error", res?.error || "Logout failed");
-        }},
+        {
+          text: "Log out",
+          style: "destructive",
+          onPress: async () => {
+            const res = await logout();
+            if (!res?.success) alert?.error?.("Error", res?.error || "Logout failed");
+          },
+        },
       ],
     });
   };
@@ -302,7 +355,6 @@ export default function SettingsScreen({ navigation }) {
     <SafeAreaView style={styles.root} edges={["bottom"]}>
       <StatusBar barStyle="light-content" backgroundColor={VaultColors.appBackground} />
 
-      {/* Header */}
       <LinearGradient
         colors={["#5B3B1F", "#7A4F2C"]}
         start={{ x: 0, y: 0 }}
@@ -323,8 +375,6 @@ export default function SettingsScreen({ navigation }) {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={[styles.content, { paddingBottom: scale(40) }]}
       >
-
-        {/* ─── 1. Notifications ──────────────────────────────────── */}
         <SectionHeader title="Notifications" subtitle="Control when and how VaultHive alerts you" />
         <SectionCard>
           <SettingRow
@@ -356,20 +406,24 @@ export default function SettingsScreen({ navigation }) {
           />
         </SectionCard>
 
-        {/* ─── 2. Reminder tone ──────────────────────────────────── */}
-        <SectionHeader title="Reminder tone" subtitle="Choose the sound played for reminder notifications" />
+        <SectionHeader
+          title="Reminder tone"
+          subtitle="Choose your reminder sound and preview it before saving."
+        />
+
         <View style={styles.toneGrid}>
           {NOTIFICATION_TONES.map((tone) => (
             <ToneCard
               key={tone.key}
               tone={tone}
               selected={selectedTone === tone.key}
-              onPress={() => handlePatchAndHaptic({ notif_sound: tone.key })}
+              previewing={previewingToneKey === tone.key}
+              onSelect={handleSelectTone}
+              onPreview={handlePreviewTone}
             />
           ))}
         </View>
 
-        {/* ─── 3. Purchase categories ─────────────────────────────── */}
         <SectionHeader
           title="Purchase categories"
           subtitle="Organize your receipts and hubs. Synced to your account."
@@ -395,7 +449,6 @@ export default function SettingsScreen({ navigation }) {
           </TouchableOpacity>
         </SectionCard>
 
-        {/* ─── 4. Tags ────────────────────────────────────────────── */}
         <SectionHeader
           title="Tags"
           subtitle="Label receipts with custom tags for quick filtering."
@@ -421,7 +474,6 @@ export default function SettingsScreen({ navigation }) {
           </TouchableOpacity>
         </SectionCard>
 
-        {/* ─── 5. App preferences ─────────────────────────────────── */}
         <SectionHeader title="App preferences" />
         <SectionCard>
           <SettingRow
@@ -432,7 +484,6 @@ export default function SettingsScreen({ navigation }) {
           />
         </SectionCard>
 
-        {/* ─── 6. Quick links ─────────────────────────────────────── */}
         <SectionHeader title="Quick access" />
         <SectionCard>
           <SettingRow
@@ -460,7 +511,6 @@ export default function SettingsScreen({ navigation }) {
           />
         </SectionCard>
 
-        {/* ─── 7. Account / logout ────────────────────────────────── */}
         <SectionHeader title="Account" />
         <SectionCard>
           <SettingRow
@@ -472,10 +522,8 @@ export default function SettingsScreen({ navigation }) {
             right={<Ionicons name="chevron-forward" size={scale(15)} color={VaultColors.error} />}
           />
         </SectionCard>
-
       </ScrollView>
 
-      {/* Item editor modal */}
       <ItemEditorModal
         visible={editorVisible}
         item={editorItem}
@@ -487,10 +535,124 @@ export default function SettingsScreen({ navigation }) {
   );
 }
 
-// ─── Styles ───────────────────────────────────────────────────────────────────
+const em = StyleSheet.create({
+  overlay: { flex: 1, backgroundColor: "rgba(0,0,0,0.45)", justifyContent: "flex-end" },
+  sheet: {
+    backgroundColor: "#fff",
+    borderTopLeftRadius: scale(24),
+    borderTopRightRadius: scale(24),
+    paddingHorizontal: scale(20),
+    paddingTop: scale(12),
+    paddingBottom: scale(32),
+  },
+  handle: {
+    width: scale(36),
+    height: scale(4),
+    borderRadius: 2,
+    backgroundColor: VaultColors.border,
+    alignSelf: "center",
+    marginBottom: scale(16),
+  },
+  title: {
+    fontSize: getFontSize(18),
+    fontWeight: "900",
+    color: VaultColors.textPrimary,
+    marginBottom: scale(16),
+  },
+  fieldLabel: {
+    fontSize: getFontSize(11),
+    fontWeight: "800",
+    color: VaultColors.textMuted,
+    textTransform: "uppercase",
+    letterSpacing: 0.8,
+    marginBottom: scale(6),
+    marginTop: scale(12),
+  },
+  input: {
+    backgroundColor: VaultColors.appBackground,
+    borderRadius: scale(12),
+    borderWidth: 1,
+    borderColor: VaultColors.border,
+    paddingHorizontal: scale(14),
+    paddingVertical: scale(12),
+    fontSize: getFontSize(15),
+    fontWeight: "600",
+    color: VaultColors.textPrimary,
+  },
+  iconScroll: { marginVertical: scale(4) },
+  iconBtn: {
+    width: scale(40),
+    height: scale(40),
+    borderRadius: scale(12),
+    backgroundColor: VaultColors.brandGoldSoft,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: scale(8),
+    borderWidth: 1,
+    borderColor: VaultColors.border,
+  },
+  iconBtnActive: {
+    backgroundColor: VaultColors.brandGoldDark,
+    borderColor: VaultColors.brandGoldDark,
+  },
+  colorRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: scale(10),
+    marginTop: scale(4),
+  },
+  colorDot: {
+    width: scale(32),
+    height: scale(32),
+    borderRadius: scale(16),
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  colorDotActive: {
+    borderWidth: 3,
+    borderColor: "#fff",
+    shadowColor: "#000",
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
+  },
+  actions: {
+    flexDirection: "row",
+    gap: scale(10),
+    marginTop: scale(20),
+  },
+  cancelBtn: {
+    flex: 1,
+    height: scale(46),
+    borderRadius: scale(12),
+    backgroundColor: VaultColors.appBackground,
+    borderWidth: 1,
+    borderColor: VaultColors.border,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  cancelText: {
+    fontSize: getFontSize(14),
+    fontWeight: "700",
+    color: VaultColors.textPrimary,
+  },
+  saveBtn: {
+    flex: 1,
+    height: scale(46),
+    borderRadius: scale(12),
+    backgroundColor: VaultColors.brown,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  saveText: {
+    fontSize: getFontSize(14),
+    fontWeight: "800",
+    color: "#FEF7E6",
+  },
+});
 
 const styles = StyleSheet.create({
-  root:    { flex: 1, backgroundColor: VaultColors.appBackground },
+  root: { flex: 1, backgroundColor: VaultColors.appBackground },
   content: { paddingHorizontal: VaultSpacing.screenPadding, gap: scale(4) },
 
   header: {
@@ -519,72 +681,230 @@ const styles = StyleSheet.create({
     letterSpacing: -0.25,
   },
 
-  // Section
   sectionHeader: { paddingTop: scale(18), paddingBottom: scale(8) },
-  sectionTitle:  { fontSize: getFontSize(13), fontWeight: "900", color: VaultColors.textPrimary, letterSpacing: -0.2 },
-  sectionSub:    { fontSize: getFontSize(11), fontWeight: "600", color: VaultColors.textMuted, marginTop: scale(2) },
+  sectionTitle: {
+    fontSize: getFontSize(13),
+    fontWeight: "900",
+    color: VaultColors.textPrimary,
+    letterSpacing: -0.2,
+  },
+  sectionSub: {
+    fontSize: getFontSize(11),
+    fontWeight: "600",
+    color: VaultColors.textMuted,
+    marginTop: scale(2),
+  },
 
   sectionCard: {
-    backgroundColor: "#fff", borderRadius: scale(18),
-    borderWidth: 1, borderColor: VaultColors.border,
+    backgroundColor: "#fff",
+    borderRadius: scale(18),
+    borderWidth: 1,
+    borderColor: VaultColors.border,
     overflow: "hidden",
     ...Platform.select({ ios: VaultShadows.sm, android: { elevation: 1 } }),
   },
 
   settingRow: {
-    flexDirection: "row", alignItems: "center",
-    paddingHorizontal: scale(14), paddingVertical: scale(12),
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: scale(14),
+    paddingVertical: scale(12),
     gap: scale(12),
   },
   settingIconWrap: {
-    width: scale(34), height: scale(34), borderRadius: scale(10),
-    alignItems: "center", justifyContent: "center", flexShrink: 0,
+    width: scale(34),
+    height: scale(34),
+    borderRadius: scale(10),
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
   },
-  settingBody:   { flex: 1 },
-  settingLabel:  { fontSize: getFontSize(14), fontWeight: "700", color: VaultColors.textPrimary },
-  settingHint:   { marginTop: scale(1), fontSize: getFontSize(11), fontWeight: "600", color: VaultColors.textMuted },
-  settingRight:  { flexShrink: 0 },
-  rowDivider:    { height: 1, marginLeft: scale(14) + scale(34) + scale(12), backgroundColor: VaultColors.divider },
+  settingBody: { flex: 1 },
+  settingLabel: {
+    fontSize: getFontSize(14),
+    fontWeight: "700",
+    color: VaultColors.textPrimary,
+  },
+  settingHint: {
+    marginTop: scale(1),
+    fontSize: getFontSize(11),
+    fontWeight: "600",
+    color: VaultColors.textMuted,
+  },
+  settingRight: { flexShrink: 0 },
+  rowDivider: {
+    height: 1,
+    marginLeft: scale(14) + scale(34) + scale(12),
+    backgroundColor: VaultColors.divider,
+  },
 
-  // Tone grid
   toneGrid: {
-    flexDirection: "row", flexWrap: "wrap",
-    gap: scale(10), marginBottom: scale(4),
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: scale(10),
+    marginBottom: scale(4),
   },
   toneCard: {
-    width: "47%", backgroundColor: "#fff",
-    borderRadius: scale(16), borderWidth: 1.5, borderColor: VaultColors.border,
-    padding: scale(12), position: "relative",
+    width: "47%",
+    backgroundColor: "#fff",
+    borderRadius: scale(16),
+    borderWidth: 1.5,
+    borderColor: VaultColors.border,
+    padding: scale(12),
+    minHeight: scale(188),
     ...Platform.select({ ios: VaultShadows.sm, android: { elevation: 1 } }),
   },
-  toneCardActive: { borderColor: VaultColors.brandGoldDark, backgroundColor: VaultColors.brandGoldSoft },
-  toneIcon: {
-    width: scale(40), height: scale(40), borderRadius: scale(12),
+  toneCardActive: {
+    borderColor: VaultColors.brandGoldDark,
     backgroundColor: VaultColors.brandGoldSoft,
-    alignItems: "center", justifyContent: "center", marginBottom: scale(8),
   },
-  toneIconActive:  { backgroundColor: VaultColors.brandGoldDark },
-  toneLabel:       { fontSize: getFontSize(13), fontWeight: "800", color: VaultColors.textPrimary, marginBottom: scale(3) },
-  toneLabelActive: { color: VaultColors.brandGoldDark },
-  toneDesc:        { fontSize: getFontSize(10), fontWeight: "600", color: VaultColors.textMuted, lineHeight: 15 },
-  toneCheck:       { position: "absolute", top: scale(8), right: scale(8) },
+  toneTopRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    marginBottom: scale(8),
+  },
+  toneIcon: {
+    width: scale(40),
+    height: scale(40),
+    borderRadius: scale(12),
+    backgroundColor: VaultColors.brandGoldSoft,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  toneIconActive: {
+    backgroundColor: VaultColors.brandGoldDark,
+  },
+  toneBadgesRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: scale(6),
+  },
+  defaultBadge: {
+    paddingHorizontal: scale(8),
+    paddingVertical: scale(4),
+    borderRadius: scale(999),
+    backgroundColor: "#F6E2B6",
+  },
+  defaultBadgeText: {
+    fontSize: getFontSize(9),
+    fontWeight: "800",
+    color: VaultColors.brandGoldDark,
+    textTransform: "uppercase",
+  },
+  toneLabel: {
+    fontSize: getFontSize(13),
+    fontWeight: "800",
+    color: VaultColors.textPrimary,
+    marginBottom: scale(4),
+  },
+  toneLabelActive: {
+    color: VaultColors.brandGoldDark,
+  },
+  toneDesc: {
+    fontSize: getFontSize(10),
+    fontWeight: "600",
+    color: VaultColors.textMuted,
+    lineHeight: 15,
+    minHeight: scale(44),
+  },
+  toneActions: {
+    flexDirection: "row",
+    gap: scale(8),
+    marginTop: scale(12),
+  },
+  toneGhostBtn: {
+    flex: 1,
+    height: scale(38),
+    borderRadius: scale(12),
+    borderWidth: 1,
+    borderColor: VaultColors.border,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    gap: scale(6),
+  },
+  toneGhostBtnDisabled: {
+    backgroundColor: "#F6F2EB",
+  },
+  toneGhostBtnText: {
+    fontSize: getFontSize(11),
+    fontWeight: "700",
+    color: VaultColors.brandGoldDark,
+  },
+  toneGhostBtnTextDisabled: {
+    color: VaultColors.textMuted,
+  },
+  tonePrimaryBtn: {
+    flex: 1,
+    height: scale(38),
+    borderRadius: scale(12),
+    backgroundColor: VaultColors.brown,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  tonePrimaryBtnSelected: {
+    backgroundColor: VaultColors.brandGoldDark,
+  },
+  tonePrimaryBtnText: {
+    fontSize: getFontSize(11),
+    fontWeight: "800",
+    color: "#FEF7E6",
+  },
 
-  // Chips
-  chipsWrap: { flexDirection: "row", flexWrap: "wrap", gap: scale(8), padding: scale(12) },
+  chipsWrap: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: scale(8),
+    padding: scale(12),
+  },
   chip: {
-    flexDirection: "row", alignItems: "center", gap: scale(6),
-    paddingHorizontal: scale(10), paddingVertical: scale(7),
-    borderRadius: scale(10), borderWidth: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: scale(6),
+    paddingHorizontal: scale(10),
+    paddingVertical: scale(7),
+    borderRadius: scale(10),
+    borderWidth: 1,
     backgroundColor: VaultColors.appBackground,
   },
-  chipIcon:  { width: scale(20), height: scale(20), borderRadius: scale(5), alignItems: "center", justifyContent: "center" },
-  chipDot:   { width: scale(8), height: scale(8), borderRadius: scale(4) },
-  chipLabel: { fontSize: getFontSize(12), fontWeight: "700", color: VaultColors.textPrimary, maxWidth: scale(100) },
-  emptyHint: { padding: scale(14), fontSize: getFontSize(12), fontWeight: "600", color: VaultColors.textMuted },
-  addRowBtn: {
-    flexDirection: "row", alignItems: "center", gap: scale(8),
-    paddingHorizontal: scale(14), paddingVertical: scale(12),
-    borderTopWidth: 1, borderTopColor: VaultColors.divider,
+  chipIcon: {
+    width: scale(20),
+    height: scale(20),
+    borderRadius: scale(5),
+    alignItems: "center",
+    justifyContent: "center",
   },
-  addRowText: { fontSize: getFontSize(13), fontWeight: "700", color: VaultColors.brandGoldDark },
+  chipDot: {
+    width: scale(8),
+    height: scale(8),
+    borderRadius: scale(4),
+  },
+  chipLabel: {
+    fontSize: getFontSize(12),
+    fontWeight: "700",
+    color: VaultColors.textPrimary,
+    maxWidth: scale(100),
+  },
+  emptyHint: {
+    padding: scale(14),
+    fontSize: getFontSize(12),
+    fontWeight: "600",
+    color: VaultColors.textMuted,
+  },
+  addRowBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: scale(8),
+    paddingHorizontal: scale(14),
+    paddingVertical: scale(12),
+    borderTopWidth: 1,
+    borderTopColor: VaultColors.divider,
+  },
+  addRowText: {
+    fontSize: getFontSize(13),
+    fontWeight: "700",
+    color: VaultColors.brandGoldDark,
+  },
 });

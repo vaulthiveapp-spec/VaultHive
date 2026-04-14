@@ -1,9 +1,11 @@
-
 import React, { memo, useEffect, useRef, useState } from "react";
-import { Animated, View, StyleSheet } from "react-native";
+import { Animated, View, StyleSheet, Platform } from "react-native";
 import { Image } from "expo-image";
+import { LinearGradient } from "expo-linear-gradient";
 import { scale } from "../../utils/responsive";
 import { IcoHandler } from "../../utils/icoHandler";
+import { UI } from "./aiTheme";
+
 const DOT_DELAY = 200;
 
 function Dot({ delay }) {
@@ -26,6 +28,7 @@ function Dot({ delay }) {
         Animated.delay(DOT_DELAY * 3 - delay),
       ])
     );
+
     loop.start();
     return () => loop.stop();
   }, [anim, delay]);
@@ -54,17 +57,23 @@ function AITypingIndicator() {
   const [avatarSource, setAvatarSource] = useState(null);
 
   useEffect(() => {
+    let mounted = true;
+
     const loadIco = async () => {
       try {
         const icoAsset = require("../../../assets/AIicon.ico");
         const icoSource = await IcoHandler.getIcoSource(icoAsset);
-        setAvatarSource(icoSource);
+        if (mounted) setAvatarSource(icoSource);
       } catch (error) {
-        console.warn('Failed to load ICO avatar in typing indicator:', error);
-        setAvatarSource(require("../../../assets/icon.png"));
+        if (mounted) setAvatarSource(require("../../../assets/icon.png"));
       }
     };
+
     loadIco();
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   return (
@@ -72,11 +81,18 @@ function AITypingIndicator() {
       <View style={styles.avatarWrap}>
         <Image source={avatarSource} style={styles.avatar} contentFit="cover" />
       </View>
-      <View style={styles.bubble}>
+
+      <LinearGradient
+        colors={UI.assistantGradientColors}
+        locations={UI.assistantGradientLocations}
+        start={{ x: 0, y: 0.5 }}
+        end={{ x: 1, y: 0.5 }}
+        style={styles.bubble}
+      >
         <Dot delay={0} />
         <Dot delay={DOT_DELAY} />
         <Dot delay={DOT_DELAY * 2} />
-      </View>
+      </LinearGradient>
     </View>
   );
 }
@@ -88,15 +104,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-end",
     marginBottom: scale(18),
-    paddingHorizontal: scale(16),
+    paddingHorizontal: scale(8),
   },
 
   avatarWrap: {
-    width: scale(36),
-    height: scale(36),
-    borderRadius: scale(18),
+    width: scale(34),
+    height: scale(34),
+    borderRadius: scale(17),
     overflow: "hidden",
-    marginRight: scale(8),
+    marginHorizontal: scale(4),
+    backgroundColor: UI.goldAvatar,
   },
 
   avatar: {
@@ -107,19 +124,30 @@ const styles = StyleSheet.create({
   bubble: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#F0DDB8",
     borderRadius: scale(20),
     borderBottomLeftRadius: scale(6),
-    paddingHorizontal: scale(16),
-    paddingVertical: scale(14),
-    gap: scale(5),
-    minWidth: scale(64),
+    paddingHorizontal: scale(14),
+    paddingVertical: scale(11),
+    borderWidth: 1,
+    borderColor: UI.goldBorder,
+    ...Platform.select({
+      ios: {
+        shadowColor: UI.shadow,
+        shadowOpacity: 0.1,
+        shadowRadius: scale(6),
+        shadowOffset: { width: 0, height: 3 },
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
   },
 
   dot: {
     width: scale(7),
     height: scale(7),
     borderRadius: scale(4),
-    backgroundColor: "#7A4F1C",
+    backgroundColor: UI.brown,
+    marginRight: scale(5),
   },
 });
